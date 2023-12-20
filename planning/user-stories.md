@@ -9,14 +9,24 @@
 
 ## Authenticated User
 
-- As a logged-in user, I want to *ADD* points of interest to my map including a title, description and image (so that i can keep track of them for trips).
+- As a logged-in user, I want to create maps to *ADD* to my profile.
+
+- As a user, I want to be able to *DELETE* maps on my profile.
+
+- As a user, I want to be able to *EDIT* my map properties.
+
+- As a user, I want to be able to make my map either *public* or *private*.
+
+- As a user, I want to *ADD* points of interest to my map including a title, description and image (so that i can keep track of them for trips).
 
 - As a user, I want to *EDIT* and *DELETE* points of interest on my map when I need to.
  
 - As a user, I want to be able to *favourite* a map so that I can keep track of it in my profile.
 
-- As as user, I want to have a profile, indicating my favourite maps, and the maps I have contributed to.
+- As as user, I want to *view* all my public and private maps in a list.
 
-- As a user, I want to be able to make my map either *public* or *private*
+- As as user, I want to *view* my favourite maps on my profile.
 
-- As a user, when my map is set as public, I allow other users to contribute to my map. They can *ADD*, *EDIT* and *DELETE* points on my map
+- As a user, I want to *view* the list of maps I have contributed to on my profile.
+
+- As a user, when my map is set as public, I allow other users to contribute to my map. They can *ADD*, *EDIT* and *DELETE* points on my map.
