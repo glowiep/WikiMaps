@@ -29,49 +29,57 @@ header {
   justify-content: space-between;
 }
 
-
 #nav-menu {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
 	width: 100%;
+  font-size: 24px;
 	height: 40px;
-  padding: 1.5em;
+  padding: 1em;
 	background-color: $background-color_1;
 
-	.navbar-brand {
-		width: 140px;
-		height: 29px;
-		top: 4px;
-		left: 0;
+}
+
+	.nav-logo {
 		font-family: $font-family_1;
 		color: $color_1;
-		font-size: 24px;
+		
 	}
 
   #nav-right {
     display: flex;
     flex-direction: row;
-    align-items: center;
-    
+    align-items: center;    
     
     .nav-status {
       font-family: $font-family_1;
       color: $color_1;
-      font-size: 24px;
-      padding: 1em;
+      margin-right: 1em;
+      padding: 0.10em 0.10em;
     }
 
-    .new-map-button {
+    .nav-button {
       font-family: $font-family_1;
-      color: black;
       font-size: 16px;
-      line-height: 2em;
-      border-radius: 3px;
+      color: $color_1;
+      line-height: 1.5em;
+      border: solid;
+      border-width: 1px;
       border-color: $border-color_1;
+      border-radius: 3px;
+      padding: 0.2em 0.4em;
+      margin-right: 0.5em;
     }
-  }
+
+    .nav-button:hover,
+    .nav-button:focus {
+    cursor: pointer;
+    transition: all 0.4s ease-in;
+    background-color:  #c797df;
+    border-radius: 3px;
+   }
 
 }
 
