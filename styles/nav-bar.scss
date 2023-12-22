@@ -1,8 +1,6 @@
-/*
- * Top navigation
- */
+/* Top navigation */
 
- $color_1: #ffffff;
+$color_1: #ffffff;
 $font-family_1: "Lato-Regular", Helvetica;
 $background-color_1: #6f17b5;
 $border-color_1: #ffffff;
@@ -29,7 +27,6 @@ header {
 	.nav-logo {
 		font-family: $font-family_1;
 		color: $color_1;
-		
 	}
 
   #nav-right {
