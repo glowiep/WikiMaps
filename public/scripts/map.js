@@ -23,13 +23,5 @@ $(document).ready(function() {
 
   // Add search bar
   const searchControl = new L.esri.Controls.Geosearch().addTo(map);
-  const results = new Location.LayerGroup().addTo(map);
-  searchControl.on('results', function(data) {
-    results.clearLayers();
-    for (let i = data.results.length - 1; i >= 0; i--) {
-      results.addLayer(L.marker(data.results[i].latlng));
-    }
-  })
-  
 
 })
