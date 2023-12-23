@@ -1,0 +1,68 @@
+/* Top navigation */
+
+$color_1: #ffffff;
+$font-family_1: "Lato-Regular", Helvetica;
+$background-color_1: #6f17b5;
+$border-color_1: #ffffff;
+
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  position: fixed;
+  width: 100%;
+}
+
+#nav-menu {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+	width: 100%;
+  font-size: 24px;
+	height: 40px;
+  padding: 1em;
+	background-color: $background-color_1;
+
+}
+
+	.nav-logo {
+		font-family: $font-family_1;
+		color: $color_1;
+	}
+
+  #nav-right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;    
+    
+    .nav-status {
+      font-family: $font-family_1;
+      color: $color_1;
+      margin-right: 1em;
+      padding: 0.10em 0.10em;
+    }
+
+    .nav-button {
+      font-family: $font-family_1;
+      font-size: 16px;
+      color: $color_1;
+      line-height: 1.5em;
+      border: solid;
+      border-width: 1px;
+      border-color: $border-color_1;
+      border-radius: 3px;
+      padding: 0.2em 0.4em;
+      margin-right: 0.5em;
+    }
+
+    .nav-button:hover,
+    .nav-button:focus {
+    cursor: pointer;
+    transition: all 0.4s ease-in;
+    background-color:  #c797df;
+    border-radius: 3px;
+   }
+
+}
+

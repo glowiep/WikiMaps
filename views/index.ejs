@@ -2,23 +2,25 @@
 <html lang="en">
 
 <head>
-  <title>Home Page</title>
-
   <meta charset="UTF-8" >
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+  
+  <title>WikiMaps</title>
+  <%- include('partials/_head') %>
 
-  <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
-  <link rel="stylesheet" href="/vendor/border-box.css" />
-  <link rel="stylesheet" href="/styles/main.css" />
-  <link rel="stylesheet" href="/styles/layout.css" />
-
-  <script src="/vendor/jquery-3.0.0.js"></script>
-  <script defer src="/scripts/app.js"></script>
 </head>
 
 <body>
-  <h1>Have fun! 🥔</h1>
+  <%- include('partials/_header') %>
+  <section id="main-content">
+    <div id="sidebar" class="sidebar">
+      <%- include('partials/_sidebar') %>
+    </div>
+
+    <section id="map"></section>
+    
+  </section>
 </body>
 
 </html>
