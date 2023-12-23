@@ -6,8 +6,8 @@ CREATE TABLE "points" (
   "description" TEXT,
   "modified_date" TIMESTAMP,
   "creation_date" TIMESTAMP,
-  "latitude" DOUBLEPRECISION,
-  "longitude" DOUBLEPRECISION,
+  "latitude" VARCHAR(255),
+  "longitude" VARCHAR(255),
   "map_id" INTEGER REFERENCES maps(id),
   "point_icon_id" INTEGER REFERENCES points_icons(id)
 );
