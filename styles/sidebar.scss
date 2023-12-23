@@ -1,0 +1,30 @@
+/*
+ * Sidebar navigation
+ */
+
+ sidebar {
+  flex-grow: 1;
+  float: right;
+  
+  
+  
+  overflow: auto;
+}
+
+.tab-content {
+  display: flex;
+  flex-direction: column;
+  margin: 0 1em;
+  overflow: auto;
+  width: 260px;
+  position: fixed;
+}
+
+
+h4 {
+  margin-top: 1em;
+}
+
+.sign-up-prompt {
+  margin-top: 1em;
+}
