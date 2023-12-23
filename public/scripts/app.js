@@ -10,6 +10,9 @@ $(document).ready(function() {
     minZoom: 2,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
   }).addTo(map);
+  
+  // Will bounce back when scrolling off the map
+  map.setMaxBounds([[-90,-180], [90,180]])
 
   //add zoom control with your options
   map.zoomControl.setPosition('topright');
@@ -26,5 +29,6 @@ $(document).ready(function() {
       results.addLayer(L.marker(data.results[i].latlng));
     }
   })
+  
 
 })
