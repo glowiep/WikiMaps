@@ -2,7 +2,16 @@
 
 $color_1: #ffffff;
 $font-family_1: "Lato-Regular", Helvetica;
-$background-color_1: #6f17b5;
+$background-color_1: rgb(36, 164, 196);
+$background: linear-gradient(
+  227deg,
+  rgba(2, 71, 151, 1) 0%,
+  rgba(79, 111, 216, 1) 25%,
+  rgba(98, 116, 197, 1) 34%,
+  rgba(163, 202, 219, 1) 59%,
+  rgba(123, 147, 227, 1) 74%,
+  rgba(2, 71, 151, 1) 100%
+);;
 $border-color_1: #ffffff;
 
 header {
@@ -23,7 +32,7 @@ header {
 	height: 40px;
   padding: 1em;
 	background-color: $background-color_1;
-
+  background: $background;
 }
 
 	.nav-logo {

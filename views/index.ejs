@@ -13,14 +13,17 @@
 
 <body>
   <%- include('partials/_header') %>
-  <section id="main-content">
-    <div id="sidebar" class="sidebar">
-      <%- include('partials/_sidebar') %>
-    </div>
 
-    <section id="map"></section>
+  <section id="main-content">
+    <%- include('partials/_sidebarV2') %>
+    
+    <div id="map" 
+    class="sidebar-map leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom" 
+    tabindex="0">
+    </div>
     
   </section>
+
 </body>
 
 </html>
