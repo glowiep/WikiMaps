@@ -11,7 +11,7 @@ $background: linear-gradient(
   rgba(163, 202, 219, 1) 59%,
   rgba(123, 147, 227, 1) 74%,
   rgba(2, 71, 151, 1) 100%
-);;
+);
 $border-color_1: #ffffff;
 
 header {
@@ -27,51 +27,53 @@ header {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-	width: 100%;
+  width: 100%;
   font-size: 24px;
-	height: 40px;
+  height: 40px;
   padding: 1em;
-	background-color: $background-color_1;
+  background-color: $background-color_1;
   background: $background;
 }
 
-	.nav-logo {
-		font-family: $font-family_1;
-		color: $color_1;
-	}
-
-  #nav-right {
-    display: flex;
-    flex-direction: row;
-    align-items: center;    
-    
-    .nav-status {
-      font-family: $font-family_1;
-      color: $color_1;
-      margin-right: 1em;
-      padding: 0.10em 0.10em;
-    }
-
-    .nav-button {
-      font-family: $font-family_1;
-      font-size: 16px;
-      color: $color_1;
-      line-height: 1.5em;
-      border: solid;
-      border-width: 1px;
-      border-color: $border-color_1;
-      border-radius: 3px;
-      padding: 0.2em 0.4em;
-      margin-right: 0.5em;
-    }
-
-    .nav-button:hover,
-    .nav-button:focus {
-    cursor: pointer;
-    transition: all 0.4s ease-in;
-    background-color:  #c797df;
-    border-radius: 3px;
-   }
-
+.nav-logo {
+  font-family: $font-family_1;
+  color: $color_1;
+}
+.nav-logo:hover {
+  text-decoration: none;
+  color: $color_1;
 }
 
+#nav-right {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .nav-status {
+    font-family: $font-family_1;
+    color: $color_1;
+    margin-right: 1em;
+    padding: 0.1em 0.1em;
+  }
+
+  .nav-button {
+    font-family: $font-family_1;
+    font-size: 16px;
+    color: $color_1;
+    line-height: 1.5em;
+    border: solid;
+    border-width: 1px;
+    border-color: $border-color_1;
+    border-radius: 3px;
+    padding: 0.2em 0.4em;
+    margin-right: 0.5em;
+  }
+
+  .nav-button:hover,
+  .nav-button:focus {
+    cursor: pointer;
+    transition: all 0.4s ease-in;
+    background-color: #c797df;
+    border-radius: 3px;
+  }
+}
