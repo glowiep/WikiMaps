@@ -7,6 +7,6 @@ CREATE TABLE "maps" (
   "description" TEXT,
   "modified_date" TIMESTAMP,
   "creation_date" TIMESTAMP NOT NULL DEFAULT NOW(),
-  "private" BOOLEAN NOT NULL DEFAULT 0,
+  "private" BOOLEAN NOT NULL DEFAULT FALSE,
   "creator_id" INTEGER REFERENCES users(id) ON DELETE CASCADE
 );
