@@ -8,6 +8,6 @@ CREATE TABLE "points" (
   "creation_date" TIMESTAMP,
   "latitude" VARCHAR(255),
   "longitude" VARCHAR(255),
-  "map_id" INTEGER REFERENCES maps(id),
-  "point_icon_id" INTEGER REFERENCES points_icons(id)
+  "map_id" INTEGER REFERENCES maps(id) ON DELETE CASCADE,
+  "point_icon_id" INTEGER REFERENCES points_icons(id) ON DELETE CASCADE
 );
