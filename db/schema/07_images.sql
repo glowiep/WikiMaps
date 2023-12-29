@@ -6,3 +6,4 @@ CREATE TABLE "images" (
   images_url VARCHAR(255),
   points_id INTEGER REFERENCES points(id) ON DELETE CASCADE
 );
+-- stretch
