@@ -9,3 +9,41 @@ h4 {
 .sign-up-prompt {
   margin-top: 1em;
 }
+
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%; /* O el ancho que prefieras */
+  max-width: 600px; /* O el máximo ancho que prefieras */
+  border-radius: 15px; /* Bordes redondeados */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* Sombra para dar profundidad */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+input[type="text"] {
+  width: 90%; /* Ancho del input */
+  padding: 10px;
+  margin: 10px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px; /* Bordes redondeados en los inputs */
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #4caf50; /* Color del botón */
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px; /* Bordes redondeados en el botón */
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}

@@ -5,3 +5,4 @@ CREATE TABLE "points_icons" (
   "point_type" VARCHAR(255),
   "icon_url" VARCHAR(255)
 );
+-- This table might not be needed

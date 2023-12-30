@@ -1,13 +1,24 @@
 <div class="sidebar-pane" id="profile">
-  <h1 class="sidebar-header">Profile<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
-  <h4>New to WikiMaps?</h4>
-  <p #="sign-up-prompt">Sign up to create a profile so that you can create maps, keep track of your favourite maps, and contribute to public maps!</p>
-  <button type="button" class="btn btn-primary">Sign Up</button>
-  <h4>Existing User?</h4>
-  <p>Welcome Back!</p>
-  <button type="button" class="btn btn-primary">Log In</button>
+  <h1 class="sidebar-header"
+    >Profile<span class="sidebar-close"><i class="fa fa-caret-left"></i></span
+  ></h1>
 
-  <!-- For logged in users: 
+  <form action="/users/signup" method="GET">
+    <h4>New to WikiMaps?</h4>
+    <p #="sign-up-prompt"
+      >Sign up to create a profile so that you can create maps, keep track of
+      your favourite maps, and contribute to public maps!</p
+    >
+    <button type="submit" class="btn btn-primary">Sign Up</button>
+  </form>
+
+  <form action="/users/login" method="GET">
+    <h4>Existing User?</h4>
+    <p>Welcome Back!</p>
+    <button type="submit" class="btn btn-primary">Log In</button>
+  </form>
+
+  <!-- For logged in users:
   <h4>MY MAPS</h4>
   <p>My Map list</p>
   <h4>FAVOURTIES</h4>
