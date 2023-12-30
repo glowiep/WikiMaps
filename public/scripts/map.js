@@ -45,45 +45,4 @@ $(document).ready(function () {
 
   // add leaflet.pm controls to the map
   map.pm.addControls(options);
-
-  //   function updateMarkerList() {
-  //     let list = document.getElementById('marker-list').getElementsByTagName('ul')[0];
-  //     list.innerHTML = '';
-  //     markers.forEach(function(markerObj, index) {
-  //         let listItem = document.createElement('li');
-  //         listItem.innerHTML = markerObj.description +
-  //                              ' <button onclick="removeMarker(' + index + ')">Delete</button>';
-  //         listItem.onclick = function() {
-  //             map.setView(markerObj.marker.getLatLng(), 13); // Centrar el mapa en el marcador
-  //             markerObj.marker.openPopup(); // Abrir el popup del marcador
-  //         };
-  //         list.appendChild(listItem);
-  //     });
-  // }
-
-  // window.removeMarker = function(index) {
-  //     map.removeLayer(markers[index].marker);
-  //     markers.splice(index, 1);
-  //     updateMarkerList();
-  // };
-
-  // map.on('contextmenu', function(event) {
-  //     tempLatLng = event.latlng;
-  //     document.getElementById('markerModal').style.display = 'block';
-  // });
-
-  // window.addMarker = function() {
-  //     let description = document.getElementById('description').value;
-  //     let imageUrl = document.getElementById('image').value;
-  //     let marker = L.marker([tempLatLng.lat, tempLatLng.lng]).addTo(map);
-
-  //     marker.bindPopup('<b>Description:</b> ' + description + '<br><img src="' + imageUrl + '" alt="imagen" style="width:100%;">').openPopup();
-
-  //     markers.push({ marker: marker, description: description }); // Guardar el marcador y la descripción
-
-  //     updateMarkerList();
-  //     document.getElementById('markerModal').style.display = 'none';
-  //     document.getElementById('description').value = '';
-  //     document.getElementById('image').value = '';
-  // };
 });
