@@ -49,7 +49,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/authenticated/HappyMapper', (req, res) => {
-  res.render('index-authenticated');
+  res.render('index-auth');
 });
 
 app.listen(PORT, () => {
