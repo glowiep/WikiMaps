@@ -35,7 +35,7 @@ $(document).ready(function () {
 
   // create the geocoding control and add it to the map --newly added
   const searchControl = L.esri.Geocoding.geosearch({
-    useMapBounds: true,
+    useMapBounds: false,
     expanded: false,
     zoomToResult: true,
     position: "topleft",
