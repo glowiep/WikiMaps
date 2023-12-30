@@ -4,6 +4,7 @@
       <ul role="tablist">
         <li class=""><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
         <li class=""><a href="#profile" role="tab"><i class="fa fa-user"></i></a></li>
+        <li class=""><a href="#map-tab" role="tab"><i class="fa fa-map"></i></a></li>
         <li class=""><a href="#discover-tab" role="tab"><i class="fa fa-earth"></i></a></li>
       </ul>
 
@@ -21,15 +22,17 @@
       </h1>
       <br>
       <p class="lorem">Visit the Discover tab to view the list of public maps created by WikiMap users.</p>
-      
-      <p class="lorem">Sign up or Log in to start creating your own maps! Your maps can be set as public or private.</p>
-      
+    
+      <p class="lorem">Visit the Maps tab to add or modify points on a map.</p>
+
       <p class="lorem">WikiMap Users are able to contribute to public maps, and keep a list of favourites.</p>
       
       <p>By <a href="https://github.com/glowiep">Gloria Lim</a> and <a href="https://github.com/svaron">Sebastian Varon</a>.</p>
     </div>
 
-    <%- include('_sidebar-profile-tab') %>
+    <%- include('_sidebar-profile-tab-auth') %>
+
+    <%- include('_sidebar-map-tab') %>
     
     <%- include('_sidebar-discover-tab') %>
     

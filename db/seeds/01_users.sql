@@ -6,6 +6,6 @@ VALUES (2, 'svaronc', 'svaronc@mail.com', 'password', 'This is Sebastian Varon a
 INSERT INTO users (id, username, email, password, profile_info) 
 VALUES (3, 'glowiep', 'glowiep@mail.com', 'password', 'This is Gloria Lim account');
 INSERT INTO users (id, username, email, password, profile_info) 
-VALUES (4, 'user1', 'user1@mail.com', 'password', 'This is user1');
+VALUES (4, 'HappyMapper', 'HappyMapper@mail.com', 'password', 'This is HappyMapper');
 INSERT INTO users (id, username, email, password, profile_info) 
 VALUES (5, 'user1', 'user1@mail.com', 'password', '');

@@ -10,17 +10,18 @@
   <body>
     <%- include('partials/_header') %>
     <div class="login-container">
-      <form class="login-form" method="get" action="/login">
+      <form class="login-form" method="get" action="/authenticated/HappyMapper">
         <h2>Login</h2>
         <div class="form-group">
-          <label for="username">Username:</label>
-          <input type="text" id="username" name="username" />
+          <label>User Name:</label>
+          <input/>
         </div>
         <div class="form-group">
-          <label for="password">Password:</label>
-          <input type="password" id="password" name="password" />
+          <label>Password:</label>
+          <input/>
         </div>
-        <button type="submit">Login</button>
+        <!-- Hard coded to redirect to /authenticated/HappyMapper -->
+        <button type="submit">Login</button>  
       </form>
     </div>
   </body>
