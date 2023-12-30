@@ -30,44 +30,60 @@ $(document).ready(function () {
   // Add search bar
   const searchControl = new L.esri.Controls.Geosearch().addTo(map);
 
-  function updateMarkerList() {
-    let list = document.getElementById('marker-list').getElementsByTagName('ul')[0];
-    list.innerHTML = '';
-    markers.forEach(function(markerObj, index) {
-        let listItem = document.createElement('li');
-        listItem.innerHTML = markerObj.description +
-                             ' <button onclick="removeMarker(' + index + ')">Delete</button>';
-        listItem.onclick = function() {
-            map.setView(markerObj.marker.getLatLng(), 13); // Centrar el mapa en el marcador
-            markerObj.marker.openPopup(); // Abrir el popup del marcador
-        };
-        list.appendChild(listItem);
-    });
-}
+  // (geoman) define Drawing toolbar options
+  var options = {
+    position: "topleft", // toolbar position, options are 'topleft', 'topright', 'bottomleft', 'bottomright'
+    drawMarker: true, // adds button to draw markers
+    drawPolyline: false, // adds button to draw a polyline
+    drawRectangle: false, // adds button to draw a rectangle
+    drawPolygon: false, // adds button to draw a polygon
+    drawCircle: false, // adds button to draw a cricle
+    cutPolygon: false, // adds button to cut a hole in a polygon
+    editMode: true, // adds button to toggle edit mode for all layers
+    removalMode: true, // adds a button to remove layers
+  };
 
-window.removeMarker = function(index) {
-    map.removeLayer(markers[index].marker);
-    markers.splice(index, 1);
-    updateMarkerList();
-};
+  // add leaflet.pm controls to the map
+  map.pm.addControls(options);
 
-map.on('contextmenu', function(event) {
-    tempLatLng = event.latlng;
-    document.getElementById('markerModal').style.display = 'block';
-});
+  //   function updateMarkerList() {
+  //     let list = document.getElementById('marker-list').getElementsByTagName('ul')[0];
+  //     list.innerHTML = '';
+  //     markers.forEach(function(markerObj, index) {
+  //         let listItem = document.createElement('li');
+  //         listItem.innerHTML = markerObj.description +
+  //                              ' <button onclick="removeMarker(' + index + ')">Delete</button>';
+  //         listItem.onclick = function() {
+  //             map.setView(markerObj.marker.getLatLng(), 13); // Centrar el mapa en el marcador
+  //             markerObj.marker.openPopup(); // Abrir el popup del marcador
+  //         };
+  //         list.appendChild(listItem);
+  //     });
+  // }
 
-window.addMarker = function() {
-    let description = document.getElementById('description').value;
-    let imageUrl = document.getElementById('image').value;
-    let marker = L.marker([tempLatLng.lat, tempLatLng.lng]).addTo(map);
+  // window.removeMarker = function(index) {
+  //     map.removeLayer(markers[index].marker);
+  //     markers.splice(index, 1);
+  //     updateMarkerList();
+  // };
 
-    marker.bindPopup('<b>Description:</b> ' + description + '<br><img src="' + imageUrl + '" alt="imagen" style="width:100%;">').openPopup();
+  // map.on('contextmenu', function(event) {
+  //     tempLatLng = event.latlng;
+  //     document.getElementById('markerModal').style.display = 'block';
+  // });
 
-    markers.push({ marker: marker, description: description }); // Guardar el marcador y la descripción
+  // window.addMarker = function() {
+  //     let description = document.getElementById('description').value;
+  //     let imageUrl = document.getElementById('image').value;
+  //     let marker = L.marker([tempLatLng.lat, tempLatLng.lng]).addTo(map);
 
-    updateMarkerList();
-    document.getElementById('markerModal').style.display = 'none';
-    document.getElementById('description').value = '';
-    document.getElementById('image').value = '';
-};
+  //     marker.bindPopup('<b>Description:</b> ' + description + '<br><img src="' + imageUrl + '" alt="imagen" style="width:100%;">').openPopup();
+
+  //     markers.push({ marker: marker, description: description }); // Guardar el marcador y la descripción
+
+  //     updateMarkerList();
+  //     document.getElementById('markerModal').style.display = 'none';
+  //     document.getElementById('description').value = '';
+  //     document.getElementById('image').value = '';
+  // };
 });
