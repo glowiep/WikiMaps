@@ -5,6 +5,8 @@
   padding: 20px;
   width: 300px;
   margin: auto;
+  margin-top: 10vh;
+  overflow: auto;
 }
 
 .signup-form h2 {
@@ -40,4 +42,10 @@ button {
 
 button:hover {
   background-color: #218838;
+}
+
+@media (max-width: 610px) {
+  .signup-container {
+    margin-top: 5vh;
+  }
 }
