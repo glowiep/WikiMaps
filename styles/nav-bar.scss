@@ -28,8 +28,8 @@ header {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  font-size: 24px;
-  height: 40px;
+  font-size: 1.5em;
+  height: 5vh;
   padding: 1em;
   background-color: $background-color_1;
   background: $background;
@@ -75,5 +75,33 @@ header {
     transition: all 0.4s ease-in;
     background-color: #c797df;
     border-radius: 3px;
+  }
+}
+
+@media (max-height: 860px) {
+  #nav-menu  {
+    padding: 0.7em;
+  }
+
+  #nav-right .nav-status {
+    font-size: 0.8em;
+  }
+}
+
+@media (max-height: 580px) {
+  header {
+    display: none;
+  }
+
+}
+
+@media (max-width: 610px) {
+  header {
+    display: none;
+  }
+
+  #nav-menu {
+    height: 0vh;
+    padding: 0em;
   }
 }
