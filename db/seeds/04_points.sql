@@ -6,3 +6,5 @@ INSERT INTO points (id, title, latitude, longitude, map_id)
 VALUES ('3', 'Go Fish', 49.271541, -123.139619, 2);
 INSERT INTO points (id, title, description, latitude, longitude, map_id) 
 VALUES ('4', 'The Sandbar Seafood Restaurant', '4.4 star restaurant', 49.271753, -123.134083, 2);
+INSERT INTO points (id, title, description, latitude, longitude, map_id) 
+VALUES ('5', 'Joe Fortes Seafood & Chop House', '4.4 star restaurant', 49.285165, -123.124660, 2);
