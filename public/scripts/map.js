@@ -33,6 +33,7 @@ $(document).ready(function () {
 //removeThisLater: test to show coordinates on console
 console.log(results); 
 
+
   // create the geocoding control and add it to the map --newly added
   const searchControl = L.esri.Geocoding.geosearch({
     useMapBounds: true,
@@ -89,4 +90,19 @@ window.addMarker = function() {
     document.getElementById('description').value = '';
     document.getElementById('image').value = '';
 };
+  // (geoman) define Drawing toolbar options
+  var options = {
+    position: "topleft", // toolbar position, options are 'topleft', 'topright', 'bottomleft', 'bottomright'
+    drawMarker: true, // adds button to draw markers
+    drawPolyline: false, // adds button to draw a polyline
+    drawRectangle: false, // adds button to draw a rectangle
+    drawPolygon: false, // adds button to draw a polygon
+    drawCircle: false, // adds button to draw a cricle
+    cutPolygon: false, // adds button to cut a hole in a polygon
+    editMode: true, // adds button to toggle edit mode for all layers
+    removalMode: true, // adds a button to remove layers
+  };
+
+  // add leaflet.pm controls to the map
+  map.pm.addControls(options);
 });
