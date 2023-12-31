@@ -45,9 +45,9 @@ $(document).ready(function () {
 
   // removeThisLater: test to show coordinates in console
   map.on("click", function (e) {
-    var coord = e.latlng.toString().split(",");
-    var lat = coord[0].split("(");
-    var lng = coord[1].split(")");
+    let coord = e.latlng.toString().split(",");
+    let lat = coord[0].split("(");
+    let lng = coord[1].split(")");
     console.log(
       "You clicked the map at latitude: " + lat[1] + " and longitude:" + lng[0]
     );
@@ -89,15 +89,19 @@ $(document).ready(function () {
     markers.splice(index, 1);
     updateMarkerList();
   };
-  map.on("contextmenu", function (event) {
-    tempLatLng = event.latlng;
+  // map.on("contextmenu", function (event) {
+  //   tempLatLng = event.latlng;
+  //   document.getElementById("markerModal").style.display = "block";
+  // });
+
+  $("#point-button").click(function (e) {
     document.getElementById("markerModal").style.display = "block";
   });
 
   window.addMarker = function () {
     let description = document.getElementById("description").value;
     let imageUrl = document.getElementById("image").value;
-    let marker = L.marker([tempLatLng.lat, tempLatLng.lng]).addTo(map);
+    let marker = L.marker(map.getCenter(), {draggable : true}).addTo(map);
 
     marker
       .bindPopup(
@@ -117,18 +121,18 @@ $(document).ready(function () {
     document.getElementById("image").value = "";
   };
   // (geoman) define Drawing toolbar options
-  var options = {
-    position: "topleft", // toolbar position, options are 'topleft', 'topright', 'bottomleft', 'bottomright'
-    drawMarker: true, // adds button to draw markers
-    drawPolyline: false, // adds button to draw a polyline
-    drawRectangle: false, // adds button to draw a rectangle
-    drawPolygon: false, // adds button to draw a polygon
-    drawCircle: false, // adds button to draw a cricle
-    cutPolygon: false, // adds button to cut a hole in a polygon
-    editMode: true, // adds button to toggle edit mode for all layers
-    removalMode: true, // adds a button to remove layers
-  };
+  // let options = {
+  //   position: "topleft", // toolbar position, options are 'topleft', 'topright', 'bottomleft', 'bottomright'
+  //   drawMarker: true, // adds button to draw markers
+  //   drawPolyline: false, // adds button to draw a polyline
+  //   drawRectangle: false, // adds button to draw a rectangle
+  //   drawPolygon: false, // adds button to draw a polygon
+  //   drawCircle: false, // adds button to draw a cricle
+  //   cutPolygon: false, // adds button to cut a hole in a polygon
+  //   editMode: true, // adds button to toggle edit mode for all layers
+  //   removalMode: true, // adds a button to remove layers
+  // };
 
-  // add leaflet.pm controls to the map
-  map.pm.addControls(options);
+  // // add leaflet.pm controls to the map
+  // map.pm.addControls(options);
 });

@@ -47,3 +47,17 @@ button {
 button:hover {
   background-color: #45a049;
 }
+
+#point-button {
+  position: fixed;
+  left: 918px;
+  top: 130px;
+}
+
+.leaflet-bar a:first-child {
+  border-radius: 4px;
+}
+.leaflet-bar a {
+  width: 30px;
+  height: 30px;
+}
