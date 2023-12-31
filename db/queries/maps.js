@@ -1,12 +1,11 @@
 // Require the database connection file, which contains the node-postgres database client/connection setup
 const db = require('../connection');
 
-const getUsers = () => {
-  return db.query('SELECT * FROM users;')
+const getPublicMaps = () => {
+  return db.query('SELECT * FROM maps WHERE private != TRUE')
     .then(data => {
-      return data.rows;
-    });
-};
+      return data.rows
+    })
+}
 
-module.exports = { getUsers };
-
+module.exports = { getPublicMaps }
