@@ -8,6 +8,7 @@
 const express = require("express");
 const router = express.Router();
 
+// Example code
 router.get("/", (req, res) => {
   res.render("users");
 });
