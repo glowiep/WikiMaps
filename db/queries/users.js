@@ -11,11 +11,11 @@ const getUsers = () => {
 const getUserID = (username) => {
   return db.query('SELECT id FROM users WHERE username = $1;', [username])
     .then(data => {
-      return data.rows;
+      return data.rows[0];
     })
     .catch((err) => {
       console.log(err.message);
-    });;
+    });
 };
 
 module.exports = { getUsers, getUserID };
