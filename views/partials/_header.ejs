@@ -2,10 +2,17 @@
   <nav id="nav-menu">
     <a class="nav-logo" href="/">WikiMaps</a>
     <div id="nav-right">
-      <!-- When user first browse to the page, logged in as guest by default -->
-      <a class="nav-status">Viewing as Guest</a>
-      <a id="sign-up-button" class="nav-button" href="/users/signup">Sign Up</a>
-      <a id="log-in-button" class="nav-button" href="/users/login">Log In</a>
+      <!-- When user is logged in -->
+      <% if (username === undefined) { %>
+        <!-- When user first browse to the page, logged in as guest by default -->
+        <a class="nav-status">Viewing as Guest</a>
+        <a id="sign-up-button" class="nav-button" href="/users/signup">Sign Up</a>
+        <a id="log-in-button" class="nav-button" href="/users/login">Log In</a>
+        <% } else { %>
+          <a class="nav-status"><%= `Logged In as ${username}!` %></a>
+          <a id="new-map-button" class="nav-button">New Map</a>
+          <a id="log-out" class="nav-button" href="/">Log Out</a>
+      <% } %>
     </div>
   </nav>
 </header>

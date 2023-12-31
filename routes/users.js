@@ -13,11 +13,25 @@ router.get("/", (req, res) => {
 });
 
 router.get("/login", (req, res) => {
-  res.render("login");
+  const username = req.params.username;
+  const templateVars = {
+    username
+  }
+  res.render("login", templateVars);
 });
+
 router.get("/signup", (req, res) => {
-  res.render("signup");
+  const username = req.params.username;
+  const templateVars = {
+    username
+  }
+  res.render("signup", templateVars);
 });
+
+router.get("/user", (req, res) => {
+  const { username, password } = req.body;
+
+})
 
 // router.get("/users/:id", (req, res) => {
 //   res.render("");
