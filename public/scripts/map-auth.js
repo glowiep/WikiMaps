@@ -54,16 +54,16 @@ $(document).ready(function () {
   });
 
   // Listen for the results event and add marker to the map  --example - we can add a clear all button to clear the points from the map
-  searchControl.on("results", function (data) {
-    console.log(data.results);
-    for (let i = data.results.length - 1; i >= 0; i--) {
-      description = data.results[i].properties.LongLabel;
-      longitude = data.results[i].properties.DisplayX;
-      latitude = data.results[i].properties.DisplayY;
+  // searchControl.on("results", function (data) {
+  //   console.log(data.results);
+  //   for (let i = data.results.length - 1; i >= 0; i--) {
+  //     description = data.results[i].properties.LongLabel;
+  //     longitude = data.results[i].properties.DisplayX;
+  //     latitude = data.results[i].properties.DisplayY;
 
-      markers = L.marker([latitude, longitude]).addTo(results);
-    }
-  });
+  //     markers = L.marker([latitude, longitude]).addTo(results);
+  //   }
+  // });
 
   function updateMarkerList() {
     let list = document
