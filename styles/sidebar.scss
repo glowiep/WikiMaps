@@ -34,6 +34,12 @@ input[type="text"] {
   box-sizing: border-box;
 }
 
+textarea {
+  height: 100px;
+  padding: 10px;
+  margin: 10px 0;
+}
+
 button {
   background-color: #4caf50; /* Color del botón */
   color: white;
