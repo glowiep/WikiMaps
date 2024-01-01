@@ -70,6 +70,20 @@
     <button onclick="addMarker()">Add point</button>
   </div>
 </div>
+<div id="mapBox" class="map-box" style="display: none">
+  <div class="map-box-form">
+    <h3>New Map</h3>
+    <label for="description">Description:</label>
+    <input type="text" id="mapDescription" name="description" /><br /><br />
+    <label for="type">Type</label>
+    <select id="option-select" name="type"
+      ><br /><br />
+      <option value="true">Public</option>
+      <option value="false">Private</option>
+    </select>
+    <button onclick="createMap()">Create Map</button>
+  </div>
+</div>
 <div
   id="point-button"
   class="leaflet-pm-toolbar leaflet-pm-draw leaflet-bar leaflet-control"

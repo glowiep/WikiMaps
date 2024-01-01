@@ -101,7 +101,7 @@ $(document).ready(function () {
   window.addMarker = function () {
     let description = document.getElementById("description").value;
     let imageUrl = document.getElementById("image").value;
-    let marker = L.marker(map.getCenter(), {draggable : true}).addTo(map);
+    let marker = L.marker(map.getCenter(), { draggable: true }).addTo(map);
 
     marker
       .bindPopup(
@@ -119,6 +119,16 @@ $(document).ready(function () {
     document.getElementById("markerModal").style.display = "none";
     document.getElementById("description").value = "";
     document.getElementById("image").value = "";
+  };
+
+  $("#new-map-button").click(function (e) {
+    document.getElementById("mapBox").style.display = "block";
+  });
+
+  window.createMap = function () {
+    let mapDescription = document.getElementById("mapDescription").value;
+    let typeOfMap = document.getElementById("option-select").value;
+    console.log(mapDescription, typeOfMap);
   };
   // (geoman) define Drawing toolbar options
   // let options = {
