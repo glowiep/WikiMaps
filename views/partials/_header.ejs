@@ -10,7 +10,8 @@
         <a id="log-in-button" class="nav-button" href="/users/login">Log In</a>
         <% } else { %>
           <a class="nav-status"><%= `Logged In as ${username}!` %></a>
-          <a id="new-map-button" class="nav-button">New Map</a>
+          <!-- this new map button needs work -->
+          <a id="new-map-button" class="nav-button" href="/maps/:username/:user_id/create">New Map</a>
           <a id="log-out" class="nav-button" href="/">Log Out</a>
       <% } %>
     </div>
