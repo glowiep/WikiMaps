@@ -2,7 +2,11 @@
 const db = require('../connection');
 
 const getPublicMaps = () => {
-  return db.query('SELECT * FROM maps WHERE private != TRUE')
+  return db.query(`
+  SELECT * FROM maps 
+  WHERE private != TRUE
+  ORDER BY title;
+  `)
     .then(data => {
       return data.rows;
     })
