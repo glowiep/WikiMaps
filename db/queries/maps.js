@@ -13,7 +13,7 @@ const getPublicMaps = () => {
 
 // Get maps associated with a given user
 const getUserMaps = (user_id) => {
-  return db.query('SELECT * FROM maps WHERE creator_id = $1', [creator_id])
+  return db.query('SELECT * FROM maps WHERE creator_id = $1', [user_id])
     .then(data => {
       return data.rows[0];
     })
@@ -26,7 +26,7 @@ const getUserMaps = (user_id) => {
 const getMapPoints = (map_id) => {
   return db.query('SELECT * FROM points WHERE map_id = $1', [map_id])
     .then(data => {
-      return data.rows;
+      return data.rows[0];
     })
     .catch((err) => {
       console.log(err.message);
@@ -35,9 +35,14 @@ const getMapPoints = (map_id) => {
 
 // Get user favourite maps to be displayed on Profile tab
 const getUserFavourites = (user_id) => {
-  return db.query('SELECT user_id FROM favorites WHERE user_id = $1', [user_id])
+  return db.query(`
+  SELECT DISTINCT maps.id as maps_id, maps.title as map_title, maps.description 
+  FROM favorites JOIN maps ON favorites.map_id = maps.id
+  WHERE favorites.user_id = 4
+  AND maps.private = FALSE;
+  `, [user_id])
     .then(data => {
-      return data.rows;
+      return data.rows[0];
     })
     .catch((err) => {
       console.log(err);
