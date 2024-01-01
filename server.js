@@ -65,7 +65,7 @@ app.get('/maps/:username/:user_id', (req, res) => {
     username,
     user_id
   }
-  res.render('index-auth', templateVars);
+  res.render('index', templateVars);
 });
 
 app.listen(PORT, () => {
