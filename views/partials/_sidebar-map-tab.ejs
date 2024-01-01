@@ -7,7 +7,24 @@
     >Map Tab<span class="sidebar-close"><i class="fa fa-caret-left"></i></span
   ></h1>
 
-  <div id="marker-list"><h3>points:</h3><ul></ul></div>
+  <div id="marker-list">
+    <br>
+    <label class="label" for="title">TITLE</label>
+    <input class="form-control" type="text" placeholder="Title" id="title" name="title">
+      
+    <label class="label" for="map-description">DESCRIPTION</label>
+    <div class="form-floating">
+      <textarea id="map-description" class="form-control" placeholder="Description"></textarea>
+    </div>
+    <!-- <div id="private-checkbox"> -->
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" id="private">
+      <label class="form-check-label" for="private">
+        Private
+      </label>
+    </div>
+    <ul></ul>
+  </div>
 
   <div id="markerModal" class="modal">
     <div class="modal-content">
@@ -19,4 +36,5 @@
       <button onclick="addMarker()">Add point</button>
     </div>
   </div>
+  <button type="submit" class="btn btn-success">Save</button>
 </div>
