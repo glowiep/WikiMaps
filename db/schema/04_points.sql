@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS points CASCADE;
 
 CREATE TABLE "points" (
-  "id" SERIAL PRIMARY KEY,
+  "id" SERIAL PRIMARY KEY NOT NULL,
   "description" TEXT,
   "modified_date" TIMESTAMP,
   "creation_date" TIMESTAMP DEFAULT NOW(),
