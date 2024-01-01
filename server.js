@@ -37,7 +37,7 @@ const usersRoutes = require('./routes/users');
 // Note: Feel free to replace the example routes below with your own
 // Note: Endpoints that return data (eg. JSON) usually start with `/api`
 app.use('/api/users', userApiRoutes);
-app.use('/maps/api/maps', mapListApiRoutes);  //for logged in users
+app.use('/maps/api/maps', mapListApiRoutes);  //for logged in user
 app.use('/api/maps', mapListApiRoutes);
 app.use('/api/widgets', widgetApiRoutes);
 app.use('/users', usersRoutes);
@@ -49,22 +49,23 @@ app.use('/users', usersRoutes);
 
 app.get('/', (req, res) => {
   const username = req.params.username;
+  const user_id = req.params.user_id;
   const templateVars = {
-    username
+    username,
+    user_id
   }
   res.render('index', templateVars);
 });
 
-app.get('/maps/:username', (req, res) => {
+app.get('/maps/:username/:user_id', (req, res) => {
   const username = req.params.username;
+  const user_id = req.params.user_id;
   const templateVars = {
-    username
+    username,
+    user_id
   }
   res.render('index-auth', templateVars);
 });
-// app.get('/maps', (req, res) => {
-//   res.render('index-auth');
-// });
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);

@@ -15,16 +15,20 @@ router.get("/", (req, res) => {
 
 router.get("/login", (req, res) => {
   const username = req.params.username;
+  const user_id = req.params.user_id;
   const templateVars = {
-    username
+    username,
+    user_id
   }
   res.render("login", templateVars);
 });
 
 router.get("/signup", (req, res) => {
   const username = req.params.username;
+  const user_id = req.params.user_id;
   const templateVars = {
-    username
+    username,
+    user_id
   }
   res.render("signup", templateVars);
 });
