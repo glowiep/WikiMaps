@@ -7,7 +7,6 @@ $(() => {
       dataType: 'json'
     })
     .done((response) => {
-      console.log(response);
       const $mapList = $('#map-list');
       // Clear existing list items
       $mapList.empty();
