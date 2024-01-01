@@ -3,6 +3,8 @@
     >Profile<span class="sidebar-close"><i class="fa fa-caret-left"></i></span
   ></h1>
 
+  <!-- When user is not logged in -->
+  <% if (username === undefined) { %>
   <form action="/users/signup" method="GET">
     <h4>New to WikiMaps?</h4>
     <p #="sign-up-prompt"
@@ -17,12 +19,12 @@
     <p>Welcome Back!</p>
     <button type="submit" class="btn btn-primary">Log In</button>
   </form>
-
-  <!-- For logged in users:
+  <% } else { %>
+  <!-- For logged in users: -->
   <h4>MY MAPS</h4>
   <p>My Map list</p>
   <h4>FAVOURTIES</h4>
   <p>Favourties list</p>
   <h4>CONTRIBUTIONS</h4>
-  -->
+  <% } %>
 </div>
