@@ -33,10 +33,6 @@ router.get("/signup", (req, res) => {
   res.render("signup", templateVars);
 });
 
-router.get("/user", (req, res) => {
-  const { username, password } = req.body;
-
-})
 
 // router.get("/users/:id", (req, res) => {
 //   res.render("");
