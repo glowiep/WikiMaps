@@ -30,6 +30,7 @@ app.use(express.static('public'));
 // Note: Feel free to replace the example routes below with your own
 const userApiRoutes = require('./routes/users-api');
 const mapListApiRoutes = require('./routes/map-list-api');
+const mapApiRoutes = require('./routes/map-api');
 const widgetApiRoutes = require('./routes/widgets-api');
 const usersRoutes = require('./routes/users');
 
@@ -37,7 +38,8 @@ const usersRoutes = require('./routes/users');
 // Note: Feel free to replace the example routes below with your own
 // Note: Endpoints that return data (eg. JSON) usually start with `/api`
 app.use('/api/users', userApiRoutes);
-app.use('/authenticated/api/maps', mapListApiRoutes);
+app.use('/maps/:username/api/maps', mapListApiRoutes);  //for logged in user
+app.use('/maps/:username/:user_id', mapApiRoutes);  //for logged in user
 app.use('/api/maps', mapListApiRoutes);
 app.use('/api/widgets', widgetApiRoutes);
 app.use('/users', usersRoutes);
@@ -48,11 +50,23 @@ app.use('/users', usersRoutes);
 // Separate them into separate routes files (see above).
 
 app.get('/', (req, res) => {
-  res.render('index');
+  const username = req.params.username;
+  const user_id = req.params.user_id;
+  const templateVars = {
+    username,
+    user_id
+  }
+  res.render('index', templateVars);
 });
 
-app.get('/authenticated/HappyMapper', (req, res) => {
-  res.render('index-auth');
+app.get('/maps/:username/:user_id', (req, res) => {
+  const username = req.params.username;
+  const user_id = req.params.user_id;
+  const templateVars = {
+    username,
+    user_id
+  }
+  res.render('index', templateVars);
 });
 
 app.listen(PORT, () => {

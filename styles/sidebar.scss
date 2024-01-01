@@ -34,6 +34,12 @@ input[type="text"] {
   box-sizing: border-box;
 }
 
+textarea {
+  height: 100px;
+  padding: 10px;
+  margin: 10px 0;
+}
+
 button {
   background-color: #4caf50; /* Color del botón */
   color: white;
@@ -46,4 +52,55 @@ button {
 
 button:hover {
   background-color: #45a049;
+}
+
+.label {
+  font-weight: 500;
+}
+
+
+/* Single Card Style */
+.card {
+  display: flex;
+  flex-direction: column;
+  background-color: #f5f5f5;
+  min-width: 280px;
+  max-width: 350px;
+  min-height: 80px;
+  margin: 5px;
+  padding: 5px;
+  border-radius: 6px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.card:hover {
+  transition: all 0.5s;
+  background-color: rgb(222, 240, 255);
+  scale: 1.1;
+}
+
+.card {
+  height: 20px;
+  margin-bottom: 10px;
+}
+
+.countryName {
+  font-weight: 700;
+  list-style-type: none;
+}
+
+/* Filter Invisible */
+.hidden {
+  display: none;
+}
+
+.map-list-item {
+  all: unset;
+  margin:0.5em;
+}
+
+.map-list-item:hover {
+  all: unset;
 }

@@ -11,9 +11,18 @@ const userQueries = require('../db/queries/users');
 
 // GET /api/users
 router.get('/', (req, res) => {
+  const { username, password } = req.query;
+  
   userQueries.getUsers()
-    .then(users => {
-      res.json({ users });
+  .then(users => {
+    for (const user of users) {
+        if (username === user.username && password === user.password) {
+          return res.redirect(`/maps/${username}/${user.id}`)
+        } else if (password !== user.password) {
+          res.send('Password is incorrect!');
+          return res.redirect("/users/login")
+        }
+      }
     })
     .catch(err => {
       res

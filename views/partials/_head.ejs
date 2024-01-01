@@ -67,6 +67,15 @@
   crossorigin=""
 ></script>
 
+<% if (username) { %>
+<!-- leaflet-geoman toolbar CSS and JS -->
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet.pm@latest/dist/leaflet.pm.css"
+/>
+<script src="https://unpkg.com/leaflet.pm@latest/dist/leaflet.pm.min.js"></script>
+<% } %>
+
 <!-- App CSS -->
 <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
 <link rel="stylesheet" href="/vendor/border-box.css" />
@@ -82,6 +91,9 @@
 <!-- JS Scripts -->
 <script src="/vendor/jquery-3.0.0.js"></script>
 <script defer src="/scripts/app.js"></script>
+<% if (username) { %>
+  <script defer src="/scripts/map-auth.js"></script>
+<% } %>
 <script defer src="/scripts/map-guest.js"></script>
 <script defer src="/scripts/map-list.js"></script>
 <script defer src="/scripts/sidebar.js"></script>

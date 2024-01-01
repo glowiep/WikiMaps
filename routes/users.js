@@ -8,16 +8,31 @@
 const express = require("express");
 const router = express.Router();
 
+// Example code
 router.get("/", (req, res) => {
   res.render("users");
 });
 
 router.get("/login", (req, res) => {
-  res.render("login");
+  const username = req.params.username;
+  const user_id = req.params.user_id;
+  const templateVars = {
+    username,
+    user_id
+  }
+  res.render("login", templateVars);
 });
+
 router.get("/signup", (req, res) => {
-  res.render("signup");
+  const username = req.params.username;
+  const user_id = req.params.user_id;
+  const templateVars = {
+    username,
+    user_id
+  }
+  res.render("signup", templateVars);
 });
+
 
 // router.get("/users/:id", (req, res) => {
 //   res.render("");
