@@ -45,25 +45,25 @@ $(document).ready(function () {
 
   // removeThisLater: test to show coordinates in console
   map.on("click", function (e) {
-    var coord = e.latlng.toString().split(",");
-    var lat = coord[0].split("(");
-    var lng = coord[1].split(")");
+    let coord = e.latlng.toString().split(",");
+    let lat = coord[0].split("(");
+    let lng = coord[1].split(")");
     console.log(
       "You clicked the map at latitude: " + lat[1] + " and longitude:" + lng[0]
     );
   });
 
   // Listen for the results event and add marker to the map  --example - we can add a clear all button to clear the points from the map
-  searchControl.on("results", function (data) {
-    console.log(data.results);
-    for (let i = data.results.length - 1; i >= 0; i--) {
-      description = data.results[i].properties.LongLabel;
-      longitude = data.results[i].properties.DisplayX;
-      latitude = data.results[i].properties.DisplayY;
+  // searchControl.on("results", function (data) {
+  //   console.log(data.results);
+  //   for (let i = data.results.length - 1; i >= 0; i--) {
+  //     description = data.results[i].properties.LongLabel;
+  //     longitude = data.results[i].properties.DisplayX;
+  //     latitude = data.results[i].properties.DisplayY;
 
-      markers = L.marker([latitude, longitude]).addTo(results);
-    }
-  });
+  //     markers = L.marker([latitude, longitude]).addTo(results);
+  //   }
+  // });
 
   function updateMarkerList() {
     let list = document
@@ -89,15 +89,19 @@ $(document).ready(function () {
     markers.splice(index, 1);
     updateMarkerList();
   };
-  map.on("contextmenu", function (event) {
-    tempLatLng = event.latlng;
+  // map.on("contextmenu", function (event) {
+  //   tempLatLng = event.latlng;
+  //   document.getElementById("markerModal").style.display = "block";
+  // });
+
+  $("#point-button").click(function (e) {
     document.getElementById("markerModal").style.display = "block";
   });
 
   window.addMarker = function () {
     let description = document.getElementById("description").value;
     let imageUrl = document.getElementById("image").value;
-    let marker = L.marker([tempLatLng.lat, tempLatLng.lng]).addTo(map);
+    let marker = L.marker(map.getCenter(), { draggable: true }).addTo(map);
 
     marker
       .bindPopup(
@@ -116,19 +120,30 @@ $(document).ready(function () {
     document.getElementById("description").value = "";
     document.getElementById("image").value = "";
   };
-  // (geoman) define Drawing toolbar options
-  var options = {
-    position: "topleft", // toolbar position, options are 'topleft', 'topright', 'bottomleft', 'bottomright'
-    drawMarker: true, // adds button to draw markers
-    drawPolyline: false, // adds button to draw a polyline
-    drawRectangle: false, // adds button to draw a rectangle
-    drawPolygon: false, // adds button to draw a polygon
-    drawCircle: false, // adds button to draw a cricle
-    cutPolygon: false, // adds button to cut a hole in a polygon
-    editMode: true, // adds button to toggle edit mode for all layers
-    removalMode: true, // adds a button to remove layers
-  };
 
-  // add leaflet.pm controls to the map
-  map.pm.addControls(options);
+  $("#new-map-button").click(function (e) {
+    document.getElementById("mapBox").style.display = "block";
+  });
+
+  window.createMap = function () {
+    let mapDescription = document.getElementById("mapDescription").value;
+    let typeOfMap = document.getElementById("option-select").value;
+    document.getElementById("mapBox").style.display = "none";
+    console.log(mapDescription, typeOfMap);
+  };
+  // (geoman) define Drawing toolbar options
+  // let options = {
+  //   position: "topleft", // toolbar position, options are 'topleft', 'topright', 'bottomleft', 'bottomright'
+  //   drawMarker: true, // adds button to draw markers
+  //   drawPolyline: false, // adds button to draw a polyline
+  //   drawRectangle: false, // adds button to draw a rectangle
+  //   drawPolygon: false, // adds button to draw a polygon
+  //   drawCircle: false, // adds button to draw a cricle
+  //   cutPolygon: false, // adds button to cut a hole in a polygon
+  //   editMode: true, // adds button to toggle edit mode for all layers
+  //   removalMode: true, // adds a button to remove layers
+  // };
+
+  // // add leaflet.pm controls to the map
+  // map.pm.addControls(options);
 });

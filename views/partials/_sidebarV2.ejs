@@ -1,53 +1,119 @@
 <div id="sidebar" class="sidebar sidebar-left">
   <!-- Nav tabs -->
   <div class="sidebar-tabs">
-      <ul role="tablist">
-        <li class=""><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
-        <li class=""><a href="#profile" role="tab"><i class="fa fa-user"></i></a></li>
-        <!-- If user is logged in, show map tab -->
-        <% if (username) { %>
-          <li class=""><a href="#map-tab" role="tab"><i class="fa fa-map"></i></a></li>
-        <% } %>
-        <li class=""><a href="#discover-tab" role="tab"><i class="fa fa-earth"></i></a></li>
-      </ul>
+    <ul role="tablist">
+      <li class=""
+        ><a href="#home" role="tab"><i class="fa fa-bars"></i></a
+      ></li>
+      <li class=""
+        ><a href="#profile" role="tab"><i class="fa fa-user"></i></a
+      ></li>
+      <!-- If user is logged in, show map tab -->
+      <% if (username) { %>
+      <li class=""
+        ><a href="#map-tab" role="tab"><i class="fa fa-map"></i></a
+      ></li>
+      <% } %>
+      <li class=""
+        ><a href="#discover-tab" role="tab"><i class="fa fa-earth"></i></a
+      ></li>
+    </ul>
 
-      <ul role="tablist">
-          <li class="disabled"><a href="#settings" role="tab"><i class="fa fa-gear"></i></a></li>
-      </ul>
+    <ul role="tablist">
+      <li class="disabled"
+        ><a href="#settings" role="tab"><i class="fa fa-gear"></i></a
+      ></li>
+    </ul>
   </div>
 
   <!-- Tab panes -->
   <div class="sidebar-content">
     <div class="sidebar-pane active" id="home">
       <h1 class="sidebar-header">
-          Welcome to WikiMaps!
-          <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
+        Welcome to WikiMaps!
+        <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
       </h1>
-      <br>
-      <p class="lorem">Visit the <i class="fa-solid fa-earth-americas"></i> <b>Discover</b> tab to view the list of public maps created by WikiMap users.</p>
+      <br />
+      <p class="lorem"
+        >Visit the <i class="fa-solid fa-earth-americas"></i>
+        <b>Discover</b> tab to view the list of public maps created by WikiMap
+        users.</p
+      >
       <% if (username === undefined) { %>
-      <p class="lorem">Sign up or Log in to start creating your own maps! Your maps can be set as public or private.</p>
+      <p class="lorem"
+        >Sign up or Log in to start creating your own maps! Your maps can be set
+        as public or private.</p
+      >
       <% } else { %>
-        <p class="lorem">Visit the <i class="fa-solid fa-map"></i> <b>Maps</b> tab to add or modify points on a map.</p>
+      <p class="lorem"
+        >Visit the <i class="fa-solid fa-map"></i> <b>Maps</b> tab to add or
+        modify points on a map.</p
+      >
       <% } %>
-      <p class="lorem">WikiMap Users are able to contribute to public maps, and keep a list of favourites in their WikiMaps <i class="fa-solid fa-user"></i> <b>Profile</b>.</p>
-      
-      <p>By <a href="https://github.com/glowiep">Gloria Lim</a> and <a href="https://github.com/svaron">Sebastian Varon</a>.</p>
+      <p class="lorem"
+        >WikiMap Users are able to contribute to public maps, and keep a list of
+        favourites in their WikiMaps <i class="fa-solid fa-user"></i>
+        <b>Profile</b>.</p
+      >
+
+      <p
+        >By <a href="https://github.com/glowiep">Gloria Lim</a> and
+        <a href="https://github.com/svaron">Sebastian Varon</a>.</p
+      >
     </div>
 
     <%- include('_sidebar-profile-tab') %>
-    
+
     <!-- If user is logged in, show map tab -->
-    <% if (username) { %>
-      <%- include('_sidebar-map-tab') %>
-    <% } %>
+    <% if (username) { %> <%- include('_sidebar-map-tab') %> <% } %> <%-
+    include('_sidebar-discover-tab') %>
 
-    <%- include('_sidebar-discover-tab') %>
-
-    <div class="sidebar-pane" id="settings">  
-      <h1 class="sidebar-header">Settings<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+    <div class="sidebar-pane" id="settings">
+      <h1 class="sidebar-header"
+        >Settings<span class="sidebar-close"
+          ><i class="fa fa-caret-left"></i></span
+      ></h1>
     </div>
   </div>
+
+  <% if (username) { %>
+  <div id="markerModal" class="modal">
+    <div class="modal-content">
+      <h3>Information about the point</h3>
+      <label for="description">Description:</label>
+      <input type="text" id="description" name="description" /><br /><br />
+      <label for="image">Image (URL):</label>
+      <input type="text" id="image" name="image" /><br /><br />
+      <button onclick="addMarker()">Add point</button>
+    </div>
+  </div>
+  <div id="mapBox" class="map-box" style="display: none">
+    <div class="map-box-form">
+      <h3>New Map</h3>
+      <label for="description">Description:</label>
+      <input type="text" id="mapDescription" name="description" /><br /><br />
+      <label for="type">Type</label>
+      <select id="option-select" name="type"
+        ><br /><br />
+        <option value="true">Public</option>
+        <option value="false">Private</option>
+      </select>
+      <button onclick="createMap()">Create Map</button>
+    </div>
+  </div>
+  <div
+    id="point-button"
+    class="leaflet-pm-toolbar leaflet-pm-draw leaflet-bar leaflet-control"
+    ><div class="button-container"
+      ><a class="leaflet-buttons-control-button"
+        ><div
+          class="control-icon leaflet-pm-icon-marker"
+          title="Draw Marker"
+        ></div></a
+      ><div class="leaflet-pm-actions-container"
+        ><a class="leaflet-pm-action action-cancel">Cancel</a></div
+      ></div
+    >
+  </div>
+  <% } %>
 </div>
-
-
