@@ -40,7 +40,7 @@ const usersRoutes = require('./routes/users');
 // Note: Endpoints that return data (eg. JSON) usually start with `/api`
 app.use('/api/users', userApiRoutes); // for log in & sign up
 app.use('/maps/:username/:user_id', mapApiRoutes);  //for logged in user
-app.use('/maps/:username/:user_id', sidebarProfileTabRoutes)
+app.use('/maps/:username/:user_id/profile', sidebarProfileTabRoutes)
 app.use('/maps/:username/api/maps', mapListApiRoutes);  //for logged in user
 app.use('/api/maps', mapListApiRoutes);
 app.use('/api/widgets', widgetApiRoutes);
