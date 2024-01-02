@@ -10,18 +10,5 @@ const router  = express.Router();
 const mapQueries = require('../db/queries/maps');
 
 // GET /maps/:username/:user_id/profile/my-maps
-router.get('/maps/:username/:user_id/profile/my-maps', (req, res) => {
-  const user_id = req.params.user_id;
-
-  mapQueries.getUserMaps(user_id)
-    .then(maps => {
-      res.json({ maps });
-    })
-    .catch(err => {
-      res
-        .status(500)
-        .json({ err: err.message });
-    })
-})
 
 module.exports = router;
