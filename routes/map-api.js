@@ -65,6 +65,19 @@ router.post('/points/add', (req, res) => {
           res.status(500).json({ error: err.message });
       });
 });
+router.get("/:username/:user_id/profile/my-maps", (req, res) => {
+  const user_id = 2;
+  mapQueries
+    .getUserMaps(user_id)
+    .then((maps) => {
+      console.log(">>>>>>>", maps);
+      res.json({ maps });
+    })
+    .catch((err) => {
+      res.status(500).json({ err: err.message });
+    });
+});
+
 // Test with curl -X GET http://localhost:8080/maps/:username/:user_id/:map_id:
 // curl -X GET http://localhost:8080/maps/HappyMapper/4/1
 
