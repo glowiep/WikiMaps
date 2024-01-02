@@ -8,7 +8,6 @@
 const express = require("express");
 const router = express.Router();
 const mapQueries = require("../db/queries/maps");
-
 // GET /maps/:username/:user_id/:map_id
 router.get("/:username/:user_id/:map_id", (req, res) => {
   const { map_id } = req.params;
@@ -24,8 +23,7 @@ router.get("/:username/:user_id/:map_id", (req, res) => {
 });
 
 router.get("/:user_id", (req, res) => {
-  const { user_id } = req.params;
-  console.log("id>>>>>", req.params);
+  const user_id = req.session["user_id"];
   mapQueries
     .getUserMaps(user_id)
     .then((data) => {
@@ -37,10 +35,10 @@ router.get("/:user_id", (req, res) => {
     });
 });
 router.post("/:username/:user_id/add", (req, res) => {
-  const { title, description, isPrivate, creator_id } = req.body;
-  console.log("body>>>", req.body);
+  const { title, description, isPrivate} = req.body;
+  const user_id = req.session["user_id"];
   mapQueries
-    .createMap(title, description, isPrivate, creator_id)
+    .createMap(title, description, isPrivate, user_id)
     .then((rows) => {
       if (rows && rows.length > 0) {
         res.json(rows[0]);

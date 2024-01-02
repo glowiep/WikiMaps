@@ -1,5 +1,4 @@
 /* Leaflet related scripts here */
-
 $(document).ready(function () {
   // This setup the leafmap object by linking the map() method to the map id (in <section> html element)
   const map = L.map("map").setView([43.644218, -79.402229], 13);
@@ -126,27 +125,24 @@ $(document).ready(function () {
     const title = $("#mapTitle").val();
     const description = $("#mapDescription").val();
     const isPrivate = $("#isPrivate").is(":checked");
-    const creator_id = 2;
     document.getElementById("mapBox").style.display = "none";
-
     $.ajax({
       url: "/maps/:username/:user_id/add",
       type: "POST",
       contentType: "application/json",
-      data: JSON.stringify({ title, description, isPrivate, creator_id }),
+      data: JSON.stringify({ title, description, isPrivate }),
       success: function (map) {
         console.log("Map created:", map);
-        loadMaps(creator_id);
+        loadMaps();
       },
       error: function (xhr, status, error) {
         console.error("Error:", error);
       },
     });
   });
-
-  function loadMaps(userId) {
+  function loadMaps() {
     $.ajax({
-      url: `/maps/${userId}`,
+      url: `/maps/:user_id`,
       type: "GET",
       success: function (maps) {
         const mapsList = $("#mapsList");
@@ -162,5 +158,5 @@ $(document).ready(function () {
       },
     });
   }
-  loadMaps(2);
+  loadMaps();
 });
