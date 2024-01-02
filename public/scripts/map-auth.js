@@ -125,12 +125,12 @@ $(document).ready(function () {
     document.getElementById("mapBox").style.display = "block";
   });
 
-  window.createMap = function () {
-    let mapDescription = document.getElementById("mapDescription").value;
-    let typeOfMap = document.getElementById("option-select").value;
-    document.getElementById("mapBox").style.display = "none";
-    console.log(mapDescription, typeOfMap);
-  };
+  // window.createMap = function () {
+  //   let mapDescription = document.getElementById("mapDescription").value;
+  //   let typeOfMap = document.getElementById("option-select").value;
+  //   document.getElementById("mapBox").style.display = "none";
+  //   console.log(mapDescription, typeOfMap);
+  // };
   // (geoman) define Drawing toolbar options
   // let options = {
   //   position: "topleft", // toolbar position, options are 'topleft', 'topright', 'bottomleft', 'bottomright'
@@ -146,4 +146,45 @@ $(document).ready(function () {
 
   // // add leaflet.pm controls to the map
   // map.pm.addControls(options);
+
+  $("#mapForm").submit(function (event) {
+    event.preventDefault();
+    const title = $("#mapTitle").val();
+    const description = $("#mapDescription").val();
+    const isPrivate = $("#isPrivate").is(":checked");
+    const creator_id = 2;
+    document.getElementById("mapBox").style.display = "none";
+
+    $.ajax({
+      url: "/maps/:username/:user_id/add",
+      type: "POST",
+      contentType: "application/json",
+      data: JSON.stringify({ title, description, isPrivate, creator_id }),
+      success: function (map) {
+        console.log("Map created:", map);
+        loadMaps(creator_id);
+      },
+      error: function (xhr, status, error) {
+        console.error("Error:", error);
+      },
+    });
+  });
+
+  function loadMaps(userId) {
+    $.ajax({
+      url: `/maps/${userId}`,
+      type: "GET",
+      success: function (maps) {
+        const mapsList = $("#mapsList");
+        mapsList.empty();
+        $.each(maps, function (index, map) {
+          mapsList.append($("<a>").text(`${map.title} - ${map.description}`));
+        });
+      },
+      error: function (xhr, status, error) {
+        console.error("Error:", error);
+      },
+    });
+  }
+  loadMaps(2);
 });

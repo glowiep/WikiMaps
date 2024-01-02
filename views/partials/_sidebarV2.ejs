@@ -88,18 +88,17 @@
     </div>
   </div>
   <div id="mapBox" class="map-box" style="display: none">
-    <div class="map-box-form">
-      <h3>New Map</h3>
-      <label for="description">Description:</label>
-      <input type="text" id="mapDescription" name="description" /><br /><br />
-      <label for="type">Type</label>
-      <select id="option-select" name="type"
-        ><br /><br />
-        <option value="true">Public</option>
-        <option value="false">Private</option>
-      </select>
-      <button onclick="createMap()">Create Map</button>
-    </div>
+    <form id="mapForm">
+      <div class="map-box-form">
+        <h3>New Map</h3>
+        <label for="title">Title:</label>
+        <input type="text" id="mapTitle" name="title" /><br /><br />
+        <label for="description">Description:</label>
+        <input type="text" id="mapDescription" name="description" /><br /><br />
+        <label>Private <input type="checkbox" id="isPrivate" /></label>
+        <button type="submit">Create Map</button>
+      </div>
+    </form>
   </div>
   <div
     id="point-button"
