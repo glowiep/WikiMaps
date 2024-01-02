@@ -52,6 +52,19 @@ router.post("/:username/:user_id/add", (req, res) => {
       res.status(500).json({ error: err.message });
     });
 });
+router.post('/points/add', (req, res) => {
+  const { description, latitude, longitude, map_id } = req.body;
+
+  // Insert the point into the database
+  mapQueries.insertPoint(description, latitude, longitude, map_id)
+      .then(result => {
+          res.json(result.rows[0]);
+      })
+      .catch(err => {
+          console.error(err);
+          res.status(500).json({ error: err.message });
+      });
+});
 // Test with curl -X GET http://localhost:8080/maps/:username/:user_id/:map_id:
 // curl -X GET http://localhost:8080/maps/HappyMapper/4/1
 

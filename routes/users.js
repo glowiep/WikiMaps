@@ -18,8 +18,8 @@ router.get("/login", (req, res) => {
   const user_id = req.params.user_id;
   const templateVars = {
     username,
-    user_id
-  }
+    user_id,
+  };
   res.render("login", templateVars);
 });
 
@@ -28,11 +28,10 @@ router.get("/signup", (req, res) => {
   const user_id = req.params.user_id;
   const templateVars = {
     username,
-    user_id
-  }
+    user_id,
+  };
   res.render("signup", templateVars);
 });
-
 
 // router.get("/users/:id", (req, res) => {
 //   res.render("");

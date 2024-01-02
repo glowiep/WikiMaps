@@ -8,7 +8,7 @@ const createMap = (title, description, isPrivate, creatorId) => {
       [title, description, isPrivate, creatorId]
     )
     .then((data) => {
-      console.log("testing>>>>",data);
+      console.log("testing>>>>", data);
       return data.rows;
     })
     .catch((err) => {
@@ -51,6 +51,20 @@ const getMapPoints = (map_id) => {
     });
 };
 
+const createPoints = (description, latitude, longitude, map_id) => {
+  return db
+    .query(
+      "INSERT INTO points (description, latitude, longitude, map_id) VALUES ($1, $2, $3, $4) RETURNING *",
+      [description, latitude, longitude, map_id]
+    )
+    .then((data) => {
+      return data.rows;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
 // Get user favourite maps to be displayed on Profile tab
 const getUserFavourites = (user_id) => {
   return db
@@ -69,4 +83,5 @@ module.exports = {
   getMapPoints,
   getUserFavourites,
   createMap,
+  createPoints,
 };

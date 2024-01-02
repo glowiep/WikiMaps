@@ -89,10 +89,6 @@ $(document).ready(function () {
     markers.splice(index, 1);
     updateMarkerList();
   };
-  // map.on("contextmenu", function (event) {
-  //   tempLatLng = event.latlng;
-  //   document.getElementById("markerModal").style.display = "block";
-  // });
 
   $("#point-button").click(function (e) {
     document.getElementById("markerModal").style.display = "block";
@@ -125,28 +121,6 @@ $(document).ready(function () {
     document.getElementById("mapBox").style.display = "block";
   });
 
-  // window.createMap = function () {
-  //   let mapDescription = document.getElementById("mapDescription").value;
-  //   let typeOfMap = document.getElementById("option-select").value;
-  //   document.getElementById("mapBox").style.display = "none";
-  //   console.log(mapDescription, typeOfMap);
-  // };
-  // (geoman) define Drawing toolbar options
-  // let options = {
-  //   position: "topleft", // toolbar position, options are 'topleft', 'topright', 'bottomleft', 'bottomright'
-  //   drawMarker: true, // adds button to draw markers
-  //   drawPolyline: false, // adds button to draw a polyline
-  //   drawRectangle: false, // adds button to draw a rectangle
-  //   drawPolygon: false, // adds button to draw a polygon
-  //   drawCircle: false, // adds button to draw a cricle
-  //   cutPolygon: false, // adds button to cut a hole in a polygon
-  //   editMode: true, // adds button to toggle edit mode for all layers
-  //   removalMode: true, // adds a button to remove layers
-  // };
-
-  // // add leaflet.pm controls to the map
-  // map.pm.addControls(options);
-
   $("#mapForm").submit(function (event) {
     event.preventDefault();
     const title = $("#mapTitle").val();
@@ -178,7 +152,9 @@ $(document).ready(function () {
         const mapsList = $("#mapsList");
         mapsList.empty();
         $.each(maps, function (index, map) {
-          mapsList.append($("<a>").text(`${map.title} - ${map.description}`));
+          mapsList
+            .append($("<a>").text(`${map.title} - ${map.description}`))
+            .append($("<br>"));
         });
       },
       error: function (xhr, status, error) {
