@@ -5,5 +5,8 @@
 $(document).ready(function() {
   // Add sidebar
   const sidebar = L.control.sidebar('sidebar').addTo(map);
-
+  $("#new-map-button").click(function (e) {
+    console.log("botonmnnnn", e);
+    sidebar.open('map-tab');
+  })
 })

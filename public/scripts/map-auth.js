@@ -111,7 +111,5 @@ function updateMarkerList() {
     document.getElementById("image").value = "";
   };
 
-  $("#new-map-button").click(function (e) {
-    document.getElementById("mapBox").style.display = "block";
-  })
+  
 });

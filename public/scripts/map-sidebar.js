@@ -6,10 +6,9 @@ $(() => {
   
   $("#mapForm").submit(function (event) {
     event.preventDefault();
-    const title = $("#mapTitle").val();
-    const description = $("#mapDescription").val();
-    const isPrivate = $("#isPrivate").is(":checked");
-    document.getElementById("mapBox").style.display = "none";
+    const title = $("#title").val();
+    const description = $("#map-description").val();
+    const isPrivate = $("#private").is(":checked");
     $.ajax({
       url: "/maps/:username/:user_id/add",
       type: "POST",
