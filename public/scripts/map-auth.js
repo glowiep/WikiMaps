@@ -92,7 +92,9 @@ function updateMarkerList() {
     let description = document.getElementById("description").value;
     let imageUrl = document.getElementById("image").value;
     let marker = L.marker(map.getCenter(), { draggable: true }).addTo(results);
-
+    let latitude = marker.getLatLng().lat;
+    let longitude = marker.getLatLng().lng
+    console.log("cortdinates>>>>>",latitude,longitude);
     marker
       .bindPopup(
         "<b>Description:</b> " +
@@ -102,9 +104,21 @@ function updateMarkerList() {
           '" alt="imagen" style="width:100%;">'
       )
       .openPopup();
-
+      
     markers.push({ marker: marker, description: description }); // Guardar el marcador y la descripción
-
+    $.ajax({
+      url: "/maps/points/add",
+      type: "POST",
+      contentType: "application/json",
+      data: JSON.stringify({ description, imageUrl, latitude,longitude}),
+      success: function (map) {
+        console.log("point created", map);
+       
+      },
+      error: function (xhr, status, error) {
+        console.error("Error:", error);
+      },
+    });
     updateMarkerList();
     document.getElementById("markerModal").style.display = "none";
     document.getElementById("description").value = "";

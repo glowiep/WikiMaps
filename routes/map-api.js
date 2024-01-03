@@ -51,12 +51,14 @@ router.post("/:username/:user_id/add", (req, res) => {
     });
 });
 router.post('/points/add', (req, res) => {
-  const { description, latitude, longitude, map_id } = req.body;
+  const { description,imageUrl, latitude, longitude } = req.body;
+  const map_id = 1;
 
   // Insert the point into the database
-  mapQueries.insertPoint(description, latitude, longitude, map_id)
+  mapQueries.createPoints(description,imageUrl, latitude, longitude, map_id)
       .then(result => {
-          res.json(result.rows[0]);
+        console.log(">>>>>>>",result);
+          res.json(result.rows);
       })
       .catch(err => {
           console.error(err);
