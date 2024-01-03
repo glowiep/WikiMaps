@@ -1,6 +1,7 @@
 // Require the database connection file, which contains the node-postgres database client/connection setup
 const db = require("../connection");
 
+// Add new map record to maps table upon creation
 const createMap = (title, description, isPrivate, creatorId) => {
   return db
     .query(
@@ -16,9 +17,14 @@ const createMap = (title, description, isPrivate, creatorId) => {
     });
 };
 
+// Get the list of public maps to display on Discover page
 const getPublicMaps = () => {
   return db
-    .query("SELECT * FROM maps WHERE private != TRUE")
+    .query(`
+    SELECT * FROM maps 
+    WHERE private != TRUE
+    ORDER BY creation_date, title;
+    `)
     .then((data) => {
       return data.rows;
     })
@@ -51,6 +57,7 @@ const getMapPoints = (map_id) => {
     });
 };
 
+// Add new points to the database
 const createPoints = (description, latitude, longitude, map_id) => {
   return db
     .query(
@@ -68,9 +75,31 @@ const createPoints = (description, latitude, longitude, map_id) => {
 // Get user favourite maps to be displayed on Profile tab
 const getUserFavourites = (user_id) => {
   return db
-    .query("SELECT user_id FROM favorites WHERE user_id = $1", [user_id])
+    .query(`
+    SELECT DISTINCT maps.id as maps_id, maps.title as map_title, maps.description 
+    FROM favorites JOIN maps ON favorites.map_id = maps.id
+    WHERE favorites.user_id = $1
+    AND maps.private = FALSE;
+    `, [user_id])
     .then((data) => {
       return data.rows;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+// Get maps user contributed to, to be displayed on Profile tab
+const getUserContributions = (user_id) => {
+  return db.query(`
+    SELECT maps.id as map_id, maps.title as maps_title, maps.description, maps.creator_id, users.username as creator_username 
+    FROM contributions 
+    JOIN maps ON contributions.map_id = maps.id
+    JOIN users ON maps.creator_id = users.id
+    WHERE contributions.user_id = $1;
+  `, [user_id])
+    .then(data => {
+      return data.rows[0];
     })
     .catch((err) => {
       console.log(err);
@@ -84,4 +113,5 @@ module.exports = {
   getUserFavourites,
   createMap,
   createPoints,
+  getUserContributions
 };
