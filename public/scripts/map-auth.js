@@ -133,7 +133,7 @@ $(document).ready(function () {
       data: JSON.stringify({ title, description, isPrivate }),
       success: function (map) {
         console.log("Map created:", map);
-        loadMaps();
+        loadMyMaps();
         $fetchMapList();
       },
       error: function (xhr, status, error) {
@@ -141,17 +141,32 @@ $(document).ready(function () {
       },
     });
   });
-  function loadMaps() {
+
+  /**
+   * Function to load maps for the user, displayed on the profile tab - My Maps
+   */
+  function loadMyMaps() {
     $.ajax({
       url: `/maps/:user_id`,
       type: "GET",
       success: function (maps) {
-        const mapsList = $("#mapsList");
-        mapsList.empty();
-        $.each(maps, function (index, map) {
-          mapsList
-            .append($("<a>").text(`${map.title} - ${map.description}`))
-            .append($("<br>"));
+        const $myMapsList = $('#my-maps-list')
+        // Clear existing list items
+        $myMapsList.empty();
+
+        // Append new list items based on API response
+        $.each(maps, function (index, map) { // eventually link to http://localhost:8080/api/maps/<map_id>
+          $myMapsList.append(`
+          <div id="my-maps-list">
+            <div class="card">
+            <a class="map-list-item" href="#">
+              <div class="map-card"><b> ${map.title}  </b></div>
+              <div class="map-card"> ${map.description} </div>
+
+            </a>
+            </div>
+          </div>
+          `)
         });
       },
       error: function (xhr, status, error) {
@@ -159,6 +174,10 @@ $(document).ready(function () {
       },
     });
   }
+  loadMyMaps();
+  
+
+  // This loads the list of public maps in the Discover tab (for logged in user)
   const $fetchMapList = function() {
     $.ajax({
       url: 'api/maps/list',
@@ -173,7 +192,6 @@ $(document).ready(function () {
 
       // Append new list items based on API response
       for (const map of response.maps) {  // eventually link to http://localhost:8080/api/maps/<map_id>
-        // $mapList.append(`<li class="list"><a href='#'>` + map.title + `</a></li>`);
         $mapList.append(`
       <div id="map-list">
         <div class="card">
@@ -181,12 +199,9 @@ $(document).ready(function () {
         </div>
       </div>
       `)
-        // $mapList.append(`<li class="list"><a href='http://` + process.env.DB_HOST + `:`+ process.env.DB_PORT + `/api/maps/` + map.id + `>` + map.title + `</a></li>`);
-        // $(`<li class="list">`).text(map.title).appendTo($mapList);
       }
     })
   };
 
   $fetchMapList();
-  loadMaps();
 });
