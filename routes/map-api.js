@@ -63,8 +63,10 @@ router.post('/points/add', (req, res) => {
           res.status(500).json({ error: err.message });
       });
 });
+
+// full url GET maps/:username/:user_id/profile/my-maps
 router.get("/:username/:user_id/profile/my-maps", (req, res) => {
-  const user_id = 2;
+  const user_id = req.session["user_id"];
   mapQueries
     .getUserMaps(user_id)
     .then((maps) => {
