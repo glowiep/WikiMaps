@@ -36,7 +36,10 @@ const getPublicMaps = () => {
 // Get maps associated with a given user
 const getUserMaps = (creator_id) => {
   return db
-    .query("SELECT * FROM maps WHERE creator_id = $1", [creator_id])
+    .query(`
+    SELECT * FROM maps WHERE creator_id = $1
+    ORDER BY creation_date, title;
+    `, [creator_id])
     .then((data) => {
       return data.rows;
     })
@@ -48,7 +51,7 @@ const getUserMaps = (creator_id) => {
 // Get points associated with a given map ID
 const getMapPoints = (map_id) => {
   return db
-    .query("SELECT * FROM points WHERE map_id = $1", [map_id])
+    .query("SELECT * FROM points WHERE map_id = $1;", [map_id])
     .then((data) => {
       return data.rows;
     })
