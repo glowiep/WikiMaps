@@ -104,3 +104,11 @@ button:hover {
 .map-list-item:hover {
   all: unset;
 }
+
+.map-card {
+  display: flex;
+  flex-direction: column;
+  background-color: invisible;
+  align-items: center;
+  justify-content: center;
+}
