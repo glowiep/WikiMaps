@@ -1,4 +1,4 @@
-// This loads the list of public maps in the Discover tab (for both )
+// This loads the list of public maps in the Discover tab (for guest)
 $(() => {
   const $fetchMapList = function() {
     $.ajax({
@@ -7,7 +7,6 @@ $(() => {
       dataType: 'json'
     })
     .done((response) => {
-      console.log(response);
       const $mapList = $('#map-list');
       // Clear existing list items
       $mapList.empty();
