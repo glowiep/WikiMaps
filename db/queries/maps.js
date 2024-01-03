@@ -9,7 +9,6 @@ const createMap = (title, description, isPrivate, creatorId) => {
       [title, description, isPrivate, creatorId]
     )
     .then((data) => {
-      console.log("testing>>>>", data);
       return data.rows;
     })
     .catch((err) => {

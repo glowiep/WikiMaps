@@ -9,4 +9,6 @@ CREATE TABLE "maps" (
   "creation_date" TIMESTAMP DEFAULT NOW(),
   "private" BOOLEAN NOT NULL DEFAULT FALSE,
   "creator_id" INTEGER REFERENCES users(id) ON DELETE CASCADE
+  "latitude" VARCHAR(255),
+  "longitude" VARCHAR(255)
 );

@@ -2,6 +2,8 @@
 
 $(() => {
   // POST /maps/:username/:user_id/add
+  
+  
   $("#mapForm").submit(function (event) {
     event.preventDefault();
     const title = $("#mapTitle").val();
@@ -24,6 +26,8 @@ $(() => {
     });
   });
 
+
+
   /**
    * Function to load maps for the user, displayed on the profile tab - My Maps
    * GET /maps/:user_id
@@ -41,8 +45,8 @@ $(() => {
         $.each(maps, function (index, map) { // eventually link to http://localhost:8080/api/maps/<map_id>
           $myMapsList.append(`
           <div id="my-maps-list">
-            <div class="card">
-            <a class="map-list-item" href="#">
+            <div class="card" id = map${map.id}>
+            <a class="map-list-item">
               <div class="map-card"><b> ${map.title}  </b></div>
               <div class="map-card"> ${map.description} </div>
 

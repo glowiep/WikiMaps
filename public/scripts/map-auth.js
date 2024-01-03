@@ -19,7 +19,7 @@ $(document).ready(function () {
     [-90, -180],
     [90, 180],
   ]);
-
+ 
   //add zoom control with your options
   map.zoomControl.setPosition("topright");
 
@@ -52,37 +52,32 @@ $(document).ready(function () {
     );
   });
 
-  // Listen for the results event and add marker to the map  --example - we can add a clear all button to clear the points from the map
-  // searchControl.on("results", function (data) {
-  //   console.log(data.results);
-  //   for (let i = data.results.length - 1; i >= 0; i--) {
-  //     description = data.results[i].properties.LongLabel;
-  //     longitude = data.results[i].properties.DisplayX;
-  //     latitude = data.results[i].properties.DisplayY;
+  searchControl.on("results", function (data) {
+    console.log(data.results);
+  });
 
-  //     markers = L.marker([latitude, longitude]).addTo(results);
-  //   }
-  // });
-
-  function updateMarkerList() {
-    let list = document
-      .getElementById("marker-list")
-      .getElementsByTagName("ul")[0];
-    list.innerHTML = "";
-    markers.forEach(function (markerObj, index) {
-      let listItem = document.createElement("li");
-      listItem.innerHTML =
-        markerObj.description +
-        ' <button onclick="removeMarker(' +
-        index +
-        ')">Delete</button>';
-      listItem.onclick = function () {
-        map.setView(markerObj.marker.getLatLng(), 13); // Centrar el mapa en el marcador
-        markerObj.marker.openPopup(); // Abrir el popup del marcador
-      };
-      list.appendChild(listItem);
-    });
-  }
+//   function addMarkerToMap(lat, lng, description) {
+//     L.marker([lat, lng]).bindPopup(description).addTo(map);
+// }
+function updateMarkerList() {
+  let list = document
+    .getElementById("marker-list")
+    .getElementsByTagName("ul")[0];
+  list.innerHTML = "";
+  markers.forEach(function (markerObj, index) {
+    let listItem = document.createElement("li");
+    listItem.innerHTML =
+      markerObj.description +
+      ' <button onclick="removeMarker(' +
+      index +
+      ')">Delete</button>';
+    listItem.onclick = function () {
+      map.setView(markerObj.marker.getLatLng(), 13); // Centrar el mapa en el marcador
+      markerObj.marker.openPopup(); // Abrir el popup del marcador
+    };
+    list.appendChild(listItem);
+  });
+}
   window.removeMarker = function (index) {
     map.removeLayer(markers[index].marker);
     markers.splice(index, 1);
@@ -96,7 +91,7 @@ $(document).ready(function () {
   window.addMarker = function () {
     let description = document.getElementById("description").value;
     let imageUrl = document.getElementById("image").value;
-    let marker = L.marker(map.getCenter(), { draggable: true }).addTo(map);
+    let marker = L.marker(map.getCenter(), { draggable: true }).addTo(results);
 
     marker
       .bindPopup(
@@ -118,6 +113,5 @@ $(document).ready(function () {
 
   $("#new-map-button").click(function (e) {
     document.getElementById("mapBox").style.display = "block";
-  });
-
+  })
 });

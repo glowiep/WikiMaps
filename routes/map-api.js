@@ -21,7 +21,6 @@ router.get("/:username/:user_id/:map_id", (req, res) => {
       res.status(500).json({ error: err.message });
     });
 });
-
 router.get("/:user_id", (req, res) => {
   const user_id = req.session["user_id"];
   mapQueries
@@ -41,6 +40,7 @@ router.post("/:username/:user_id/add", (req, res) => {
     .createMap(title, description, isPrivate, user_id)
     .then((rows) => {
       if (rows && rows.length > 0) {
+        console.log("new map....", rows);
         res.json(rows[0]);
       } else {
         res.status(404).json({ error: "No data returned from the query." });
