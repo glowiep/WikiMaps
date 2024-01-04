@@ -8,18 +8,18 @@
       <li class=""
         ><a href="#profile" role="tab"><i class="fa fa-user"></i></a
       ></li>
-      <!-- If user is logged in, show map tab -->
+      <!-- If user is logged in, show fav & map tab -->
       <% if (username) { %>
+        <li class=""
+          ><a href="#fav-tab" role="tab"><i class="fa fa-heart"></i></a
+        ></li>
       <li class=""
         ><a href="#map-tab" role="tab"><i class="fa fa-map"></i></a
       ></li>
+      <% } %>
       <li class=""
         ><a href="#view-tab" role="tab"><i class="fa fa-eye"></i></a
       ></li>
-      <li class=""
-        ><a href="#fav-tab" role="tab"><i class="fa fa-heart"></i></a
-      ></li>
-      <% } %>
       <li class=""
         ><a href="#discover-tab" role="tab"><i class="fa fa-earth"></i></a
       ></li>
@@ -80,12 +80,14 @@
 
     <%- include('_sidebar-profile-tab') %>
 
-    <!-- If user is logged in, show map tab -->
+    <!-- If user is logged in, show fav & map tab -->
     <% if (username) { %> 
-    <%- include('_sidebar-map-tab') %>
-    <%- include('_sidebar-view-tab') %>
-    <%- include('_sidebar-fav-tab') %>
+      <%- include('_sidebar-fav-tab') %>
+      <%- include('_sidebar-map-tab') %>
     <% } %> 
+
+    <%- include('_sidebar-view-tab') %>
+      
     <%- include('_sidebar-discover-tab') %>
 
     <div class="sidebar-pane" id="settings">

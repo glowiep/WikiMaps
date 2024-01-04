@@ -8,6 +8,7 @@
 const express = require("express");
 const router = express.Router();
 const mapQueries = require("../db/queries/maps");
+
 // GET /maps/:username/:user_id/:map_id
 router.get("/:username/:user_id/:map_id", (req, res) => {
   const { map_id } = req.params;
@@ -16,20 +17,6 @@ router.get("/:username/:user_id/:map_id", (req, res) => {
     .getMapPoints(map_id)
     .then((points) => {
       res.json({ points });
-    })
-    .catch((err) => {
-      res.status(500).json({ error: err.message });
-    });
-});
-
-// GET /maps/:user_id - Display my maps list
-router.get("/:user_id", (req, res) => {
-  const user_id = req.session["user_id"];
-  mapQueries
-    .getUserMaps(user_id)
-    .then((data) => {
-      res.json(data);
-      
     })
     .catch((err) => {
       res.status(500).json({ error: err.message });
@@ -86,6 +73,20 @@ router.post('/points/add', (req, res) => {
 //     });
 // });
 
+// GET /maps/:user_id - Display my maps list
+router.get("/:user_id/my-maps", (req, res) => {
+  const user_id = req.session["user_id"];
+  mapQueries
+    .getUserMaps(user_id)
+    .then((data) => {
+      res.json(data);
+      
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err.message });
+    });
+});
+
 // GET maps/:username/:user_id/contributions
 router.get("/:user_id/contributions", (req, res) => {
   const user_id = req.session["user_id"];
@@ -99,5 +100,17 @@ router.get("/:user_id/contributions", (req, res) => {
     });
 });
 
+// GET maps/:username/:user_id/favorites
+router.get("/:user_id/favorites", (req, res) => {
+  const user_id = req.session["user_id"];
+  mapQueries
+    .getUserFavorites(user_id)
+    .then((data) => {
+      res.json({ data });
+    })
+    .catch((err) => {
+      res.status(500).json({ err: err.message });
+    });
+});
 
 module.exports = router;
