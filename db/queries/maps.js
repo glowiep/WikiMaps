@@ -22,7 +22,7 @@ const getPublicMaps = () => {
     .query(`
     SELECT * FROM maps 
     WHERE private != TRUE
-    ORDER BY creation_date, title;
+    ORDER BY title ASC;
     `)
     .then((data) => {
       return data.rows;
@@ -37,7 +37,7 @@ const getUserMaps = (creator_id) => {
   return db
     .query(`
     SELECT * FROM maps WHERE creator_id = $1
-    ORDER BY creation_date, title;
+    ORDER BY creation_date DESC, title ASC;
     `, [creator_id])
     .then((data) => {
       return data.rows;
