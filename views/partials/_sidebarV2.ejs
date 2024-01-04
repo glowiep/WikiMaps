@@ -13,6 +13,12 @@
       <li class=""
         ><a href="#map-tab" role="tab"><i class="fa fa-map"></i></a
       ></li>
+      <li class=""
+        ><a href="#view-tab" role="tab"><i class="fa fa-eye"></i></a
+      ></li>
+      <li class=""
+        ><a href="#fav-tab" role="tab"><i class="fa fa-heart"></i></a
+      ></li>
       <% } %>
       <li class=""
         ><a href="#discover-tab" role="tab"><i class="fa fa-earth"></i></a
@@ -35,26 +41,36 @@
       </h1>
       <br />
       <p class="lorem"
-        >Visit the <i class="fa-solid fa-earth-americas"></i>
+        ><i class="fa-solid fa-earth-americas"></i> Visit the 
         <b>Discover</b> tab to view the list of public maps created by WikiMap
         users.</p
       >
       <% if (username === undefined) { %>
       <p class="lorem"
-        >Sign up or Log in to start creating your own maps! Your maps can be set
+        ><a href="/users/signup">Sign up</a> or <a href="/users/login">Log in</a> to start creating your own maps! Your maps can be set
         as public or private.</p
       >
+      <br>
+      <h5>
+        WikiMap Users can:
+      </h5>
       <% } else { %>
       <p class="lorem"
-        >Visit the <i class="fa-solid fa-map"></i> <b>Maps</b> tab to add or
-        modify points on a map.</p
-      >
+        ><i class="fa-solid fa-map"></i> Visit the <b>New Map</b> tab to add points and create a new map.</p>
+
       <% } %>
-      <p class="lorem"
-        >WikiMap Users are able to contribute to public maps, and keep a list of
-        favourites in their WikiMaps <i class="fa-solid fa-user"></i>
-        <b>Profile</b>.</p
-      >
+
+      <p class="lorem">
+        <i class="fa-solid fa-eye"></i> View and edit map details in the <b>View Map</b> tab.
+      </p>
+
+      <p class="lorem">
+        <i class="fa-solid fa-user"></i> Contribute to public maps, and view user contributions in the
+        <b>Profile</b> tab.
+      </p>
+      <p class="lorem">
+        <i class="fa-solid fa-heart"></i> Keep a list of <b>Favorites</b>.
+      </p>
 
       <p
         >By <a href="https://github.com/glowiep">Gloria Lim</a> and
@@ -65,8 +81,12 @@
     <%- include('_sidebar-profile-tab') %>
 
     <!-- If user is logged in, show map tab -->
-    <% if (username) { %> <%- include('_sidebar-map-tab') %> <% } %> <%-
-    include('_sidebar-discover-tab') %>
+    <% if (username) { %> 
+    <%- include('_sidebar-map-tab') %>
+    <%- include('_sidebar-view-tab') %>
+    <%- include('_sidebar-fav-tab') %>
+    <% } %> 
+    <%- include('_sidebar-discover-tab') %>
 
     <div class="sidebar-pane" id="settings">
       <h1 class="sidebar-header"

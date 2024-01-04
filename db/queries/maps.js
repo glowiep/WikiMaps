@@ -22,7 +22,7 @@ const getPublicMaps = () => {
     .query(`
     SELECT * FROM maps 
     WHERE private != TRUE
-    ORDER BY creation_date, title;
+    ORDER BY title ASC;
     `)
     .then((data) => {
       return data.rows;
@@ -37,7 +37,7 @@ const getUserMaps = (creator_id) => {
   return db
     .query(`
     SELECT * FROM maps WHERE creator_id = $1
-    ORDER BY creation_date, title;
+    ORDER BY creation_date DESC, title ASC;
     `, [creator_id])
     .then((data) => {
       return data.rows;
@@ -74,8 +74,8 @@ const createPoints = (description, latitude, longitude, map_id) => {
     });
 };
 
-// Get user favourite maps to be displayed on Profile tab
-const getUserFavourites = (user_id) => {
+// Get user favorite maps to be displayed on Profile tab
+const getUserFavorites = (user_id) => {
   return db
     .query(`
     SELECT DISTINCT maps.id as maps_id, maps.title as map_title, maps.description 
@@ -112,7 +112,7 @@ module.exports = {
   getPublicMaps,
   getUserMaps,
   getMapPoints,
-  getUserFavourites,
+  getUserFavorites,
   createMap,
   createPoints,
   getUserContributions

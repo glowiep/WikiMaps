@@ -21,11 +21,11 @@
 
 - As a user, I want to *EDIT* and *DELETE* points of interest on my map when I need to.
  
-- As a user, I want to be able to *favourite* a map so that I can keep track of it in my profile.
+- As a user, I want to be able to *favorite* a map so that I can keep track of it in my profile.
 
 - As as user, I want to *view* all my public and private maps in a list.
 
-- As as user, I want to *view* my favourite maps on my profile.
+- As as user, I want to *view* my favorite maps on my profile.
 
 - As a user, I want to *view* the list of maps I have contributed to on my profile.
 
