@@ -59,7 +59,8 @@ app.use("/users", usersRoutes);
 
 app.get("/", (req, res) => {
   const username = req.params.username;
-  const user_id = req.params.user_id;
+  // const user_id = req.params.user_id;
+  const user_id = req.session["user_id"]
   const templateVars = {
     username,
     user_id,
@@ -69,7 +70,8 @@ app.get("/", (req, res) => {
 
 app.get("/maps/:username/:user_id", (req, res) => {
   const username = req.params.username;
-  const user_id = req.params.user_id;
+  // const user_id = req.params.user_id;
+  const user_id = req.session["user_id"]
   const templateVars = {
     username,
     user_id,

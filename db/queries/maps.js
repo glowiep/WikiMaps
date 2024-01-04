@@ -94,14 +94,14 @@ const getUserFavorites = (user_id) => {
 // Get maps user contributed to, to be displayed on Profile tab
 const getUserContributions = (user_id) => {
   return db.query(`
-    SELECT maps.id as map_id, maps.title as maps_title, maps.description, maps.creator_id, users.username as creator_username 
+    SELECT maps.id, maps.title, maps.description, maps.creator_id, users.username as creator_username 
     FROM contributions 
     JOIN maps ON contributions.map_id = maps.id
     JOIN users ON maps.creator_id = users.id
     WHERE contributions.user_id = $1;
   `, [user_id])
     .then(data => {
-      return data.rows[0];
+      return data.rows;
     })
     .catch((err) => {
       console.log(err);

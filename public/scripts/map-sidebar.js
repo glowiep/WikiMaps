@@ -43,15 +43,12 @@ $(() => {
         // Append new list items based on API response
         $.each(maps, function (index, map) { // eventually link to http://localhost:8080/api/maps/<map_id>
           $myMapsList.append(`
-          <div id="my-maps-list">
             <div class="card" id = map${map.id}>
             <a class="map-list-item">
               <div class="map-card"><b> ${map.title}  </b></div>
               <div class="map-card"> ${map.description} </div>
-
             </a>
             </div>
-          </div>
           `)
         });
       },
@@ -61,6 +58,36 @@ $(() => {
     });
   }
   loadMyMaps();
+
+  // This loads the list of maps in the contributions tab (for logged in user)
+  function loadContributions() {
+    $.ajax({
+      url: `/maps/:user_id/contributions`,
+      type: "GET"
+    })
+    .done((response) => {
+      const $myContribList = $('#my-contrib-list')
+
+      // Clear existing list items
+      $myContribList.empty();
+
+      // Append new list items based on API response
+      for (const map of response["data"]) {
+        $myContribList.append(`
+          <div class="card" id = map${map.id}>
+            <a class="map-list-item">
+              <div class="map-card"><b> ${map.title}  </b></div>
+              <div class="map-card"> ${map.description} </div>
+            </a>
+          </div>
+          `)
+        }
+      })
+      .fail((xhr, status, error) => {
+        console.error("Error:", error);
+      });
+  };
+  loadContributions();
   
 
   // This loads the list of public maps in the Discover tab (for logged in user)
@@ -79,11 +106,9 @@ $(() => {
       // Append new list items based on API response
       for (const map of response.maps) {  // eventually link to http://localhost:8080/api/maps/<map_id>
         $mapList.append(`
-      <div id="map-list">
         <div class="card">
           <i class="fa-solid fa-magnifying-glass"></i> <a class="map-list-item" href="#"><b>` + map.title + `</b></a>
         </div>
-      </div>
       `)
       }
     })
