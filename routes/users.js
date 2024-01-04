@@ -60,7 +60,7 @@ router.get("/signup", (req, res) => {
 // router.post("/maps/:map_id/user_id/edit", (req, res) => {
 //   res.render("");
 // });
-// router.post("/maps/:map_id/user_id/favourite", (req, res) => {
+// router.post("/maps/:map_id/user_id/favorite", (req, res) => {
 //   res.render("");
 // });
 // router.post("/maps/:map_id/user_id/points_id/edit", (req, res) => {

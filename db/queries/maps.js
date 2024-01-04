@@ -74,8 +74,8 @@ const createPoints = (description, latitude, longitude, map_id) => {
     });
 };
 
-// Get user favourite maps to be displayed on Profile tab
-const getUserFavourites = (user_id) => {
+// Get user favorite maps to be displayed on Profile tab
+const getUserFavorites = (user_id) => {
   return db
     .query(`
     SELECT DISTINCT maps.id as maps_id, maps.title as map_title, maps.description 
@@ -112,7 +112,7 @@ module.exports = {
   getPublicMaps,
   getUserMaps,
   getMapPoints,
-  getUserFavourites,
+  getUserFavorites,
   createMap,
   createPoints,
   getUserContributions
