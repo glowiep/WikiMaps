@@ -60,11 +60,11 @@ const getMapPoints = (map_id) => {
 };
 
 // Add new points to the database
-const createPoints = (description, latitude, longitude, map_id) => {
+const createPoints = (description,imageUrl, latitude, longitude, map_id) => {
   return db
     .query(
-      "INSERT INTO points (description, latitude, longitude, map_id) VALUES ($1, $2, $3, $4) RETURNING *",
-      [description, latitude, longitude, map_id]
+      "INSERT INTO points (description,image_url, latitude, longitude, map_id) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+      [description,imageUrl, latitude, longitude, map_id]
     )
     .then((data) => {
       return data.rows;
