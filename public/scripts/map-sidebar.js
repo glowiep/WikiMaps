@@ -3,7 +3,7 @@
 $(() => {
   // POST /maps/:username/:user_id/add
   
-  
+  let counter = 0;
   $("#mapForm").submit(function (event) {
     event.preventDefault();
     const title = $("#title").val();
@@ -23,6 +23,7 @@ $(() => {
         console.error("Error:", error);
       },
     });
+    this.reset();
   });
 
 

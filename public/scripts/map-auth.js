@@ -89,41 +89,44 @@ function updateMarkerList() {
   });
 
   window.addMarker = function () {
-    let description = document.getElementById("description").value;
-    let imageUrl = document.getElementById("image").value;
+    let description = $("#description").val(); // Using jQuery for value retrieval
+    let imageUrl = $("#image").val(); // Using jQuery for value retrieval
     let marker = L.marker(map.getCenter(), { draggable: true }).addTo(results);
     let latitude = marker.getLatLng().lat;
     let longitude = marker.getLatLng().lng
-    console.log("cortdinates>>>>>",latitude,longitude);
+    console.log("coordinates>>>>>", latitude, longitude);
+
     marker
       .bindPopup(
-        "<b>Description:</b> " +
-          description +
-          '<br><img src="' +
-          imageUrl +
-          '" alt="imagen" style="width:100%;">'
+        "<b>Description:</b> " + description +
+        '<br><img src="' + imageUrl + '" alt="imagen" style="width:100%;">'
       )
       .openPopup();
-      
-    markers.push({ marker: marker, description: description }); // Guardar el marcador y la descripción
+
+    markers.push({ marker: marker, description: description }); // Store the marker and description
+
+    // jQuery AJAX request
     $.ajax({
       url: "/maps/points/add",
       type: "POST",
       contentType: "application/json",
-      data: JSON.stringify({ description, imageUrl, latitude,longitude}),
+      data: JSON.stringify({ description, imageUrl, latitude, longitude }),
       success: function (map) {
         console.log("point created", map);
-       
       },
       error: function (xhr, status, error) {
         console.error("Error:", error);
       },
     });
+
     updateMarkerList();
-    document.getElementById("markerModal").style.display = "none";
-    document.getElementById("description").value = "";
-    document.getElementById("image").value = "";
-  };
+
+    // Using jQuery to hide the modal and reset form values
+    $("#markerModal").hide();
+    $("#description").val("");
+    $("#image").val("");
+};
+
 
   
 });

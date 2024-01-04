@@ -16,7 +16,6 @@ router.get("/", (req, res) => {
     .getUsers()
     .then((users) => {
       for (const user of users) {
-        console.log(">?>>>users", user);
         if (username === user.username && password === user.password) {
           req.session['user_id'] = user.id
           return res.redirect(`/maps/${username}/${user.id}`);
