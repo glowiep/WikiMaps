@@ -131,12 +131,18 @@ button:hover {
   justify-content: center;
   gap: 0.8em;
   margin-bottom: 1em;
-  a{
+  a, span{
     text-decoration: none;
     color: #17406c;
     i {
       font-size: 1.2em;
     }
+  }
+  button:focus {
+    outline: none;
+  }
+  .icon-button:hover {
+    background: transparent;
   }
 }
 
@@ -144,5 +150,16 @@ button:hover {
   transition: all 0.5s;
   scale: 1.4;
   color: goldenrod;
+  background: transparent;
   cursor: pointer;
 }
+
+.icon-button {
+  /* Remove default button styles */
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  color: inherit;
+}
+

@@ -22,10 +22,18 @@ $(() => {
                 <div class="map-card"> ${map.description} </div>
               </a>
               <div class="item-bar">
-                <a href="#"><i class="fa-solid fa-heart action-item"></i></a>
-                <a href="#"><i class="fa-solid fa-eye action-item"></i></a>
-                <a href="#"><i class="fa-solid fa-pen-to-square action-item"></i></a>
-                <a href="#"><i class="fa-solid fa-trash action-item"></i></a>
+                <button class="icon-button fav-button" type="submit">
+                  <span><i class="fa-solid fa-heart action-item"></i></span>
+                </button>
+                <button class="icon-button view-button" type="submit">
+                  <span><i class="fa-solid fa-eye action-item"></i></span>
+                </button>
+                <button class="icon-button edit-button" type="submit">
+                  <span><i class="fa-solid fa-pen-to-square action-item"></i></span>
+                </button>
+                <button class="icon-button delete-button" type="submit">
+                  <span><i class="fa-solid fa-trash action-item"></i></span>
+                </button>
               </div>
             </div>
           `)
@@ -62,9 +70,15 @@ $(() => {
               <div class="map-card"> ${map.description} </div>
             </a>
             <div class="item-bar">
-              <a href="#"><i class="fa-solid fa-heart action-item"></i></a>
-              <a href="#"><i class="fa-solid fa-eye action-item"></i></a>
-              <a href="#"><i class="fa-solid fa-pen-to-square action-item"></i></a>
+              <button class="icon-button fav-button" type="submit">
+                <span><i class="fa-solid fa-heart action-item"></i></span>
+              </button>
+              <button class="icon-button view-button" type="submit">
+                <span><i class="fa-solid fa-eye action-item"></i></span>
+              </button>
+              <button class="icon-button edit-button" type="submit">
+                <span><i class="fa-solid fa-pen-to-square action-item"></i></span>
+              </button>
             </div>
           </div>
           `)
@@ -101,11 +115,17 @@ $(() => {
             <div class="map-card"> ${map.description} </div>
             </a>
             <div class="item-bar">
-              <a href="#"><i class="fa-solid fa-eye action-item"></i></a>
-              <a href="#"><i class="fa-solid fa-heart-crack action-item"></i></a>
-              <a href="#"><i class="fa-solid fa-pen-to-square action-item"></i></a>
+              <button class="icon-button view-button" type="submit">
+                <span><i class="fa-solid fa-eye action-item"></i></span>
+              </button>
+              <button class="icon-button unfav-button" type="submit">
+                <span><i class="fa-solid fa-heart-crack action-item"></i></span>
+              </button>
+              <button class="icon-button edit-button" type="submit">
+                <span><i class="fa-solid fa-pen-to-square action-item"></i></span>
+              </button>
             </div>
-            </div>
+          </div>
           `)
         }
       })
