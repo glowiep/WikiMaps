@@ -29,11 +29,11 @@ $(() => {
 
   /**
    * Function to load maps for the user, displayed on the profile tab - My Maps
-   * GET /maps/:user_id
+   * GET /maps/:user_id/my-maps
    */
   function loadMyMaps() {
     $.ajax({
-      url: `/maps/:user_id`,
+      url: `/maps/:user_id/my-maps`,
       type: "GET",
       success: function (maps) {
         const $myMapsList = $('#my-maps-list')
@@ -43,15 +43,26 @@ $(() => {
         // Append new list items based on API response
         $.each(maps, function (index, map) { // eventually link to http://localhost:8080/api/maps/<map_id>
           $myMapsList.append(`
-          <div id="my-maps-list">
-            <div class="card" id = map${map.id}>
-            <a class="map-list-item">
-              <div class="map-card"><b> ${map.title}  </b></div>
-              <div class="map-card"> ${map.description} </div>
-
-            </a>
+            <div class="card" id=map${map.id}>
+              <a class="map-list-item">
+                <div class="map-card"><b> ${map.title}  </b></div>
+                <div class="map-card"> ${map.description} </div>
+              </a>
+              <div class="item-bar">
+                <button class="icon-button fav-button" type="submit">
+                  <span><i class="fa-solid fa-heart action-item"></i></span>
+                </button>
+                <button class="icon-button view-button" type="submit">
+                  <span><i class="fa-solid fa-eye action-item"></i></span>
+                </button>
+                <button class="icon-button edit-button" type="submit">
+                  <span><i class="fa-solid fa-pen-to-square action-item"></i></span>
+                </button>
+                <button class="icon-button delete-button" type="submit">
+                  <span><i class="fa-solid fa-trash action-item"></i></span>
+                </button>
+              </div>
             </div>
-          </div>
           `)
         });
       },
@@ -61,9 +72,91 @@ $(() => {
     });
   }
   loadMyMaps();
+
+  // This loads the list of maps in the contributions tab (for logged in user)
+  function loadContributions() {
+    $.ajax({
+      url: `/maps/:user_id/contributions`,
+      type: "GET"
+    })
+    .done((response) => {
+      const $myContribList = $('#my-contrib-list')
+
+      // Clear existing list items
+      $myContribList.empty();
+
+      // Append new list items based on API response
+      for (const map of response["data"]) {
+        $myContribList.append(`
+          <div class="card" id=map${map.id}>
+            <a class="map-list-item" href="#">
+              <div class="map-card"><b> ${map.title}  </b></div>
+              <div class="map-card"> ${map.description} </div>
+            </a>
+            <div class="item-bar">
+              <button class="icon-button fav-button" type="submit">
+                <span><i class="fa-solid fa-heart action-item"></i></span>
+              </button>
+              <button class="icon-button view-button" type="submit">
+                <span><i class="fa-solid fa-eye action-item"></i></span>
+              </button>
+              <button class="icon-button edit-button" type="submit">
+                <span><i class="fa-solid fa-pen-to-square action-item"></i></span>
+              </button>
+            </div>
+          </div>
+          `)
+        }
+      })
+      .fail((xhr, status, error) => {
+        console.error("Error:", error);
+      });
+  };
+  loadContributions();
+
+  // This loads the list of maps in the contributions tab (for logged in user)
+  function loadFavorites() {
+    $.ajax({
+      url: `/maps/:user_id/favorites`,
+      type: "GET"
+    })
+    .done((response) => {
+      const $myFavList = $('#my-fav-list')
+
+      // Clear existing list items
+      $myFavList.empty();
+
+      // Append new list items based on API response
+      for (const map of response["data"]) {
+        $myFavList.append(`
+          <div class="card" id=map${map.id}>
+            <a class="map-list-item" href="#">
+            <div class="map-card"><b> ${map.title}  </b></div>
+            <div class="map-card"> ${map.description} </div>
+            </a>
+            <div class="item-bar">
+            <button class="icon-button view-button" type="submit">
+              <span><i class="fa-solid fa-eye action-item"></i></span>
+            </button>
+            <button class="icon-button unfav-button" type="submit">
+              <span><i class="fa-solid fa-heart-crack action-item"></i></span>
+            </button>
+            <button class="icon-button edit-button" type="submit">
+              <span><i class="fa-solid fa-pen-to-square action-item"></i></span>
+            </button>
+            </div>
+            </div>
+          `)
+        }
+      })
+      .fail((xhr, status, error) => {
+        console.error("Error:", error);
+      });
+  };
+  loadFavorites();
   
 
-  // This loads the list of public maps in the Discover tab (for logged in user)
+  // /maps/:username/:user_id/api/maps/list - loads Discover tab public maps list (for logged in user)
   const $fetchMapList = function() {
     $.ajax({
       url: 'api/maps/list',
@@ -79,11 +172,13 @@ $(() => {
       // Append new list items based on API response
       for (const map of response.maps) {  // eventually link to http://localhost:8080/api/maps/<map_id>
         $mapList.append(`
-      <div id="map-list">
-        <div class="card">
-          <i class="fa-solid fa-magnifying-glass"></i> <a class="map-list-item" href="#"><b>` + map.title + `</b></a>
+        <div class="card" id=map${map.id}>
+          <button class="icon-button view-button" type="submit">
+            <span><i class="fa-solid fa-magnifying-glass action-item"></i></span>
+          </button>       
+          <div class="map-card"><b> ${map.title} </b></div>
+          <div class="map-card"> ${map.description} </div>
         </div>
-      </div>
       `)
       }
     })

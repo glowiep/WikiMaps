@@ -8,6 +8,7 @@
 const express = require("express");
 const router = express.Router();
 const mapQueries = require("../db/queries/maps");
+
 // GET /maps/:username/:user_id/:map_id
 router.get("/:username/:user_id/:map_id", (req, res) => {
   const { map_id } = req.params;
@@ -21,18 +22,8 @@ router.get("/:username/:user_id/:map_id", (req, res) => {
       res.status(500).json({ error: err.message });
     });
 });
-router.get("/:user_id", (req, res) => {
-  const user_id = req.session["user_id"];
-  mapQueries
-    .getUserMaps(user_id)
-    .then((data) => {
-      res.json(data);
-      console.log("maps>>>>>",data);
-    })
-    .catch((err) => {
-      res.status(500).json({ error: err.message });
-    });
-});
+
+// GET /maps/:username/:user_id/add
 router.post("/:username/:user_id/add", (req, res) => {
   const { title, description, isPrivate} = req.body;
   const user_id = req.session["user_id"];
@@ -50,6 +41,8 @@ router.post("/:username/:user_id/add", (req, res) => {
       res.status(500).json({ error: err.message });
     });
 });
+
+// POST /maps/points/add
 router.post('/points/add', (req, res) => {
   const { description,imageUrl, latitude, longitude } = req.body;
   const map_id = 1;
@@ -66,21 +59,58 @@ router.post('/points/add', (req, res) => {
       });
 });
 
-// full url GET maps/:username/:user_id/profile/my-maps
-router.get("/:username/:user_id/profile/my-maps", (req, res) => {
+// GET maps/:username/:user_id/profile/my-maps
+// router.get("/:username/:user_id/profile/my-maps", (req, res) => {
+//   const user_id = req.session["user_id"];
+//   mapQueries
+//     .getUserMaps(user_id)
+//     .then((maps) => {
+//       console.log(">>>>>>>", maps);
+//       res.json({ maps });
+//     })
+//     .catch((err) => {
+//       res.status(500).json({ err: err.message });
+//     });
+// });
+
+// GET /maps/:user_id - Display my maps list
+router.get("/:user_id/my-maps", (req, res) => {
   const user_id = req.session["user_id"];
   mapQueries
     .getUserMaps(user_id)
-    .then((maps) => {
-      console.log(">>>>>>>", maps);
-      res.json({ maps });
+    .then((data) => {
+      res.json(data);
+      
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err.message });
+    });
+});
+
+// GET maps/:username/:user_id/contributions
+router.get("/:user_id/contributions", (req, res) => {
+  const user_id = req.session["user_id"];
+  mapQueries
+    .getUserContributions(user_id)
+    .then((data) => {
+      res.json({ data });
     })
     .catch((err) => {
       res.status(500).json({ err: err.message });
     });
 });
 
-// Test with curl -X GET http://localhost:8080/maps/:username/:user_id/:map_id:
-// curl -X GET http://localhost:8080/maps/HappyMapper/4/1
+// GET maps/:username/:user_id/favorites
+router.get("/:user_id/favorites", (req, res) => {
+  const user_id = req.session["user_id"];
+  mapQueries
+    .getUserFavorites(user_id)
+    .then((data) => {
+      res.json({ data });
+    })
+    .catch((err) => {
+      res.status(500).json({ err: err.message });
+    });
+});
 
 module.exports = router;
