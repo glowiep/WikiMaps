@@ -1,7 +1,7 @@
 /*
  * All routes for Map data are defined here
  * Since this file is loaded in server.js into /maps,
- *   these routes are mounted onto /maps/:username/:user_id
+ *   these routes are mounted onto /maps
  * See: https://expressjs.com/en/guide/using-middleware.html#middleware.router
  */
 
@@ -57,60 +57,6 @@ router.post('/points/add', (req, res) => {
           console.error(err);
           res.status(500).json({ error: err.message });
       });
-});
-
-// GET maps/:username/:user_id/profile/my-maps
-// router.get("/:username/:user_id/profile/my-maps", (req, res) => {
-//   const user_id = req.session["user_id"];
-//   mapQueries
-//     .getUserMaps(user_id)
-//     .then((maps) => {
-//       console.log(">>>>>>>", maps);
-//       res.json({ maps });
-//     })
-//     .catch((err) => {
-//       res.status(500).json({ err: err.message });
-//     });
-// });
-
-// GET /maps/:user_id - Display my maps list
-router.get("/:user_id/my-maps", (req, res) => {
-  const user_id = req.session["user_id"];
-  mapQueries
-    .getUserMaps(user_id)
-    .then((data) => {
-      res.json(data);
-      
-    })
-    .catch((err) => {
-      res.status(500).json({ error: err.message });
-    });
-});
-
-// GET maps/:username/:user_id/contributions
-router.get("/:user_id/contributions", (req, res) => {
-  const user_id = req.session["user_id"];
-  mapQueries
-    .getUserContributions(user_id)
-    .then((data) => {
-      res.json({ data });
-    })
-    .catch((err) => {
-      res.status(500).json({ err: err.message });
-    });
-});
-
-// GET maps/:username/:user_id/favorites
-router.get("/:user_id/favorites", (req, res) => {
-  const user_id = req.session["user_id"];
-  mapQueries
-    .getUserFavorites(user_id)
-    .then((data) => {
-      res.json({ data });
-    })
-    .catch((err) => {
-      res.status(500).json({ err: err.message });
-    });
 });
 
 module.exports = router;

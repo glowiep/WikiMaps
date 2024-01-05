@@ -1,31 +1,118 @@
-// This loads the list of public maps in the Discover tab (for guest)
+/* Sidebar My Maps, Contributions and Favorites lists AJAX requests here */
 $(() => {
-  const $fetchMapList = function() {
+  /**
+   * Function to load maps for the user, displayed on the profile tab - My Maps
+   * GET /maps/:user_id/my-maps
+   */
+  function loadMyMaps() {
     $.ajax({
-      url: 'api/maps/list',
-      type: 'GET',
-      dataType: 'json'
+      url: `/maps/:user_id/my-maps`,
+      type: "GET",
+      success: function (maps) {
+        const $myMapsList = $('#my-maps-list')
+        // Clear existing list items
+        $myMapsList.empty();
+
+        // Append new list items based on API response
+        $.each(maps, function (index, map) { // eventually link to http://localhost:8080/api/maps/<map_id>
+          $myMapsList.append(`
+            <div class="card" id=map${map.id}>
+              <a class="map-list-item">
+                <div class="map-card"><b> ${map.title}  </b></div>
+                <div class="map-card"> ${map.description} </div>
+              </a>
+              <div class="item-bar">
+                <a href="#"><i class="fa-solid fa-heart action-item"></i></a>
+                <a href="#"><i class="fa-solid fa-eye action-item"></i></a>
+                <a href="#"><i class="fa-solid fa-pen-to-square action-item"></i></a>
+                <a href="#"><i class="fa-solid fa-trash action-item"></i></a>
+              </div>
+            </div>
+          `)
+        });
+      },
+      error: function (xhr, status, error) {
+        console.error("Error:", error);
+      },
+    });
+  }
+  loadMyMaps();
+
+  /**
+   * This loads the list of maps in the contributions tab (for logged in user)
+   * GET /maps/:user_id/contributions
+   */
+  function loadContributions() {
+    $.ajax({
+      url: `/maps/:user_id/contributions`,
+      type: "GET"
     })
     .done((response) => {
-      const $mapList = $('#map-list');
+      const $myContribList = $('#my-contrib-list')
+
       // Clear existing list items
-      $mapList.empty();
+      $myContribList.empty();
 
       // Append new list items based on API response
-      for (const map of response.maps) {  // eventually link to http://localhost:8080/api/maps/<map_id>
-        $mapList.append(`
-        <div class="card" id=map${map.id}>
-        <a class="map-card" href="#">  
-          <i class="fa-solid fa-magnifying-glass action-item"></i> 
-          <div class="map-card"><b> ${map.title} </b></div>
-          <div class="map-card"> ${map.description} </div>
-        </a>         
+      for (const map of response["data"]) {
+        $myContribList.append(`
+          <div class="card" id=map${map.id}>
+            <a class="map-list-item" href="#">
+              <div class="map-card"><b> ${map.title}  </b></div>
+              <div class="map-card"> ${map.description} </div>
+            </a>
+            <div class="item-bar">
+              <a href="#"><i class="fa-solid fa-heart action-item"></i></a>
+              <a href="#"><i class="fa-solid fa-eye action-item"></i></a>
+              <a href="#"><i class="fa-solid fa-pen-to-square action-item"></i></a>
+            </div>
           </div>
-        `)
-      }
-    })
+          `)
+        }
+      })
+      .fail((xhr, status, error) => {
+        console.error("Error:", error);
+      });
   };
+  loadContributions();
 
-  $fetchMapList();
+
+  /**
+   * This loads the list of maps in the contributions tab (for logged in user)
+   * GET /maps/:user_id/favorites
+   */
+  function loadFavorites() {
+    $.ajax({
+      url: `/maps/:user_id/favorites`,
+      type: "GET"
+    })
+    .done((response) => {
+      const $myFavList = $('#my-fav-list')
+
+      // Clear existing list items
+      $myFavList.empty();
+
+      // Append new list items based on API response
+      for (const map of response["data"]) {
+        $myFavList.append(`
+          <div class="card" id=map${map.id}>
+            <a class="map-list-item" href="#">
+            <div class="map-card"><b> ${map.title}  </b></div>
+            <div class="map-card"> ${map.description} </div>
+            </a>
+            <div class="item-bar">
+              <a href="#"><i class="fa-solid fa-eye action-item"></i></a>
+              <a href="#"><i class="fa-solid fa-heart-crack action-item"></i></a>
+              <a href="#"><i class="fa-solid fa-pen-to-square action-item"></i></a>
+            </div>
+            </div>
+          `)
+        }
+      })
+      .fail((xhr, status, error) => {
+        console.error("Error:", error);
+      });
+  };
+  loadFavorites();
 
 });
