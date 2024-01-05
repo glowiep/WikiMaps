@@ -43,7 +43,7 @@ $(() => {
         // Append new list items based on API response
         $.each(maps, function (index, map) { // eventually link to http://localhost:8080/api/maps/<map_id>
           $myMapsList.append(`
-            <div class="card" id = map${map.id}>
+            <div class="card" id=map${map.id}>
               <a class="map-list-item">
                 <div class="map-card"><b> ${map.title}  </b></div>
                 <div class="map-card"> ${map.description} </div>
@@ -80,7 +80,7 @@ $(() => {
       // Append new list items based on API response
       for (const map of response["data"]) {
         $myContribList.append(`
-          <div class="card" id = map${map.id}>
+          <div class="card" id=map${map.id}>
             <a class="map-list-item" href="#">
               <div class="map-card"><b> ${map.title}  </b></div>
               <div class="map-card"> ${map.description} </div>
@@ -115,7 +115,7 @@ $(() => {
       // Append new list items based on API response
       for (const map of response["data"]) {
         $myFavList.append(`
-          <div class="card" id = map${map.id}>
+          <div class="card" id=map${map.id}>
             <a class="map-list-item" href="#">
             <div class="map-card"><b> ${map.title}  </b></div>
             <div class="map-card"> ${map.description} </div>
