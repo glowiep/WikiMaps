@@ -94,18 +94,30 @@ function updateMarkerList() {
     let marker = L.marker(map.getCenter(), { draggable: true }).addTo(results);
     let latitude = marker.getLatLng().lat;
     let longitude = marker.getLatLng().lng
-    console.log("coordinates>>>>>", latitude, longitude);
-
-    marker
+    console.log("cortdinates>>>>>",latitude,longitude);
+    if (description === '') {
+      return alert('Please add a location description!');
+    }
+    if (imageUrl === '' && description !== '') {
+      marker
       .bindPopup(
-        "<b>Description:</b> " + description +
-        '<br><img src="' + imageUrl + '" alt="imagen" style="width:100%;">'
+        "<b>Description:</b> " +
+          description
       )
       .openPopup();
-
-    markers.push({ marker: marker, description: description }); // Store the marker and description
-
-    // jQuery AJAX request
+    } else {
+      marker
+        .bindPopup(
+          "<b>Description:</b> " +
+            description +
+            '<br><img src="' +
+            imageUrl +
+            '" alt="imagen" style="width:100%;">'
+        )
+        .openPopup();
+    }
+      
+    markers.push({ marker: marker, description: description }); // Guardar el marcador y la descripción
     $.ajax({
       url: "/maps/points/add",
       type: "POST",

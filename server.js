@@ -39,7 +39,6 @@ app.use(express.static("public"));
 const userApiRoutes = require("./routes/users-api");
 const mapListApiRoutes = require("./routes/map-list-api");
 const mapApiRoutes = require("./routes/map-api");
-// const widgetApiRoutes = require("./routes/widgets-api");
 const usersRoutes = require("./routes/users");
 
 // Mount all resource routes
@@ -49,7 +48,6 @@ app.use("/api/users", userApiRoutes);
 app.use("/maps/:username/api/maps", mapListApiRoutes); //for logged in user
 app.use("/maps", mapApiRoutes); //for logged in user
 app.use("/api/maps", mapListApiRoutes);
-// app.use("/api/widgets", widgetApiRoutes);
 app.use("/users", usersRoutes);
 // Note: mount other resources here, using the same pattern above
 
@@ -59,7 +57,8 @@ app.use("/users", usersRoutes);
 
 app.get("/", (req, res) => {
   const username = req.params.username;
-  const user_id = req.params.user_id;
+  // const user_id = req.params.user_id;
+  const user_id = req.session["user_id"]
   const templateVars = {
     username,
     user_id,
@@ -69,7 +68,8 @@ app.get("/", (req, res) => {
 
 app.get("/maps/:username/:user_id", (req, res) => {
   const username = req.params.username;
-  const user_id = req.params.user_id;
+  // const user_id = req.params.user_id;
+  const user_id = req.session["user_id"]
   const templateVars = {
     username,
     user_id,

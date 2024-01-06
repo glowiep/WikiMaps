@@ -11,8 +11,8 @@ h4 {
 }
 
 .modal-content {
-  background-color: #fefefe;
   margin: auto;
+  margin-top: 20vh;
   padding: 20px;
   border: 1px solid #888;
   width: 50%; /* O el ancho que prefieras */
@@ -66,13 +66,12 @@ button:hover {
   background-color: #f5f5f5;
   min-width: 280px;
   max-width: 350px;
-  min-height: 80px;
+  min-height: 100px;
   margin: 5px;
   padding: 5px;
   border-radius: 6px;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
 }
 
 .card:hover {
@@ -84,6 +83,10 @@ button:hover {
 .card {
   height: 20px;
   margin-bottom: 10px;
+  a{
+    text-decoration: none;
+    color: inherit;
+  }
 }
 
 .countryName {
@@ -111,4 +114,52 @@ button:hover {
   background-color: invisible;
   align-items: center;
   justify-content: center;
+  i {
+    font-size: 1.2em;
+    color: #17406c
+  }
+  b {
+    font-size: 1.1em;
+  }
+}
+
+.item-bar {
+  padding: 0em 1em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8em;
+  margin-bottom: 1em;
+  a, span{
+    text-decoration: none;
+    color: #17406c;
+    i {
+      font-size: 1.2em;
+    }
+  }
+  button:focus {
+    outline: none;
+  }
+}
+
+.icon-button:hover {
+  background: transparent;
+}
+
+.action-item:hover {
+  transition: all 0.5s;
+  scale: 1.4;
+  color: goldenrod;
+  background: transparent;
+  cursor: pointer;
+}
+
+.icon-button {
+  /* Remove default button styles */
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  color: inherit;
 }
