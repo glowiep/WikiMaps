@@ -9,8 +9,8 @@ const express = require("express");
 const router = express.Router();
 const mapQueries = require("../db/queries/maps");
 
-// GET /maps/:username/:user_id/:map_id
-router.get("/:username/:user_id/:map_id", (req, res) => {
+// GET /maps/:user_id/:map_id/points
+router.get("/:user_id/:map_id/points", (req, res) => {
   const { map_id } = req.params;
 
   mapQueries
@@ -81,6 +81,7 @@ router.post('/favorites/delete', (req, res) => {
   const { map_id } = req.body;
   const user_id = req.session["user_id"];
   console.log(user_id, map_id)
+
   // Delete the favorite from the database
   mapQueries.deleteFavorite(user_id, map_id)
       .then(result => {

@@ -163,3 +163,37 @@ button:hover {
   margin: 0;
   color: inherit;
 }
+
+.discover {
+  cursor: pointer;
+  button:focus {
+    outline: none;
+  }
+}
+
+// view-map tab
+#point-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+
+.point-item {
+  display: flex;
+  flex-direction: row;
+  align-items: space-between;
+  justify-content: space-between;
+}
+
+.point-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding-right: 1em;
+  gap: 0.5em;
+  width: fit-content;
+
+  .action-item {
+    color: #17406c;
+  }
+}
