@@ -95,15 +95,27 @@ function updateMarkerList() {
     let latitude = marker.getLatLng().lat;
     let longitude = marker.getLatLng().lng
     console.log("cortdinates>>>>>",latitude,longitude);
-    marker
+    if (description === '') {
+      return alert('Please add a location description!');
+    }
+    if (imageUrl === '' && description !== '') {
+      marker
       .bindPopup(
         "<b>Description:</b> " +
-          description +
-          '<br><img src="' +
-          imageUrl +
-          '" alt="imagen" style="width:100%;">'
+          description
       )
       .openPopup();
+    } else {
+      marker
+        .bindPopup(
+          "<b>Description:</b> " +
+            description +
+            '<br><img src="' +
+            imageUrl +
+            '" alt="imagen" style="width:100%;">'
+        )
+        .openPopup();
+    }
       
     markers.push({ marker: marker, description: description }); // Guardar el marcador y la descripción
     $.ajax({
