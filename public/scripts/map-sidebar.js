@@ -27,14 +27,24 @@ $(() => {
   
   /**
    * Action item: View Map button - display points list
-   * POST /maps/:user_id/:map_id/points
+   * GET /maps/:user_id/:map_id/points
    */
   $("#profile").on("click", ".view-button", function(e) {
     e.preventDefault();
-    console.log('view-button clicked!');
-    const map_id = $(this).closest('.card').find('.map-list-item').attr('id');
+    const map_id = $(this).closest('.card').attr('id');
     loadPoints(map_id);
-    
+  });
+
+  $("#fav-tab").on("click", ".view-button", function(e) {
+    e.preventDefault();
+    const map_id = $(this).closest('.card').attr('id');
+    loadPoints(map_id);
+  });
+
+  $("#discover-tab").on("click", ".discover", function(e) {
+    e.preventDefault();
+    const map_id = $(this).attr('id');
+    loadPoints(map_id);
   });
 
   /**
@@ -94,18 +104,17 @@ $(() => {
    */
   function loadPoints(map_id) {
     $.ajax({
-      url: `/maps/:user_id/:map_id/points`,
+      url: `/maps/:user_id/${map_id}/points`,
       type: "GET",
-      data: JSON.stringify({ map_id }),
       success: function (points) {
         console.log(points);
-        const $pointsList = $('#point-list')
+        const $pointList = $('#point-list')
         // Clear existing list items
-        $pointsList.empty();
+        $pointList.empty();
 
         // Append point list items based on API response
         $.each(points, function (index, point) {
-          $pointsList.append(`
+          $pointList.append(`
             <div class="point-item" id=${point.id}>
               <div>📍 ${point.description} </div>
               <div class="point-actions">
@@ -188,8 +197,8 @@ $(() => {
       // Append new list items based on API response
       for (const map of response["data"]) {
         $myContribList.append(`
-          <div class="card">
-            <a class="map-list-item" id=${map.id}>
+          <div class="card" id=${map.id}>
+            <a class="map-list-item">
               <div class="map-card"><b> ${map.title}  </b></div>
               <div class="map-card"> ${map.description} </div>
             </a>

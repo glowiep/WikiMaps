@@ -14,7 +14,7 @@ $(() => {
       // Append new list items based on API response
       for (const map of response.maps) {  // eventually link to http://localhost:8080/api/maps/<map_id>
         $mapList.append(`
-        <div class="card discover" id=map${map.id}>
+        <div class="card discover" id=${map.id}>
           <button class="icon-button view-button" type="submit">
             <span><i class="fa-solid fa-magnifying-glass action-item"></i></span>
           </button>       

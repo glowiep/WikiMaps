@@ -11,12 +11,13 @@ const mapQueries = require("../db/queries/maps");
 
 // GET /maps/:user_id/:map_id/points
 router.get("/:user_id/:map_id/points", (req, res) => {
+  console.log(req.params)
   const { map_id } = req.params;
 
   mapQueries
     .getMapPoints(map_id)
     .then((points) => {
-      res.json({ points });
+      res.json(points);
     })
     .catch((err) => {
       res.status(500).json({ error: err.message });
