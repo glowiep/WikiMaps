@@ -1,2 +1,6 @@
 // Client facing scripts here
 
+$(() => {
+  
+  
+});

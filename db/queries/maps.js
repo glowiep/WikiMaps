@@ -74,6 +74,32 @@ const createPoints = (description,imageUrl, latitude, longitude, map_id) => {
     });
 };
 
+// Add favorites
+const addFavorite = (user_id, map_id) => {
+  return db
+    .query(
+      "INSERT INTO favorites (user_id, map_id) VALUES ($1, $2) RETURNING *",
+      [user_id, map_id]
+    )
+    .then((data) => {
+      return data.rows;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
+// Delete favorites
+const deleteFavorite = (user_id, map_id) => {
+  return db
+    .query(
+      "DELETE FROM favorites WHERE user_id = $1 AND map_id = $2;",
+    )
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
 // Get maps user contributed to, to be displayed on Profile tab
 const getUserContributions = (user_id) => {
   return db.query(`
@@ -118,5 +144,7 @@ module.exports = {
   getUserFavorites,
   createMap,
   createPoints,
-  getUserContributions
+  getUserContributions,
+  addFavorite,
+  deleteFavorite
 };

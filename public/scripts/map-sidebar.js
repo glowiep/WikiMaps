@@ -43,14 +43,14 @@ $(() => {
         // Append new list items based on API response
         $.each(maps, function (index, map) { // eventually link to http://localhost:8080/api/maps/<map_id>
           $myMapsList.append(`
-            <div class="card" id=map${map.id}>
-              <a class="map-list-item">
+            <div class="card">
+              <a class="map-list-item" id=${map.id}>
                 <div class="map-card"><b> ${map.title}  </b></div>
                 <div class="map-card"> ${map.description} </div>
               </a>
               <div class="item-bar">
                 <button class="icon-button fav-button" type="submit">
-                  <span><i class="fa-solid fa-heart action-item"></i></span>
+                  <span><i class="fa-regular fa-heart action-item"></i></span>
                 </button>
                 <button class="icon-button view-button" type="submit">
                   <span><i class="fa-solid fa-eye action-item"></i></span>
@@ -89,13 +89,13 @@ $(() => {
       for (const map of response["data"]) {
         $myContribList.append(`
           <div class="card" id=map${map.id}>
-            <a class="map-list-item" href="#">
+            <a class="map-list-item">
               <div class="map-card"><b> ${map.title}  </b></div>
               <div class="map-card"> ${map.description} </div>
             </a>
             <div class="item-bar">
               <button class="icon-button fav-button" type="submit">
-                <span><i class="fa-solid fa-heart action-item"></i></span>
+                <span><i class="fa-regular fa-heart action-item"></i></span>
               </button>
               <button class="icon-button view-button" type="submit">
                 <span><i class="fa-solid fa-eye action-item"></i></span>
@@ -130,9 +130,9 @@ $(() => {
       for (const map of response["data"]) {
         $myFavList.append(`
           <div class="card" id=map${map.id}>
-            <a class="map-list-item" href="#">
-            <div class="map-card"><b> ${map.title}  </b></div>
-            <div class="map-card"> ${map.description} </div>
+            <a class="map-list-item">
+              <div class="map-card"><b> ${map.title}  </b></div>
+              <div class="map-card"> ${map.description} </div>
             </a>
             <div class="item-bar">
             <button class="icon-button view-button" type="submit">
@@ -185,4 +185,31 @@ $(() => {
   };
 
   $fetchMapList();
+
+  /**
+   * Action item: Favorite button
+   * POST /maps/favorites/add
+   */
+  $("#profile").on("click", ".fav-button", function(e) {
+    e.preventDefault();
+    console.log('Anchor clicked!');
+    const map_id = $(this).closest('.card').find('.map-list-item').attr('id');
+    console.log(JSON.stringify({ map_id }));
+    
+    $.ajax({
+      url: "/maps/favorites/add",
+      type: "POST",
+      contentType: "application/json",
+      data: JSON.stringify({ map_id }),
+      success: function (fav) {
+        console.log("favorite added created", fav);
+        
+      },
+      error: function (xhr, status, error) {
+        console.error("Error:", error);
+      },
+    });
+    loadFavorites();
+  });
+  
 })

@@ -59,6 +59,38 @@ router.post('/points/add', (req, res) => {
       });
 });
 
+// POST /maps/favorites/add
+router.post('/favorites/add', (req, res) => {
+  console.log(req)
+  const { map_id } = req.body;
+  const user_id = req.session["user_id"];
+
+  // Insert the favorite into the database
+  mapQueries.addFavorite(user_id, map_id)
+      .then(result => {
+        console.log(">>>>>>>",result);
+          res.json(result.rows);
+      })
+      .catch(err => {
+          console.error(err);
+          res.status(500).json({ error: err.message });
+      });
+});
+
+// POST /maps/favorites/add
+router.post('/favorites/delete', (req, res) => {
+  console.log(req)
+  const { map_id } = req.body;
+  const user_id = req.session["user_id"];
+
+  // Insert the favorite into the database
+  mapQueries.deleteFavorite(user_id, map_id)
+      .catch(err => {
+          console.error(err);
+          res.status(500).json({ error: err.message });
+      });
+});
+
 // GET maps/:username/:user_id/profile/my-maps
 // router.get("/:username/:user_id/profile/my-maps", (req, res) => {
 //   const user_id = req.session["user_id"];
