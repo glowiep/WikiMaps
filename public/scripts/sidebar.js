@@ -42,4 +42,11 @@ $(document).ready(function() {
     e.preventDefault();
     sidebar.open('map-tab');
   });
+
+  
+  /* GUEST */
+  // Open discover tab
+  $("#guest-discover").click(function (e) {
+    sidebar.open('discover-tab');
+  });
 });
