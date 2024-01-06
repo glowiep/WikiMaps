@@ -24,6 +24,20 @@ router.get("/:user_id/:map_id/points", (req, res) => {
     });
 });
 
+// GET /maps/:user_id/:map_id/map-info
+router.get("/:user_id/:map_id/map-info", (req, res) => {
+  const { map_id } = req.params;
+
+  mapQueries
+    .getMapInfo(map_id)
+    .then((map) => {
+      res.json(map);
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err.message });
+    });
+});
+
 // GET /maps/:username/:user_id/add
 router.post("/:username/:user_id/add", (req, res) => {
   const { title, description, isPrivate} = req.body;

@@ -32,18 +32,21 @@ $(() => {
   $("#profile").on("click", ".view-button", function(e) {
     e.preventDefault();
     const map_id = $(this).closest('.card').attr('id');
+    loadMapInfo(map_id);
     loadPoints(map_id);
   });
 
   $("#fav-tab").on("click", ".view-button", function(e) {
     e.preventDefault();
-    const map_id = $(this).closest('.card').attr('id');
+    const map_id = $(this).closest('.card').find('.map-list-item').attr('id');
+    loadMapInfo(map_id);
     loadPoints(map_id);
   });
 
   $("#discover-tab").on("click", ".discover", function(e) {
     e.preventDefault();
     const map_id = $(this).attr('id');
+    loadMapInfo(map_id);
     loadPoints(map_id);
   });
 
@@ -53,7 +56,7 @@ $(() => {
    */
   $("#profile").on("click", ".fav-button", function(e) {
     e.preventDefault();
-    const map_id = $(this).closest('.card').find('.map-list-item').attr('id');
+    const map_id = $(this).closest('.card').attr('id');
     console.log(JSON.stringify({ map_id }));
     
     $.ajax({
@@ -102,18 +105,60 @@ $(() => {
    * Function to load points based on the map_id, to display on the view tab
    * GET /maps/:user_id/points
    */
+  function loadMapInfo(map_id) {
+    $.ajax({
+      url: `/maps/:user_id/${map_id}/map-info`,
+      type: "GET",
+      success: function (maps) {
+        const $defaultText = $('#view-tab-default');
+        const $mapInfo = $('#map-info-div');
+        // Hide default view tab text
+        $defaultText.hide();
+        // Clear map info
+        $mapInfo.empty();
+
+        // Append point list items based on API response
+        $.each(maps, function (index, map) {
+          $mapInfo.append(`
+            <h6 id=${map.id}>MAP TITLE</h6>
+            <div id="map-title">${map.title}</div>
+            <br>
+            <h6>MAP DESCRIPTION</h6>
+            <div id="map-description">${map.description}</div>
+            <br>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="private" disabled readonly/>
+              <label class="form-check-label" for="private"> Private </label>
+            </div>
+            <button type="submit" class="btn btn-success" disabled>Save</button>
+          `)
+
+          if (map.private) {
+            $('.form-check-input').attr('checked', true);
+          } else {
+            $('.form-check').hide();
+          }
+        });
+      },
+      error: function (xhr, status, error) {
+        console.error("Error:", error);
+      },
+    });
+  }
+
+  /**
+   * Function to load points based on the map_id, to display on the view tab
+   * GET /maps/:user_id/points
+   */
   function loadPoints(map_id) {
     $.ajax({
       url: `/maps/:user_id/${map_id}/points`,
       type: "GET",
       success: function (points) {
         const $defaultText = $('#view-tab-default');
-        const $mapInfo = $('#map-info-div');
         const $pointList = $('#point-list');
         // Hide default view tab text
         $defaultText.hide();
-        // Clear map info
-        $mapInfo.empty();
         // Clear existing list items
         $pointList.empty();
 
@@ -300,7 +345,6 @@ $(() => {
       dataType: 'json'
     })
     .done((response) => {
-      console.log(response);
       const $mapList = $('#map-list');
       // Clear existing list items
       $mapList.empty();
