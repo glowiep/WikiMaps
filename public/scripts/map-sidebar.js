@@ -25,12 +25,23 @@ $(() => {
 
   
   /**
+   * Action item: View Map button - display points list
+   * POST /maps/:user_id/:map_id/points
+   */
+  $("#profile").on("click", ".view-button", function(e) {
+    e.preventDefault();
+    console.log('view-button clicked!');
+    const map_id = $(this).closest('.card').find('.map-list-item').attr('id');
+    loadPoints(map_id);
+    
+  });
+
+  /**
    * Action item: Favorite button
    * POST /maps/favorites/add
    */
   $("#profile").on("click", ".fav-button", function(e) {
     e.preventDefault();
-    console.log('Anchor clicked!');
     const map_id = $(this).closest('.card').find('.map-list-item').attr('id');
     console.log(JSON.stringify({ map_id }));
     
@@ -75,6 +86,44 @@ $(() => {
       },
     });
   });
+
+  /**
+   * Function to load points based on the map_id, to display on the view tab
+   * GET /maps/:user_id/points
+   */
+  function loadPoints(map_id) {
+    $.ajax({
+      url: `/maps/:user_id/:map_id/points`,
+      type: "GET",
+      data: JSON.stringify({ map_id }),
+      success: function (points) {
+        console.log(points);
+        const $pointsList = $('#point-list')
+        // Clear existing list items
+        $pointsList.empty();
+
+        // Append point list items based on API response
+        $.each(points, function (index, point) {
+          $pointsList.append(`
+            <div class="point-item" id=${point.id}>
+              <div>📍 ${point.description} </div>
+              <div class="point-actions">
+                <button class="icon-button edit-point-button" type="submit">
+                  <span><i class="fa-solid fa-pen-to-square action-item"></i></span>
+                </button>
+                <button class="icon-button delete-point-button" type="submit">
+                  <span><i class="fa-solid fa-trash action-item"></i></span>
+                </button>
+              </div>
+            </div>
+          `)
+        });
+      },
+      error: function (xhr, status, error) {
+        console.error("Error:", error);
+      },
+    });
+  }
 
 
   /**
