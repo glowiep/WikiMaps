@@ -163,3 +163,10 @@ button:hover {
   margin: 0;
   color: inherit;
 }
+
+.discover {
+  cursor: pointer;
+  button:focus {
+    outline: none;
+  }
+}

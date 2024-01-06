@@ -15,5 +15,31 @@ $(document).ready(function() {
   $("#point-button").click(function (e) {
     sidebar.open('map-tab');
   });
+  
+  // Open view-tab when view-button is clicked
+  $("#profile").on("click", ".view-button", function(e) {
+    e.preventDefault();
+    sidebar.open('view-tab');
+  });
 
+  $("#fav-tab").on("click", ".view-button", function(e) {
+    e.preventDefault();
+    sidebar.open('view-tab');
+  });
+
+  $("#discover-tab").on("click", ".card", function(e) {
+    e.preventDefault();
+    sidebar.open('view-tab');
+  });
+
+  // Open map-tab when edit-button is clicked
+  $("#profile").on("click", ".edit-button", function(e) {
+    e.preventDefault();
+    sidebar.open('map-tab');
+  });
+
+  $("#fav-tab").on("click", ".edit-button", function(e) {
+    e.preventDefault();
+    sidebar.open('map-tab');
+  });
 });

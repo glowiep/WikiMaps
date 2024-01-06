@@ -226,7 +226,7 @@ $(() => {
           <button class="icon-button view-button" type="submit">
             <span><i class="fa-solid fa-magnifying-glass action-item"></i></span>
           </button>       
-          <div class="map-card"><b> ${map.title} </b></div>
+          <div class="map-card discover"><b> ${map.title} </b></div>
           <div class="map-card"> ${map.description} </div>
         </div>
       `)
