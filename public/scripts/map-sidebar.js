@@ -2,8 +2,6 @@
 
 $(() => {
   // POST /maps/:username/:user_id/add
-  
-  
   $("#mapForm").submit(function (event) {
     event.preventDefault();
     const title = $("#title").val();
