@@ -6,23 +6,26 @@
   <h5>Map Details <i class="fa-solid fa-eye"></i></h5>
   <form id="map-details">
     <br>
-    <h6 id="guest-discover">View a map from Discover tab! <i class="fa-solid fa-earth-americas"></i></h6>
-    <br>
-    <p>If a map is selected, should see something like the following:</p>
+    <div id="view-tab-default">
+      <h6 id="guest-discover">View a map from Discover tab! <i class="fa-solid fa-earth-americas"></i></h6>
+    </div>
     <div id="map-info-div">
       <br>
-      <h5>Map title</h5>
+      <h6>MAP TITLE</h6>
+      <div id="map-title">title</div>
       <br>
-      <h5>Map description</h5>
+      <h6>MAP DESCRIPTION</h6>
+      <div id="map-description">desc</div>
       <br>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="private" disabled readonly/>
+        <label class="form-check-label" for="private"> Private </label>
+      </div>
+      <button type="submit" class="btn btn-success" disabled>Save</button>
     </div>
 
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" value="" id="private" disabled readonly/>
-      <label class="form-check-label" for="private"> Private </label>
-    </div>
     <ul></ul>
-    <button type="submit" class="btn btn-success" disabled>Save</button>
+
     <div id="point-list">
       <div class="point-item">
         <div>📍 Point description</div>

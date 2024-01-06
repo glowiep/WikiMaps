@@ -107,8 +107,13 @@ $(() => {
       url: `/maps/:user_id/${map_id}/points`,
       type: "GET",
       success: function (points) {
-        console.log(points);
-        const $pointList = $('#point-list')
+        const $defaultText = $('#view-tab-default');
+        const $mapInfo = $('#map-info-div');
+        const $pointList = $('#point-list');
+        // Hide default view tab text
+        $defaultText.hide();
+        // Clear map info
+        $mapInfo.empty();
         // Clear existing list items
         $pointList.empty();
 
