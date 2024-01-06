@@ -6,6 +6,10 @@ h4 {
   margin-top: 1em;
 }
 
+button:focus {
+  outline: none;
+}
+
 .sign-up-prompt {
   margin-top: 1em;
 }
@@ -176,6 +180,8 @@ button:hover {
   display: flex;
   flex-direction: column;
   gap: 0.5em;
+  margin-top: 1em;
+  margin-bottom: 1em;
 }
 
 .point-item {
@@ -196,4 +202,20 @@ button:hover {
   .action-item {
     color: #17406c;
   }
+}
+
+#map-title {
+  font-size: 1.5em;
+}
+
+#map-description {
+  font-size: 1.1em;
+}
+
+// Guest page styles
+#guest-discover {
+  cursor: pointer;
+}
+#guest-discover:hover {
+  color: goldenrod;
 }

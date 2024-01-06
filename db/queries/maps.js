@@ -59,6 +59,18 @@ const getMapPoints = (map_id) => {
     });
 };
 
+// Get points associated with a given map ID
+const getMapInfo = (map_id) => {
+  return db
+    .query("SELECT * FROM maps WHERE id = $1;", [map_id])
+    .then((data) => {
+      return data.rows;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
 // Add new points to the database
 const createPoints = (description,imageUrl, latitude, longitude, map_id) => {
   return db
@@ -154,6 +166,7 @@ module.exports = {
   getPublicMaps,
   getUserMaps,
   getMapPoints,
+  getMapInfo,
   getUserFavorites,
   createMap,
   createPoints,

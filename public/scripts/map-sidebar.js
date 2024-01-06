@@ -27,14 +27,27 @@ $(() => {
   
   /**
    * Action item: View Map button - display points list
-   * POST /maps/:user_id/:map_id/points
+   * GET /maps/:user_id/:map_id/points
    */
   $("#profile").on("click", ".view-button", function(e) {
     e.preventDefault();
-    console.log('view-button clicked!');
-    const map_id = $(this).closest('.card').find('.map-list-item').attr('id');
+    const map_id = $(this).closest('.card').attr('id');
+    loadMapInfo(map_id);
     loadPoints(map_id);
-    
+  });
+
+  $("#fav-tab").on("click", ".view-button", function(e) {
+    e.preventDefault();
+    const map_id = $(this).closest('.card').find('.map-list-item').attr('id');
+    loadMapInfo(map_id);
+    loadPoints(map_id);
+  });
+
+  $("#discover-tab").on("click", ".discover", function(e) {
+    e.preventDefault();
+    const map_id = $(this).attr('id');
+    loadMapInfo(map_id);
+    loadPoints(map_id);
   });
 
   /**
@@ -43,7 +56,7 @@ $(() => {
    */
   $("#profile").on("click", ".fav-button", function(e) {
     e.preventDefault();
-    const map_id = $(this).closest('.card').find('.map-list-item').attr('id');
+    const map_id = $(this).closest('.card').attr('id');
     console.log(JSON.stringify({ map_id }));
     
     $.ajax({
@@ -92,20 +105,66 @@ $(() => {
    * Function to load points based on the map_id, to display on the view tab
    * GET /maps/:user_id/points
    */
+  function loadMapInfo(map_id) {
+    $.ajax({
+      url: `/maps/:user_id/${map_id}/map-info`,
+      type: "GET",
+      success: function (maps) {
+        const $defaultText = $('#view-tab-default');
+        const $mapInfo = $('#map-info-div');
+        // Hide default view tab text
+        $defaultText.hide();
+        // Clear map info
+        $mapInfo.empty();
+
+        // Append point list items based on API response
+        $.each(maps, function (index, map) {
+          $mapInfo.append(`
+            <h6 id=${map.id}>MAP TITLE</h6>
+            <div id="map-title">${map.title}</div>
+            <br>
+            <h6>MAP DESCRIPTION</h6>
+            <div id="map-description">${map.description}</div>
+            <br>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="private" disabled readonly/>
+              <label class="form-check-label" for="private"> Private </label>
+            </div>
+            <button type="submit" class="btn btn-success" disabled>Save</button>
+          `)
+
+          if (map.private) {
+            $('.form-check-input').attr('checked', true);
+          } else {
+            $('.form-check').hide();
+          }
+        });
+      },
+      error: function (xhr, status, error) {
+        console.error("Error:", error);
+      },
+    });
+  }
+
+  /**
+   * Function to load points based on the map_id, to display on the view tab
+   * GET /maps/:user_id/points
+   */
   function loadPoints(map_id) {
     $.ajax({
-      url: `/maps/:user_id/:map_id/points`,
+      url: `/maps/:user_id/${map_id}/points`,
       type: "GET",
-      data: JSON.stringify({ map_id }),
       success: function (points) {
-        console.log(points);
-        const $pointsList = $('#point-list')
+        const $defaultText = $('#view-tab-default');
+        const $pointList = $('#point-list');
+        // Hide default view tab text
+        $defaultText.hide();
         // Clear existing list items
-        $pointsList.empty();
+        $pointList.empty();
 
         // Append point list items based on API response
         $.each(points, function (index, point) {
-          $pointsList.append(`
+          $pointList.append(`
             <div class="point-item" id=${point.id}>
               <div>📍 ${point.description} </div>
               <div class="point-actions">
@@ -188,8 +247,8 @@ $(() => {
       // Append new list items based on API response
       for (const map of response["data"]) {
         $myContribList.append(`
-          <div class="card">
-            <a class="map-list-item" id=${map.id}>
+          <div class="card" id=${map.id}>
+            <a class="map-list-item">
               <div class="map-card"><b> ${map.title}  </b></div>
               <div class="map-card"> ${map.description} </div>
             </a>
@@ -286,7 +345,6 @@ $(() => {
       dataType: 'json'
     })
     .done((response) => {
-      console.log(response);
       const $mapList = $('#map-list');
       // Clear existing list items
       $mapList.empty();

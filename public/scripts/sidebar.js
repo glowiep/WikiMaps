@@ -19,17 +19,23 @@ $(document).ready(function() {
   // Open view-tab when view-button is clicked
   $("#profile").on("click", ".view-button", function(e) {
     e.preventDefault();
-    sidebar.open('view-tab');
+    setTimeout( function() {
+      sidebar.open('view-tab');
+    }, 100)
   });
 
   $("#fav-tab").on("click", ".view-button", function(e) {
     e.preventDefault();
-    sidebar.open('view-tab');
+    setTimeout( function() {
+      sidebar.open('view-tab');
+    }, 100)
   });
 
   $("#discover-tab").on("click", ".card", function(e) {
     e.preventDefault();
-    sidebar.open('view-tab');
+    setTimeout( function() {
+      sidebar.open('view-tab');
+    }, 100)
   });
 
   // Open map-tab when edit-button is clicked
@@ -41,5 +47,12 @@ $(document).ready(function() {
   $("#fav-tab").on("click", ".edit-button", function(e) {
     e.preventDefault();
     sidebar.open('map-tab');
+  });
+
+  
+  /* GUEST */
+  // Open discover tab
+  $("#guest-discover").click(function (e) {
+    sidebar.open('discover-tab');
   });
 });
