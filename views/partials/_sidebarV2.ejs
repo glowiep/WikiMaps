@@ -106,7 +106,10 @@
       <input type="text" id="description" name="description" /><br /><br />
       <label for="image">Image (URL):</label>
       <input type="text" id="image" name="image" /><br /><br />
-      <button onclick="addMarker()">Add point</button>
+      <div class="item-bar">
+        <button onclick="addMarker()" class="btn btn-success">Add point</button>
+        <button id="closeModalBtn" class="btn btn-secondary">Close</button>
+      </div>
     </div>
   </div>
   <!-- <div id="mapBox" class="map-box" style="display: none">
