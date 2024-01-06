@@ -94,6 +94,7 @@ const deleteFavorite = (user_id, map_id) => {
   return db
     .query(
       "DELETE FROM favorites WHERE user_id = $1 AND map_id = $2;",
+      [user_id, map_id]
     )
     .catch((err) => {
       console.log(err.message);

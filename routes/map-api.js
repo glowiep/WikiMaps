@@ -50,7 +50,7 @@ router.post('/points/add', (req, res) => {
   // Insert the point into the database
   mapQueries.createPoints(description,imageUrl, latitude, longitude, map_id)
       .then(result => {
-        console.log(">>>>>>>",result);
+        console.log(">>>>>>>", result);
           res.json(result.rows);
       })
       .catch(err => {
@@ -61,14 +61,13 @@ router.post('/points/add', (req, res) => {
 
 // POST /maps/favorites/add
 router.post('/favorites/add', (req, res) => {
-  console.log(req)
   const { map_id } = req.body;
   const user_id = req.session["user_id"];
 
   // Insert the favorite into the database
   mapQueries.addFavorite(user_id, map_id)
       .then(result => {
-        console.log(">>>>>>>",result);
+        console.log(">>>>>>>", result);
           res.json(result.rows);
       })
       .catch(err => {
@@ -77,14 +76,17 @@ router.post('/favorites/add', (req, res) => {
       });
 });
 
-// POST /maps/favorites/add
+// POST /maps/favorites/delete
 router.post('/favorites/delete', (req, res) => {
-  console.log(req)
   const { map_id } = req.body;
   const user_id = req.session["user_id"];
-
-  // Insert the favorite into the database
+  console.log(user_id, map_id)
+  // Delete the favorite from the database
   mapQueries.deleteFavorite(user_id, map_id)
+      .then(result => {
+        console.log(">>>>>>>", result);
+          res.json(result.rows);
+      })
       .catch(err => {
           console.error(err);
           res.status(500).json({ error: err.message });

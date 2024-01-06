@@ -25,6 +25,58 @@ $(() => {
     });
   });
 
+  
+  /**
+   * Action item: Favorite button
+   * POST /maps/favorites/add
+   */
+  $("#profile").on("click", ".fav-button", function(e) {
+    e.preventDefault();
+    console.log('Anchor clicked!');
+    const map_id = $(this).closest('.card').find('.map-list-item').attr('id');
+    console.log(JSON.stringify({ map_id }));
+    
+    $.ajax({
+      url: "/maps/favorites/add",
+      type: "POST",
+      contentType: "application/json",
+      data: JSON.stringify({ map_id }),
+      success: function (fav) {
+        loadFavorites();
+        console.log("favorite added created", fav);
+        
+      },
+      error: function (xhr, status, error) {
+        loadFavorites();
+        console.error("Error:", error);
+      },
+    });
+  });
+
+   /**
+   * Action item: Remove Favorite button
+   * POST /maps/favorites/delete
+   */
+   $("#fav-tab").on("click", ".fa-heart-crack", function(e) {
+    e.preventDefault();
+    console.log('Anchor clicked!');
+    const map_id = $(this).closest('.card').attr('id');
+    console.log(JSON.stringify({ map_id }));
+    
+    $.ajax({
+      url: "/maps/favorites/delete",
+      type: "POST",
+      contentType: "application/json",
+      data: JSON.stringify({ map_id }),
+      success: function (unfav) {
+        loadFavorites();
+        console.log("favorite is deleted", unfav);
+      },
+      error: function (xhr, status, error) {
+        console.error("Error:", error);
+      },
+    });
+  });
 
 
   /**
@@ -88,7 +140,7 @@ $(() => {
       // Append new list items based on API response
       for (const map of response["data"]) {
         $myContribList.append(`
-          <div class="card" id=map${map.id}>
+          <div class="card" id=${map.id}>
             <a class="map-list-item">
               <div class="map-card"><b> ${map.title}  </b></div>
               <div class="map-card"> ${map.description} </div>
@@ -114,7 +166,7 @@ $(() => {
   };
   loadContributions();
 
-  // This loads the list of maps in the contributions tab (for logged in user)
+  // This loads the list of maps in the favorites tab (for logged in user)
   function loadFavorites() {
     $.ajax({
       url: `/maps/:user_id/favorites`,
@@ -129,7 +181,7 @@ $(() => {
       // Append new list items based on API response
       for (const map of response["data"]) {
         $myFavList.append(`
-          <div class="card" id=map${map.id}>
+          <div class="card" id=${map.id}>
             <a class="map-list-item">
               <div class="map-card"><b> ${map.title}  </b></div>
               <div class="map-card"> ${map.description} </div>
@@ -172,7 +224,7 @@ $(() => {
       // Append new list items based on API response
       for (const map of response.maps) {  // eventually link to http://localhost:8080/api/maps/<map_id>
         $mapList.append(`
-        <div class="card" id=map${map.id}>
+        <div class="card" id=${map.id}>
           <button class="icon-button view-button" type="submit">
             <span><i class="fa-solid fa-magnifying-glass action-item"></i></span>
           </button>       
@@ -186,30 +238,5 @@ $(() => {
 
   $fetchMapList();
 
-  /**
-   * Action item: Favorite button
-   * POST /maps/favorites/add
-   */
-  $("#profile").on("click", ".fav-button", function(e) {
-    e.preventDefault();
-    console.log('Anchor clicked!');
-    const map_id = $(this).closest('.card').find('.map-list-item').attr('id');
-    console.log(JSON.stringify({ map_id }));
-    
-    $.ajax({
-      url: "/maps/favorites/add",
-      type: "POST",
-      contentType: "application/json",
-      data: JSON.stringify({ map_id }),
-      success: function (fav) {
-        console.log("favorite added created", fav);
-        
-      },
-      error: function (xhr, status, error) {
-        console.error("Error:", error);
-      },
-    });
-    loadFavorites();
-  });
   
 })
