@@ -58,7 +58,7 @@ $(() => {
    $("#fav-tab").on("click", ".fa-heart-crack", function(e) {
     e.preventDefault();
     console.log('Anchor clicked!');
-    const map_id = $(this).closest('.card').attr('id');
+    const map_id = $(this).closest('.card').find('.map-list-item').attr('id');
     console.log(JSON.stringify({ map_id }));
     
     $.ajax({
@@ -138,8 +138,8 @@ $(() => {
       // Append new list items based on API response
       for (const map of response["data"]) {
         $myContribList.append(`
-          <div class="card" id=${map.id}>
-            <a class="map-list-item">
+          <div class="card">
+            <a class="map-list-item" id=${map.id}>
               <div class="map-card"><b> ${map.title}  </b></div>
               <div class="map-card"> ${map.description} </div>
             </a>
@@ -179,8 +179,8 @@ $(() => {
       // Append new list items based on API response
       for (const map of response["data"]) {
         $myFavList.append(`
-          <div class="card" id=${map.id}>
-            <a class="map-list-item">
+          <div class="card">
+            <a class="map-list-item" id=${map.id}>
               <div class="map-card"><b> ${map.title}  </b></div>
               <div class="map-card"> ${map.description} </div>
             </a>
