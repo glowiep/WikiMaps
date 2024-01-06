@@ -100,6 +100,18 @@ const deleteFavorite = (user_id, map_id) => {
       console.log(err.message);
     });
 };
+// Delete maps
+const deleteMaps = ( map_id) => {
+  return db
+    .query(
+      "DELETE FROM maps WHERE id = $1;",
+      [ map_id]
+    )
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
 
 // Get maps user contributed to, to be displayed on Profile tab
 const getUserContributions = (user_id) => {
@@ -147,5 +159,6 @@ module.exports = {
   createPoints,
   getUserContributions,
   addFavorite,
-  deleteFavorite
+  deleteFavorite,
+  deleteMaps
 };

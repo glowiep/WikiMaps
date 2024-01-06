@@ -93,6 +93,23 @@ router.post('/favorites/delete', (req, res) => {
       });
 });
 
+// POST /maps/:map_id/delete
+router.post('/:mapi_id/delete', (req, res) => {
+  const { map_id } = req.body;
+  const user_id = req.session["user_id"];
+  console.log("map id>>>>>>>>", map_id)
+  // Delete the favorite from the database
+  mapQueries.deleteMaps(map_id)
+      .then(result => {
+        console.log(">>>>>>>", result);
+          res.json(result.rows);
+      })
+      .catch(err => {
+          console.error(err);
+          res.status(500).json({ error: err.message });
+      });
+});
+
 // GET maps/:username/:user_id/profile/my-maps
 // router.get("/:username/:user_id/profile/my-maps", (req, res) => {
 //   const user_id = req.session["user_id"];

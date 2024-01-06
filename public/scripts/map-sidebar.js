@@ -94,8 +94,8 @@ $(() => {
         // Append new list items based on API response
         $.each(maps, function (index, map) { // eventually link to http://localhost:8080/api/maps/<map_id>
           $myMapsList.append(`
-            <div class="card">
-              <a class="map-list-item" id=${map.id}>
+            <div class="card" id=${map.id}>
+              <a class="map-list-item">
                 <div class="map-card"><b> ${map.title}  </b></div>
                 <div class="map-card"> ${map.description} </div>
               </a>
@@ -109,7 +109,7 @@ $(() => {
                 <button class="icon-button edit-button" type="submit">
                   <span><i class="fa-solid fa-pen-to-square action-item"></i></span>
                 </button>
-                <button class="icon-button delete-button" type="submit">
+                <button class="icon-button delete-button" type="submit" id = ${map.id}>
                   <span><i class="fa-solid fa-trash action-item"></i></span>
                 </button>
               </div>
@@ -206,6 +206,28 @@ $(() => {
   };
   loadFavorites();
   
+
+  $("#profile").on("click", ".fa-trash", function(e) {
+    e.preventDefault();
+    console.log('Delelte clicked!');
+    const map_id = $(this).closest('.card').attr('id');
+    console.log(">>>>>>>map_id<<<<<<",JSON.stringify({ map_id }));
+    
+    $.ajax({
+      url: "/maps/:map_id/delete",
+      type: "POST",
+      contentType: "application/json",
+      data: JSON.stringify({ map_id }),
+      success: function (del) {
+        loadMyMaps();
+        $fetchMapList();
+        console.log("maps is deleted", del);
+      },
+      error: function (xhr, status, error) {
+        console.error("Error:", error);
+      },
+    });
+  });
 
   // /maps/:username/:user_id/api/maps/list - loads Discover tab public maps list (for logged in user)
   const $fetchMapList = function() {
