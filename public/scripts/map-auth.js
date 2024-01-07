@@ -82,26 +82,26 @@ function updateMarkerList() {
     $list.append($listItem);
   });
 }
-// $('#save-button').prop('disabled', true);
+$('#save-button').prop('disabled', true);
 
-//     // Function to check the form inputs
-//     function checkFormInputs() {
-//         var allFilled = true;
+    // Function to check the form inputs
+    function checkFormInputs() {
+        var allFilled = true;
 
-//         $('#mapForm :input').each(function() {
-//             if ($(this).val() === '') {
-//                 allFilled = false;
-//                 return false; // break the loop
-//             }
-//         });
+        $('#mapForm :input').each(function() {
+            if ($(this).val() === '' && pointsData.length <= 0) {
+                allFilled = false;
+                return false; // break the loop
+            }
+        });
 
-//         $('#save-button').prop('disabled', allFilled);
-//     }
+        $('#save-button').prop('disabled', !allFilled);
+    }
 
-//     // Attach an event listener to input fields
-//     $('form :input').on('keyup change', function() {
-//         checkFormInputs();
-//     });
+    // Attach an event listener to input fields
+    $('form :input').on('keyup change', function() {
+        checkFormInputs();
+    });
   window.removeMarker = function (index) {
     map.removeLayer(pointsData[index].marker);
     pointsData.splice(index, 1);
