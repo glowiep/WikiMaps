@@ -1,9 +1,9 @@
 // For guest sidebar
 $(() => {
-  $("#discover-tab").on("click", ".discover", function(e) {
+  $("#map-list").on("click", ".card", function(e) {
     e.preventDefault();
     const map_id = $(this).attr('id');
-    loadMapInfo(map_id)
+    loadMapInfo(map_id);
     loadPoints(map_id);
   });
 

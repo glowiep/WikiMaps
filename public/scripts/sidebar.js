@@ -21,21 +21,21 @@ $(document).ready(function() {
     e.preventDefault();
     setTimeout( function() {
       sidebar.open('view-tab');
-    }, 100)
+    }, 150)
   });
 
   $("#fav-tab").on("click", ".view-button", function(e) {
     e.preventDefault();
     setTimeout( function() {
       sidebar.open('view-tab');
-    }, 100)
+    }, 150)
   });
 
   $("#discover-tab").on("click", ".card", function(e) {
     e.preventDefault();
     setTimeout( function() {
       sidebar.open('view-tab');
-    }, 100)
+    }, 150)
   });
 
   // Open map-tab when edit-button is clicked
@@ -47,6 +47,13 @@ $(document).ready(function() {
   $("#fav-tab").on("click", ".edit-button", function(e) {
     e.preventDefault();
     sidebar.open('map-tab');
+  });
+
+  // View tab opens after map is created to show map info
+  $("#save-button").click(function (e) {
+    setTimeout(() => {
+      sidebar.open('view-tab');
+    }, 100);
   });
 
   
