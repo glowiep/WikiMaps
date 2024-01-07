@@ -55,6 +55,10 @@ $(() => {
         // Clear existing list items
         $pointList.empty();
 
+        $pointList.append(`
+          <button id="contribute-button" class="btn btn-success">Contribute</button>
+        `)
+
         // Append point list items based on API response
         $.each(points, function (index, point) {
           $pointList.append(`

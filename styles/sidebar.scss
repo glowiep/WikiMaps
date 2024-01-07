@@ -212,6 +212,10 @@ button:hover {
   font-size: 1.1em;
 }
 
+#contribute-button {
+  max-width: fit-content;
+}
+
 // Guest page styles
 #guest-discover {
   cursor: pointer;
