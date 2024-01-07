@@ -56,7 +56,11 @@ $(() => {
         $pointList.empty();
 
         $pointList.append(`
-          <button id="contribute-button" class="btn btn-success">Contribute</button>
+          <div class="point-actions">
+            <button id="contribute-button" class="btn btn-success" type="submit">Contribute</button>
+            <button id="save-contribution" class="btn btn-warning" type="submit">Save</button>
+          </div>
+          <div id="contrib-marker-list"></div>
         `)
 
         // Append point list items based on API response
@@ -72,12 +76,23 @@ $(() => {
             </div>
           `)
         });
+        hideContributionSave();
+
+        if ($("#contrib-marker-list").is(':empty')) {
+          $.getScript("./map-auth.js", function () {
+            $.clearContribLayer()
+          });
+        }
       },
       error: function (xhr, status, error) {
         console.error("Error:", error);
       },
     });
   }
+
+  function hideContributionSave () {
+    $("#save-contribution").hide();
+  };
 
 
   // This loads the list of public maps in the Discover tab (for guest)

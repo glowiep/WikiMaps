@@ -38,6 +38,11 @@ $(() => {
         },
       });
     }
+
+  /**
+   * Action item: Contribute - Add point to existing map
+   * 
+   */
   
   /**
    * Action item: Delete point button - delete point
@@ -74,6 +79,15 @@ $(() => {
     const map_id = $(this).closest('.card').attr('id');
     loadMapInfo(map_id);
     loadPoints(map_id);
+
+    // Clear contribution points layer if exists
+    setTimeout(() => {
+      if ($("#contrib-marker-list").length === 0 || $("#contrib-marker-list").is(':empty')) {
+        $.getScript("./map-auth.js", function () {
+          $.clearContribLayer();
+        });
+      }
+    }, 150);
   });
 
   $("#fav-tab").on("click", ".view-button", function(e) {
@@ -81,6 +95,15 @@ $(() => {
     const map_id = $(this).closest('.card').find('.map-list-item').attr('id');
     loadMapInfo(map_id);
     loadPoints(map_id);
+
+    // Clear contribution points layer if exists
+    setTimeout(() => {
+      if ($("#contrib-marker-list").length > 0 && $("#contrib-marker-list").is(':empty')) {
+        $.getScript("./map-auth.js", function () {
+          $.clearContribLayer();
+        });
+      }
+    }, 150);
   });
 
   $("#map-list").on("click", ".card", function(e) {

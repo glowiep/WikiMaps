@@ -3,6 +3,7 @@ $(document).ready(function () {
   // This setup the leafmap object by linking the map() method to the map id (in <section> html element)
   const map = L.map("map").setView([43.644218, -79.402229], 13);
   let pointsData = [];
+  let contribPointsData = [];
   let tempLatLng;
 
   // Add OpenStreetMap tileLayer
@@ -59,29 +60,81 @@ $(document).ready(function () {
 //   function addMarkerToMap(lat, lng, description) {
 //     L.marker([lat, lng]).bindPopup(description).addTo(map);
 // }
-function updateMarkerList() {
-  var $list = $("#marker-list ul").first();
-  $list.empty();
+  function updateMarkerList() {
+    var $list = $("#marker-list ul").first();
+    $list.empty();
 
-  pointsData.forEach(function (markerObj, index) {
-    var $listItem = $("<li>");
+    pointsData.forEach(function (markerObj, index) {
+      var $listItem = $("<li>");
 
-    var $button = $('<button>Delete</button>')
-      .click(function() {
-        removeMarker(index);
-      });
+      var $button = $('<button>Delete</button>')
+        .click(function() {
+          removeMarker(index);
+        });
 
-    $listItem
-      .html(markerObj.description + ' ')
-      .append($button)
-      .click(function () {
-        map.setView(markerObj.marker.getLatLng(), 13); // Center the map on the marker
-        markerObj.marker.openPopup(); // Open the marker's popup
-      });
+      $listItem
+        .html(markerObj.description + ' ')
+        .append($button)
+        .click(function () {
+          map.setView(markerObj.marker.getLatLng(), 13); // Center the map on the marker
+          markerObj.marker.openPopup(); // Open the marker's popup
+        });
 
-    $list.append($listItem);
-  });
-}
+      $list.append($listItem);
+    });
+  }
+
+  // Update Contrib Marker List
+  function updateContribMarkerList() {
+    let $contribList = $("#contrib-marker-list");
+    // let $listAction = $("#contrib-marker-list").on("click", ".fa-trash", function() {
+    //   removeMarker(index);
+    // })
+    $contribList.empty();
+
+    contribPointsData.forEach(function (markerObj, index) {
+      $contribList.append(`
+        <div class="point-item">
+          <div>🟡 ${markerObj.description} </div>
+          <div class="point-actions">
+            <button class="icon-button delete-point-button" type="submit">
+              <span><i class="fa-solid fa-trash action-item"></i></span>
+            </button>
+          </div>
+        </div>
+        `)
+        .click(function () {
+          map.setView(markerObj.marker.getLatLng(), 13); // Center the map on the marker
+          markerObj.marker.openPopup(); // Open the marker's popup
+        });
+        
+        $("#view-tab").on("click", ".fa-trash", function() {
+          removeContribMarker(index);
+        });
+    });
+    
+
+    if ($contribList.is(':not(:empty)')) {
+      $("#save-contribution").show();
+    } else {
+      $("#save-contribution", contribPointsData).hide();
+    };
+  }
+
+  // Contributions - Export clear leaflet layer contributionPointsData
+  (function($) {
+    function clearContribLayer () {
+      for (let i = 0; i < contribPointsData.length; i++ ) {
+        map.removeLayer(contribPointsData[i].marker);
+      }
+      map.removeLayer(contribPointsData);
+      contribPointsData.length = 0;
+    }
+
+    $.clearContribLayer = clearContribLayer;
+    
+  })(jQuery);
+
 // $('#save-button').prop('disabled', true);
 
 //     // Function to check the form inputs
@@ -108,8 +161,23 @@ function updateMarkerList() {
     updateMarkerList();
   };
 
+  // Contributions - Remove a single contribution marker
+  window.removeContribMarker = function (index) {
+    map.removeLayer(contribPointsData[index].marker);
+    contribPointsData.splice(index, 1);
+    updateContribMarkerList();
+  };
+
+  // Map Creation - Show add point dialog
   $("#point-button").click(function (e) {
-    document.getElementById("markerModal").style.display = "block";
+    e.preventDefault();
+    $("#markerModal").css("display", "block");
+  });
+
+  // Contributions - Contribute button
+  $("#view-tab").on("click", "#contribute-button", function(e) {
+    e.preventDefault();
+    $("#contrib-markerModal").css("display", "block");
   });
 
   window.addMarker = function () {
@@ -156,7 +224,7 @@ function updateMarkerList() {
     $("#markerModal").hide();
     $("#description").val("");
     $("#image").val("");
-};
+  };
 
 (function($) {
   function createPoint (map_id) {
@@ -171,12 +239,57 @@ function updateMarkerList() {
         contentType: "application/json",
         data: JSON.stringify({ description, imageUrl, latitude, longitude, map_id })
       });
-    } 
-    
+    }     
   }
 
+  $.createPoint = createPoint;
+  })(jQuery);
 
-$.createPoint = createPoint;
-})(jQuery);
+
+  // Add contribution marker
+  window.addContribMarker = function () {
+      
+    let description = $("#contrib-description").val(); // Using jQuery for value retrieval
+    let imageUrl = $("#contrib-image").val(); // Using jQuery for value retrieval
+    let marker = L.marker(map.getCenter(), { draggable: true }).addTo(results);
+
+    
+    marker.on('dragend', function (event) {
+      let latitude = event.target.getLatLng().lat;
+      let longitude = event.target.getLatLng().lng;
+      contribPointsData.push({ marker: marker, description: description,latitude: latitude, longitude: longitude, imageUrl: imageUrl})
+      console.log(">>>>> contrib array", contribPointsData);
+      updateContribMarkerList();
+      marker.dragging.disable();
+    })
+    
+    if (description === '') {
+      return alert('Please add a location description!');
+    }
+    if (imageUrl === '' && description !== '') {
+      marker
+      .bindPopup(
+        "<b>Description:</b> " +
+          description
+      )
+      .openPopup();
+    } else {
+      marker
+        .bindPopup(
+          "<b>Description:</b> " +
+            description +
+            '<br><img src="' +
+            imageUrl +
+            '" alt="imagen" style="width:100%;">'
+        )
+        .openPopup();
+    }
+    // Using jQuery to hide the modal and reset form values
+    
+    console.log("array points>>>>",contribPointsData);
+    $("#contrib-markerModal").hide();
+    $("#contrib-description").val("");
+    $("#contrib-image").val("");
+  };
 
 });

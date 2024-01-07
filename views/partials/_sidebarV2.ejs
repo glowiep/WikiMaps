@@ -112,6 +112,19 @@
       </div>
     </div>
   </div>
+  <div id="contrib-markerModal" class="modal">
+    <div class="modal-content">
+      <h3>Information about the point</h3>
+      <label for="contrib-description">Description:</label>
+      <input type="text" id="contrib-description" name="description" /><br /><br />
+      <label for="image">Image (URL):</label>
+      <input type="text" id="contrib-image" name="image" /><br /><br />
+      <div class="item-bar">
+        <button onclick="addContribMarker()" class="btn btn-success">Add point</button>
+        <button id="contrib-closeModalBtn" class="btn btn-secondary">Close</button>
+      </div>
+    </div>
+  </div>
   <!-- <div id="mapBox" class="map-box" style="display: none">
     <form id="mapForm">
       <div class="map-box-form">
