@@ -16,6 +16,21 @@ const createMap = (title, description, isPrivate, creatorId) => {
     });
 };
 
+// Add contribution
+const addContribution = (user_id, map_id, point_id) => {
+  return db
+    .query(
+      `INSERT INTO contributions (user_id, map_id, point_id) VALUES ($1, $2, $3) RETURNING *`,
+      [user_id, map_id, point_id]
+    )
+    .then((data) => {
+      return data.rows;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
 // Get the list of public maps to display on Discover page
 const getPublicMaps = () => {
   return db
