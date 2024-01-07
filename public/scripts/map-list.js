@@ -61,11 +61,8 @@ $(() => {
             <div class="point-item" id=${point.id}>
               <div>📍 ${point.description} </div>
               <div class="point-actions">
-                <button class="icon-button edit-point-button" type="submit">
-                  <span><i class="fa-solid fa-pen-to-square action-item"></i></span>
-                </button>
-                <button class="icon-button delete-point-button" type="submit">
-                  <span><i class="fa-solid fa-trash action-item"></i></span>
+                <button class="icon-button view-point-button" type="submit">
+                  <span><i class="fa-solid fa-eye action-item"></i></span>
                 </button>
               </div>
             </div>
