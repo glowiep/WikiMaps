@@ -38,17 +38,6 @@ $(document).ready(function() {
     }, 150)
   });
 
-  // Open map-tab when edit-button is clicked
-  $("#profile").on("click", ".edit-button", function(e) {
-    e.preventDefault();
-    sidebar.open('map-tab');
-  });
-
-  $("#fav-tab").on("click", ".edit-button", function(e) {
-    e.preventDefault();
-    sidebar.open('map-tab');
-  });
-
   // View tab opens after map is created to show map info
   $("#save-button").click(function (e) {
     setTimeout(() => {
