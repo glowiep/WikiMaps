@@ -20,11 +20,18 @@ $(() => {
         data: JSON.stringify({ title, description, isPrivate }),
         success: function (map) {
           console.log("Map created:", map);
-          loadMyMaps();
-          $fetchMapList();
           $.getScript("./map-auth.js", function () {
             $.createPoint(map.id)
           });
+
+          setTimeout(() => {
+            loadMapInfo(map.id)
+            loadPoints(map.id)
+          }, 150);
+
+          loadMyMaps();
+          loadFavorites();
+          $fetchMapList();
         },
         error: function (xhr, status, error) {
           console.error("Error:", error);
@@ -50,7 +57,7 @@ $(() => {
     loadPoints(map_id);
   });
 
-  $("#discover-tab").on("click", ".discover", function(e) {
+  $("#map-list").on("click", ".card", function(e) {
     e.preventDefault();
     const map_id = $(this).attr('id');
     loadMapInfo(map_id);
@@ -134,17 +141,11 @@ $(() => {
             <div id="map-description">${map.description}</div>
             <br>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="private" disabled readonly/>
+              <input class="form-check-input" type="checkbox" value="" id="private"/>
               <label class="form-check-label" for="private"> Private </label>
             </div>
             <button type="submit" class="btn btn-success" disabled>Save</button>
           `)
-
-          if (map.private) {
-            $('.form-check-input').attr('checked', true);
-          } else {
-            $('.form-check').hide();
-          }
         });
       },
       error: function (xhr, status, error) {
