@@ -2,7 +2,7 @@
 $(document).ready(function () {
   // This setup the leafmap object by linking the map() method to the map id (in <section> html element)
   const map = L.map("map").setView([43.644218, -79.402229], 13);
-  let markers = [];
+  let pointsData = [];
   let tempLatLng;
 
   // Add OpenStreetMap tileLayer
@@ -60,27 +60,51 @@ $(document).ready(function () {
 //     L.marker([lat, lng]).bindPopup(description).addTo(map);
 // }
 function updateMarkerList() {
-  let list = document
-    .getElementById("marker-list")
-    .getElementsByTagName("ul")[0];
-  list.innerHTML = "";
-  markers.forEach(function (markerObj, index) {
-    let listItem = document.createElement("li");
-    listItem.innerHTML =
-      markerObj.description +
-      ' <button onclick="removeMarker(' +
-      index +
-      ')">Delete</button>';
-    listItem.onclick = function () {
-      map.setView(markerObj.marker.getLatLng(), 13); // Centrar el mapa en el marcador
-      markerObj.marker.openPopup(); // Abrir el popup del marcador
-    };
-    list.appendChild(listItem);
+  var $list = $("#marker-list ul").first();
+  $list.empty();
+
+  pointsData.forEach(function (markerObj, index) {
+    var $listItem = $("<li>");
+
+    var $button = $('<button>Delete</button>')
+      .click(function() {
+        removeMarker(index);
+      });
+
+    $listItem
+      .html(markerObj.description + ' ')
+      .append($button)
+      .click(function () {
+        map.setView(markerObj.marker.getLatLng(), 13); // Center the map on the marker
+        markerObj.marker.openPopup(); // Open the marker's popup
+      });
+
+    $list.append($listItem);
   });
 }
+// $('#save-button').prop('disabled', true);
+
+//     // Function to check the form inputs
+//     function checkFormInputs() {
+//         var allFilled = true;
+
+//         $('#mapForm :input').each(function() {
+//             if ($(this).val() === '') {
+//                 allFilled = false;
+//                 return false; // break the loop
+//             }
+//         });
+
+//         $('#save-button').prop('disabled', allFilled);
+//     }
+
+//     // Attach an event listener to input fields
+//     $('form :input').on('keyup change', function() {
+//         checkFormInputs();
+//     });
   window.removeMarker = function (index) {
-    map.removeLayer(markers[index].marker);
-    markers.splice(index, 1);
+    map.removeLayer(pointsData[index].marker);
+    pointsData.splice(index, 1);
     updateMarkerList();
   };
 
@@ -89,12 +113,22 @@ function updateMarkerList() {
   });
 
   window.addMarker = function () {
+    
     let description = $("#description").val(); // Using jQuery for value retrieval
     let imageUrl = $("#image").val(); // Using jQuery for value retrieval
     let marker = L.marker(map.getCenter(), { draggable: true }).addTo(results);
-    let latitude = marker.getLatLng().lat;
-    let longitude = marker.getLatLng().lng
-    console.log("cortdinates>>>>>",latitude,longitude);
+
+    
+    
+    marker.on('dragend', function (event) {
+      let latitude = event.target.getLatLng().lat;
+      let longitude = event.target.getLatLng().lng;
+      pointsData.push({ marker: marker, description: description,latitude: latitude, longitude: longitude, imageUrl: imageUrl})
+      console.log(">>>>> array 2", pointsData);
+      updateMarkerList();
+      marker.dragging.disable();
+    })
+    
     if (description === '') {
       return alert('Please add a location description!');
     }
@@ -116,29 +150,33 @@ function updateMarkerList() {
         )
         .openPopup();
     }
-      
-    markers.push({ marker: marker, description: description }); // Guardar el marcador y la descripción
-    $.ajax({
-      url: "/maps/points/add",
-      type: "POST",
-      contentType: "application/json",
-      data: JSON.stringify({ description, imageUrl, latitude, longitude }),
-      success: function (map) {
-        console.log("point created", map);
-      },
-      error: function (xhr, status, error) {
-        console.error("Error:", error);
-      },
-    });
-
-    updateMarkerList();
-
     // Using jQuery to hide the modal and reset form values
+    
+    console.log("array points>>>>",pointsData);
     $("#markerModal").hide();
     $("#description").val("");
     $("#image").val("");
 };
 
+(function($) {
+  function createPoint (map_id) {
+    for (const point of pointsData) {
+      let description = point.description;
+      let latitude = point.latitude;
+      let longitude = point.longitude;
+      let imageUrl = point.imageUrl;
+      $.ajax({
+        url: "/maps/points/add",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({ description, imageUrl, latitude, longitude, map_id })
+      });
+    } 
+    
+  }
 
-  
+
+$.createPoint = createPoint;
+})(jQuery);
+
 });
