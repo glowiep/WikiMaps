@@ -112,12 +112,25 @@ const deleteFavorite = (user_id, map_id) => {
       console.log(err.message);
     });
 };
+
 // Delete maps
 const deleteMaps = ( map_id) => {
   return db
     .query(
       "DELETE FROM maps WHERE id = $1;",
       [ map_id]
+    )
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
+// Delete points
+const deletePoint = (point_id) => {
+  return db
+    .query(
+      "DELETE FROM points WHERE id = $1;",
+      [point_id]
     )
     .catch((err) => {
       console.log(err.message);
@@ -173,5 +186,6 @@ module.exports = {
   getUserContributions,
   addFavorite,
   deleteFavorite,
-  deleteMaps
+  deleteMaps,
+  deletePoint
 };

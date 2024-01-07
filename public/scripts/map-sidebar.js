@@ -40,6 +40,32 @@ $(() => {
     }
   
   /**
+   * Action item: Delete point button - delete point
+   * POST /maps/:point_id/points
+   */
+  $("#view-tab").on("click", ".fa-trash", function(e) {
+    e.preventDefault();
+    console.log('Point delete clicked!');
+    const point_id = $(this).closest('.point-item').attr('id');
+    console.log(">>>>>point_id",JSON.stringify({ point_id }));
+    
+    $.ajax({
+      url: "/maps/:point_id/delete",
+      type: "POST",
+      contentType: "application/json",
+      data: JSON.stringify({ point_id }),
+      success: function (del) {
+        loadPoints(point_id);
+        console.log("point is deleted", del);
+      },
+      error: function (xhr, status, error) {
+        console.error("Error:", error);
+      },
+    });
+  });
+
+
+  /**
    * Action item: View Map button - display points list
    * GET /maps/:user_id/:map_id/points
    */
