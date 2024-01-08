@@ -129,6 +129,41 @@ export function createPoint (map_id) {
       // Append point list items based on API response
       $.each(maps, function (index, map) {
         $mapInfo.append(`
+          <h6 id=${map.id} class="map-title-info">MAP TITLE</h6>
+          <div id="map-title">${map.title}</div>
+          <br>
+          <h6>MAP DESCRIPTION</h6>
+          <div id="map-description">${map.description}</div>
+          <br>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="private"/>
+            <label class="form-check-label" for="private"> Private </label>
+          </div>
+          <button type="submit" class="btn btn-success" disabled>Save</button>
+        `)
+      });
+    },
+    error: function (xhr, status, error) {
+      console.error("Error:", error);
+    }
+  });
+}
+
+export function loadDiscoverMapInfo(map_id) {
+  $.ajax({
+    url: `/maps/:user_id/${map_id}/map-info`,
+    type: "GET",
+    success: function (maps) {
+      const $defaultText = $('#view-tab-default');
+      const $mapInfo = $('#map-info-div');
+      // Hide default view tab text
+      $defaultText.hide();
+      // Clear map info
+      $mapInfo.empty();
+
+      // Append point list items based on API response
+      $.each(maps, function (index, map) {
+        $mapInfo.append(`
         <h6 id=${map.id} class="map-title-info">MAP TITLE</h6>
         <div id="map-title">${map.title}</div>
         <br>
@@ -145,10 +180,10 @@ export function createPoint (map_id) {
 }
 
 /**
-   * Function to load points based on the map_id, to display on the view tab
+   * Function to load points based on the map_id, to display on the view tab via DISCOVER
    * GET /maps/:user_id/points
    */
-export function loadPoints(map_id) {
+export function loadPointsDiscover(map_id) {
   $.ajax({
     url: `/maps/:user_id/${map_id}/points`,
     type: "GET",
@@ -191,6 +226,45 @@ export function loadPoints(map_id) {
         console.error("Error:", error);
       }
     });
+}
+
+/**
+   * Function to load points based on the map_id, to display on the view tab - via user profile
+   * GET /maps/:user_id/points
+   */
+export function loadPoints(map_id) {
+  $.ajax({
+    url: `/maps/:user_id/${map_id}/points`,
+    type: "GET",
+    success: function (points) {
+      const $defaultText = $('#view-tab-default');
+      const $pointList = $('#point-list');
+      // Hide default view tab text
+      $defaultText.hide();
+      // Clear existing list items
+      $pointList.empty();
+
+      // Append point list items based on API response
+      $.each(points, function (index, point) {
+        $pointList.append(`
+          <div class="point-item" id=${point.id}>
+            <div>📍 ${point.description} </div>
+            <div class="point-actions">
+              <button class="icon-button edit-point-button" type="submit">
+                <span><i class="fa-solid fa-pen-to-square action-item"></i></span>
+              </button>
+              <button class="icon-button delete-point-button" type="submit">
+                <span><i class="fa-solid fa-trash action-item"></i></span>
+              </button>
+            </div>
+          </div>
+        `)
+      });
+    },
+    error: function (xhr, status, error) {
+      console.error("Error:", error);
+    },
+  });
 }
 
 function hideContributionSave () {
@@ -613,3 +687,38 @@ export function updateContribMarkerList() {
     $("#save-contribution").hide();
   };
 }
+
+/**
+   * Action item: Contribute - Add point to existing map
+   * POST /maps/:username/:user_id/add-contribution
+   */
+export function createContribPoint(map_id) {
+  const promises = [];
+
+  for (const point of contribPointsData) {
+    let description = point.description;
+    let latitude = point.latitude;
+    let longitude = point.longitude;
+    let imageUrl = point.imageUrl;
+
+    // Promise to add contribution points to the points table
+    const addContribPointPromise = new Promise((resolve, reject) => {
+      $.ajax({
+        url: "/maps/points/add",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({ description, imageUrl, latitude, longitude, map_id }),
+        success: function (point) {
+          resolve(point);
+        },
+        error: function (xhr, status, error) {
+          reject(error);
+        }
+      });
+    });
+
+    promises.push(addContribPointPromise);
+  }
+  
+    return Promise.all(promises);
+  }
