@@ -268,6 +268,45 @@ export function loadPoints(map_id) {
   });
 }
 
+/**
+   * For GUEST - Function to load points based on the map_id, to display on the view tab via DISCOVER
+   * GET /maps/:user_id/points
+   */
+export function loadGuestPoints(map_id) {
+  $.ajax({
+    url: `/maps/:user_id/${map_id}/points`,
+    type: "GET",
+    success: function (points) {
+      console.log(points);
+      const $pointList = $('#point-list')
+      // Clear existing list items
+      $pointList.empty();
+
+        // Append point list items based on API response
+        $.each(points, function (index, point) {
+          $pointList.append(`
+            <div class="point-item" id=${point.id}>
+              <div>📍 ${point.description} </div>
+              <div class="point-actions">
+                <button class="icon-button view-point-button" type="submit">
+                  <span><i class="fa-solid fa-eye action-item"></i></span>
+                </button>
+              </div>
+            </div>
+          `)
+        });
+        hideContributionSave();
+
+        if ($("#contrib-marker-list").is(':empty')) {
+          clearContribLayer();
+        }
+      },
+      error: function (xhr, status, error) {
+        console.error("Error:", error);
+      }
+    });
+}
+
 function hideContributionSave () {
   $("#save-contribution").hide();
 };
@@ -541,9 +580,10 @@ export function addPointsToMap(map_id){
     success: function (points) {
       console.log("checking the point event>>>>", points);
       $.each(points, function (indexInArray, point) {
+        console.log("checking the point img>>>>", point.image_url);
         bounds.push([point.latitude,point.longitude]);
       let description = point.description;
-      let imageUrl = point["image_url"];
+      let imageUrl = point.image_url;
       let marker = L.marker([point.latitude,point.longitude]).addTo(results);
       map.fitBounds(bounds);
       marker
@@ -656,7 +696,7 @@ export function removeMarker (index) {
   pointsData.splice(index, 1);
   updateMarkerList();
 };
-
+// Contributions - Remove a single contribution marker
 export function removeContribMarker (index) {
   map.removeLayer(contribPointsData[index].marker);
   contribPointsData.splice(index, 1);

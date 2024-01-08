@@ -1,18 +1,19 @@
 /* Leaflet related scripts here */
 import { 
-  updateContribMarkerList,
+  // updateContribMarkerList,
   addContribMarker,
+  // removeContribMarker,
   addMarker,
   checkFormInputs
 } from "/scripts/helpers.js";
 
 $(() => {
   // Contributions - Remove a single contribution marker
-  window.removeContribMarker = function (index) {
-    map.removeLayer(contribPointsData[index].marker);
-    contribPointsData.splice(index, 1);
-    updateContribMarkerList();
-  };
+  // window.removeContribMarker = function (index) {
+  //   map.removeLayer(contribPointsData[index].marker);
+  //   contribPointsData.splice(index, 1);
+  //   updateContribMarkerList();
+  // };
 
   $("#save-button").prop("disabled", true);
   $("form :input").on("keyup change", function () {
