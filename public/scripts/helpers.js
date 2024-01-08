@@ -129,13 +129,13 @@ export function createPoint (map_id) {
       // Append point list items based on API response
       $.each(maps, function (index, map) {
         $mapInfo.append(`
-          <h6 id=${map.id}>MAP TITLE</h6>
-          <div id="map-title">${map.title}</div>
-          <br>
-          <h6>MAP DESCRIPTION</h6>
-          <div id="map-description">${map.description}</div>
-          <br>
-        `)
+        <h6 id=${map.id} class="map-title-info">MAP TITLE</h6>
+        <div id="map-title">${map.title}</div>
+        <br>
+        <h6>MAP DESCRIPTION</h6>
+        <div id="map-description">${map.description}</div>
+        <br>
+      `)
       });
     },
     error: function (xhr, status, error) {
@@ -158,28 +158,44 @@ export function loadPoints(map_id) {
       // Clear existing list items
       $pointList.empty();
 
-      // Append point list items based on API response
-      $.each(points, function (index, point) {
-        $pointList.append(`
-          <div class="point-item" id=${point.id}>
-            <div>📍 ${point.description} </div>
-            <div class="point-actions">
-            <button class="icon-button edit-point-button" type="submit">
-              <span><i class="fa-solid fa-pen-to-square action-item"></i></span>
-            </button>
-            <button class="icon-button delete-point-button" type="submit">
-              <span><i class="fa-solid fa-trash action-item"></i></span>
-            </button>
-            </div>
+      $pointList.append(`
+          <div class="point-actions">
+            <button id="contribute-button" class="btn btn-success" type="submit">Contribute</button>
+            <button id="save-contribution" class="btn btn-warning" type="submit">Save</button>
           </div>
+          <div id="contrib-marker-list"></div>
         `)
-      });
-    },
-    error: function (xhr, status, error) {
-      console.error("Error:", error);
-    },
-  });
+
+        // Append point list items based on API response
+        $.each(points, function (index, point) {
+          $pointList.append(`
+            <div class="point-item" id=${point.id}>
+              <div>📍 ${point.description} </div>
+              <div class="point-actions">
+                <button class="icon-button view-point-button" type="submit">
+                  <span><i class="fa-solid fa-eye action-item"></i></span>
+                </button>
+              </div>
+            </div>
+          `)
+        });
+        hideContributionSave();
+
+        if ($("#contrib-marker-list").is(':empty')) {
+          $.getScript("./map-auth.js", function () {
+            $.clearContribLayer()
+          });
+        }
+      },
+      error: function (xhr, status, error) {
+        console.error("Error:", error);
+      }
+    });
 }
+
+function hideContributionSave () {
+  $("#save-contribution").hide();
+};
 
  // This loads the list of public maps in the Discover tab (for guest)
  export function fetchMapList() {
