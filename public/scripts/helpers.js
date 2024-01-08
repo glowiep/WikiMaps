@@ -517,3 +517,11 @@ export function removeMarker (index) {
   pointsData.splice(index, 1);
   updateMarkerList();
 };
+
+export function clearContribLayer () {
+  for (let i = 0; i < contribPointsData.length; i++ ) {
+    map.removeLayer(contribPointsData[i].marker);
+  }
+  map.removeLayer(contribPointsData);
+  contribPointsData.length = 0;
+}

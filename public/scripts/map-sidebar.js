@@ -1,5 +1,5 @@
 /* Sidebar AJAX requests here */
-import { createPoint,createMap,loadFavorites,loadContributions,loadMapInfo,loadMyMaps,addPointsToMap,fetchMapList,loadPoints } from "/scripts/helpers.js";
+import { createPoint,createMap,loadFavorites,loadContributions,loadMapInfo,loadMyMaps,addPointsToMap,fetchMapList,loadPoints,clearContribLayer } from "/scripts/helpers.js";
 $(() => {
   // POST /maps/:username/:user_id/add
   $("#mapForm").submit(function (event) {
@@ -30,9 +30,7 @@ $(() => {
     // Clear contribution points layer if exists
     setTimeout(() => {
       if ($("#contrib-marker-list").length === 0 || $("#contrib-marker-list").is(':empty')) {
-        $.getScript("./map-auth.js", function () {
-          $.clearContribLayer();
-        });
+        clearContribLayer();
       }
     }, 150);
   });
@@ -46,9 +44,7 @@ $(() => {
     // Clear contribution points layer if exists
     setTimeout(() => {
       if ($("#contrib-marker-list").length > 0 && $("#contrib-marker-list").is(':empty')) {
-        $.getScript("./map-auth.js", function () {
-          $.clearContribLayer();
-        });
+        clearContribLayer();
       }
     }, 150);
 
