@@ -235,9 +235,6 @@ export function loadFavorites() {
           <button class="icon-button unfav-button" type="submit">
             <span><i class="fa-solid fa-heart-crack action-item"></i></span>
           </button>
-          <button class="icon-button edit-button" type="submit">
-            <span><i class="fa-solid fa-pen-to-square action-item"></i></span>
-          </button>
           </div>
           </div>
         `)
@@ -274,9 +271,6 @@ export function loadContributions() {
             </button>
             <button class="icon-button view-button" type="submit">
               <span><i class="fa-solid fa-eye action-item"></i></span>
-            </button>
-            <button class="icon-button edit-button" type="submit">
-              <span><i class="fa-solid fa-pen-to-square action-item"></i></span>
             </button>
           </div>
         </div>
@@ -315,9 +309,6 @@ export function loadContributions() {
               </button>
               <button class="icon-button view-button" type="submit">
                 <span><i class="fa-solid fa-eye action-item"></i></span>
-              </button>
-              <button class="icon-button edit-button" type="submit">
-                <span><i class="fa-solid fa-pen-to-square action-item"></i></span>
               </button>
               <button class="icon-button delete-button" type="submit" id = ${map.id}>
                 <span><i class="fa-solid fa-trash action-item"></i></span>
