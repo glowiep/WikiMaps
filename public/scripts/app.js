@@ -8,4 +8,12 @@ $(() => {
     var markerModal = $("#markerModal");
     markerModal.hide();
   }
+
+  $("#contrib-closeModalBtn").on("click", function () {
+    closeContribMarkerModal();
+  });
+  function closeContribMarkerModal() {
+    var contribMarkerModal = $("#contrib-markerModal");
+    contribMarkerModal.hide();
+  }
 });
