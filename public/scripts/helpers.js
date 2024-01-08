@@ -109,8 +109,8 @@ export function createPoint (map_id) {
       contentType: "application/json",
       data: JSON.stringify({ description, imageUrl, latitude, longitude, map_id })
     });
-  } 
-  
+  }
+
 }
 
  /**
@@ -252,7 +252,7 @@ export function loadPoints(map_id) {
             <div>📍 ${point.description} </div>
             <div class="point-actions">
               <button class="icon-button edit-point-button" type="submit">
-                <span><i class="fa-solid fa-pen-to-square action-item"></i></span>
+                <span><i class="fa-solid fa-solid fa-eye action-item action-item"></i></span>
               </button>
               <button class="icon-button delete-point-button" type="submit">
                 <span><i class="fa-solid fa-trash action-item"></i></span>
@@ -290,7 +290,7 @@ function hideContributionSave () {
       <div class="card discover" id=${map.id}>
         <button class="icon-button view-button" type="submit">
           <span><i class="fa-solid fa-magnifying-glass action-item"></i></span>
-        </button>       
+        </button>
         <div class="map-card"><b> ${map.title} </b></div>
         <div class="map-card"> ${map.description} </div>
       </div>
@@ -413,7 +413,7 @@ export function loadContributions() {
       console.error("Error:", error);
     },
   });
-} 
+}
 
 //  /**
 //    * Function to load points based on the map_id, to display on the view tab
@@ -505,7 +505,7 @@ export function loadContributions() {
 // }
 
 export function createMap() {
-    
+
   const title = $("#title").val();
   const description = $("#map-description").val();
   const isPrivate = $("#private").is(":checked");
@@ -517,7 +517,7 @@ export function createMap() {
     success: function (map) {
       console.log("Map created:", map);
       createPoint(map.id);
-      
+
       setTimeout(() => {
         loadMapInfo(map.id)
         loadPoints(map.id)
@@ -533,16 +533,19 @@ export function createMap() {
   });
 }
 export function addPointsToMap(map_id){
+  let bounds = []
   results.clearLayers();
   $.ajax({
     url: `/maps/:user_id/${map_id}/points`,
     type: "GET",
     success: function (points) {
       console.log("checking the point event>>>>", points);
-      $.each(points, function (indexInArray, point) { 
+      $.each(points, function (indexInArray, point) {
+        bounds.push([point.latitude,point.longitude]);
       let description = point.description;
       let imageUrl = point["image_url"];
       let marker = L.marker([point.latitude,point.longitude]).addTo(results);
+      map.fitBounds(bounds);
       marker
       .bindPopup(
         "<b>Description:</b> " +
@@ -609,7 +612,7 @@ export function addContribMarker () {
   let imageUrl = $("#contrib-image").val(); // Using jQuery for value retrieval
   let marker = L.marker(map.getCenter(), { draggable: true }).addTo(results);
 
-  
+
   marker.on('dragend', function (event) {
     let latitude = event.target.getLatLng().lat;
     let longitude = event.target.getLatLng().lng;
@@ -618,7 +621,7 @@ export function addContribMarker () {
     updateContribMarkerList();
     marker.dragging.disable();
   })
-  
+
   if (description === '') {
     return alert('Please add a location description!');
   }
@@ -641,7 +644,7 @@ export function addContribMarker () {
       .openPopup();
   }
   // Using jQuery to hide the modal and reset form values
-  
+
   console.log("array points>>>>",contribPointsData);
   $("#contrib-markerModal").hide();
   $("#contrib-description").val("");
@@ -691,12 +694,12 @@ export function updateContribMarkerList() {
         map.setView(markerObj.marker.getLatLng(), 13); // Center the map on the marker
         markerObj.marker.openPopup(); // Open the marker's popup
       });
-      
+
       $("#view-tab").on("click", ".contrib-marker-delete", function() {
         removeContribMarker(index);
       });
   });
-  
+
 
   if ($contribList.is(':not(:empty)')) {
     $("#save-contribution").show();
@@ -737,6 +740,6 @@ export function createContribPoint(map_id) {
 
     promises.push(addContribPointPromise);
   }
-  
+
     return Promise.all(promises);
 }
