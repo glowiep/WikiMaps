@@ -95,6 +95,7 @@ $(() => {
     const map_id = $(this).attr('id');
     loadDiscoverMapInfo(map_id);
     loadDiscoverPoints(map_id);
+    addPointsToMap(map_id);
   });
 
   
