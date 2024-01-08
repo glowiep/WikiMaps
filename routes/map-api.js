@@ -27,7 +27,6 @@ router.get("/:user_id/:map_id/points", (req, res) => {
 // GET /maps/:user_id/:map_id/map-info
 router.get("/:user_id/:map_id/map-info", (req, res) => {
   const { map_id } = req.params;
-
   mapQueries
     .getMapInfo(map_id)
     .then((map) => {
