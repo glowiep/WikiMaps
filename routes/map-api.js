@@ -74,6 +74,24 @@ router.post('/points/add', (req, res) => {
       });
 });
 
+// POST /maps/:username/:user_id/add-contribution
+router.post('/:username/:user_id/add-contribution', (req, res) => {
+  const { map_id, point_id } = req.body;
+  const user_id = req.session["user_id"];
+  console.log(req.session);
+
+  // Insert the point into the database
+  mapQueries.addContribution(user_id, map_id, point_id)
+      .then(result => {
+        console.log(">>>>>>>contribution Points", result);
+          res.json(result.rows);
+      })
+      .catch(err => {
+          console.error(err);
+          res.status(500).json({ error: err.message });
+      });
+});
+
 // POST /maps/favorites/add
 router.post('/favorites/add', (req, res) => {
   const { map_id } = req.body;

@@ -198,6 +198,7 @@ module.exports = {
   getUserFavorites,
   createMap,
   createPoints,
+  addContribution,
   getUserContributions,
   addFavorite,
   deleteFavorite,

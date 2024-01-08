@@ -7,6 +7,15 @@ $(() => {
     loadPoints(map_id);
   });
 
+  // Refresh view-tab point list when contributions are saved
+  $("#view-tab").on("click", "#save-contribution", function(e) {
+    e.preventDefault();
+    const map_id = $("#view-tab").find(".map-title-info").attr('id');
+    setTimeout(() => {
+      loadPoints(map_id);
+    }, 230);
+  });
+
   /**
    * Function to load points based on the map_id, to display on the view tab
    * GET /maps/:user_id/points
@@ -26,7 +35,7 @@ $(() => {
         // Append point list items based on API response
         $.each(maps, function (index, map) {
           $mapInfo.append(`
-            <h6 id=${map.id}>MAP TITLE</h6>
+            <h6 id=${map.id} class="map-title-info">MAP TITLE</h6>
             <div id="map-title">${map.title}</div>
             <br>
             <h6>MAP DESCRIPTION</h6>

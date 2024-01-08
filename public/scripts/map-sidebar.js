@@ -8,6 +8,16 @@ $(() => {
     this.reset();
   });
 
+  $("#view-tab").on("click", "#save-contribution", function(e) {
+    e.preventDefault();
+    const map_id = $("#view-tab").find(".map-title-info").attr('id');
+    setTimeout(() => {
+      loadPoints(map_id);
+      loadContributions();
+    }, 230);
+  });
+
+
   function createMap() {
     
       const title = $("#title").val();
@@ -41,14 +51,54 @@ $(() => {
 
   /**
    * Action item: Contribute - Add point to existing map
-   * 
+   * POST /maps/:username/:user_id/add-contribution
    */
+  // POST /maps/:username/:user_id/add-contribution
+  // $("#view-tab").on("click", "#save-contribution", function(e) {
+  //   e.preventDefault();
+  //   $("#contrib-marker-list").empty();
+  //   $("#save-contribution").hide();
+
+  //   const map_id = $("#view-tab").find(".map-title-info").attr('id');
+  //   console.log(map_id);
+
+  //   $.getScript("./map-auth.js", function () {
+  //     $.createContribPoint(map_id)
+  //       .then((results) => {
+  //         // Extract point_ids from results (assuming point has an id property)
+  //         const point_ids = results.map(point => point.id);
+
+  //         // Create an array of promises for the second AJAX requests - to add to contributions table
+  //         const secondAjaxPromises = point_ids.map(point_id => {
+  //           return $.ajax({
+  //             url: "/maps/:username/:user_id/add-contribution",
+  //             type: "POST",
+  //             contentType: "application/json",
+  //             data: JSON.stringify({ map_id, point_id }),
+  //           });
+  //         });
+
+  //         // Wait for all the second AJAX requests to complete
+  //         return Promise.all(secondAjaxPromises);
+  //       })
+  //       .then(() => {
+  //         console.log("All contributions processed successfully.");
+  //         loadPoints(map_id);
+  //         // loadContributions();
+  //       })
+  //       .catch((error) => {
+  //         console.error("Error adding contributions:", error);
+  //       });
+  //   });
+    
+  // });
+
   
   /**
    * Action item: Delete point button - delete point
    * POST /maps/:point_id/points
    */
-  $("#view-tab").on("click", ".fa-trash", function(e) {
+  $("#view-tab").on("click", ".delete-point-button", function(e) {
     e.preventDefault();
     console.log('Point delete clicked!');
     const point_id = $(this).closest('.point-item').attr('id');
@@ -183,7 +233,7 @@ $(() => {
         // Append point list items based on API response
         $.each(maps, function (index, map) {
           $mapInfo.append(`
-            <h6 id=${map.id}>MAP TITLE</h6>
+            <h6 id=${map.id} class="map-title-info">MAP TITLE</h6>
             <div id="map-title">${map.title}</div>
             <br>
             <h6>MAP DESCRIPTION</h6>

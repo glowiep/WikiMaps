@@ -98,7 +98,7 @@ $(document).ready(function () {
           <div>🟡 ${markerObj.description} </div>
           <div class="point-actions">
             <button class="icon-button delete-point-button" type="submit">
-              <span><i class="fa-solid fa-trash action-item"></i></span>
+              <span><i class="fa-solid fa-trash contrib-marker-delete action-item"></i></span>
             </button>
           </div>
         </div>
@@ -108,7 +108,7 @@ $(document).ready(function () {
           markerObj.marker.openPopup(); // Open the marker's popup
         });
         
-        $("#view-tab").on("click", ".fa-trash", function() {
+        $("#view-tab").on("click", ".contrib-marker-delete", function() {
           removeContribMarker(index);
         });
     });
@@ -117,7 +117,8 @@ $(document).ready(function () {
     if ($contribList.is(':not(:empty)')) {
       $("#save-contribution").show();
     } else {
-      $("#save-contribution", contribPointsData).hide();
+      contribPointsData.length = 0;
+      $("#save-contribution").hide();
     };
   }
 
@@ -292,4 +293,114 @@ $(document).ready(function () {
     $("#contrib-image").val("");
   };
 
+
+  // function createContribPoint (map_id) {
+  //   for (const point of contribPointsData) {
+  //     let description = point.description;
+  //     let latitude = point.latitude;
+  //     let longitude = point.longitude;
+  //     let imageUrl = point.imageUrl;
+  //     $.ajax({
+  //       url: "/maps/points/add",
+  //       type: "POST",
+  //       contentType: "application/json",
+  //       data: JSON.stringify({ description, imageUrl, latitude, longitude, map_id }),
+  //       success: function (point) {
+  //         const point_id = point.id;
+  //         const map_id = point.map_id;
+  //         console.log("Contrib add:", point);
+  //         console.log("point_id:", point.id);
+          
+            // $.ajax({
+            //   url: "/maps/:username/:user_id/add-contribution",
+            //   type: "POST",
+            //   contentType: "application/json",
+            //   data: JSON.stringify({ map_id, point_id }),
+            //   success: function (map) {
+            //     console.log("Contrib created:", map);
+            //     loadPoints();
+            //     loadContributions();
+            //   },
+            //   error: function (xhr, status, error) {
+            //     console.error("Error:", error);
+            //   }
+            // });
+          
+  //       },
+  //       error: function (xhr, status, error) {
+  //         console.error("Error:", error);
+  //       }
+  //     });
+  //   }     
+  // }
+  // (function($) {
+    function createContribPoint(map_id) {
+      const promises = [];
+    
+      for (const point of contribPointsData) {
+        let description = point.description;
+        let latitude = point.latitude;
+        let longitude = point.longitude;
+        let imageUrl = point.imageUrl;
+    
+        // Promise to add contribution points to the points table
+        const addContribPointPromise = new Promise((resolve, reject) => {
+          $.ajax({
+            url: "/maps/points/add",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({ description, imageUrl, latitude, longitude, map_id }),
+            success: function (point) {
+              resolve(point);
+            },
+            error: function (xhr, status, error) {
+              reject(error);
+            }
+          });
+        });
+    
+        promises.push(addContribPointPromise);
+      }
+    
+      return Promise.all(promises);
+    }
+  // $.createContribPoint = createContribPoint;
+  // })(jQuery);
+
+    // POST /maps/:username/:user_id/add-contribution
+    $("#view-tab").on("click", "#save-contribution", function(e) {
+      e.preventDefault();
+      $("#contrib-marker-list").empty();
+      $("#save-contribution").hide();
+
+      const map_id = $("#view-tab").find(".map-title-info").attr('id');
+      console.log(map_id);
+      createContribPoint(map_id)
+        .then((results) => {
+          // Extract point_ids from results (assuming point has an id property)
+          const point_ids = results.map(point => point.id);
+
+          // Create an array of promises for the second AJAX requests - to add to contributions table
+          const secondAjaxPromises = point_ids.map(point_id => {
+            return $.ajax({
+              url: "/maps/:username/:user_id/add-contribution",
+              type: "POST",
+              contentType: "application/json",
+              data: JSON.stringify({ map_id, point_id }),
+            });
+          });
+
+          // Wait for all the second AJAX requests to complete
+          return Promise.all(secondAjaxPromises);
+      })
+      .then(() => {
+        console.log("All contributions processed successfully.");
+        loadPoints(map_id);
+        loadContributions();
+      })
+      .catch((error) => {
+        console.error("Error adding contributions:", error);
+      });
+    });
+  
 });
