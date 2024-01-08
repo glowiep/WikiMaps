@@ -161,19 +161,6 @@ router.post('/:point_id/delete', (req, res) => {
           res.status(500).json({ error: err.message });
       });
 });
-// GET maps/:username/:user_id/profile/my-maps
-// router.get("/:username/:user_id/profile/my-maps", (req, res) => {
-//   const user_id = req.session["user_id"];
-//   mapQueries
-//     .getUserMaps(user_id)
-//     .then((maps) => {
-//       console.log(">>>>>>>", maps);
-//       res.json({ maps });
-//     })
-//     .catch((err) => {
-//       res.status(500).json({ err: err.message });
-//     });
-// });
 
 // GET /maps/:user_id - Display my maps list
 router.get("/:user_id/my-maps", (req, res) => {

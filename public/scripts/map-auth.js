@@ -293,79 +293,40 @@ $(document).ready(function () {
     $("#contrib-image").val("");
   };
 
-
-  // function createContribPoint (map_id) {
-  //   for (const point of contribPointsData) {
-  //     let description = point.description;
-  //     let latitude = point.latitude;
-  //     let longitude = point.longitude;
-  //     let imageUrl = point.imageUrl;
-  //     $.ajax({
-  //       url: "/maps/points/add",
-  //       type: "POST",
-  //       contentType: "application/json",
-  //       data: JSON.stringify({ description, imageUrl, latitude, longitude, map_id }),
-  //       success: function (point) {
-  //         const point_id = point.id;
-  //         const map_id = point.map_id;
-  //         console.log("Contrib add:", point);
-  //         console.log("point_id:", point.id);
-          
-            // $.ajax({
-            //   url: "/maps/:username/:user_id/add-contribution",
-            //   type: "POST",
-            //   contentType: "application/json",
-            //   data: JSON.stringify({ map_id, point_id }),
-            //   success: function (map) {
-            //     console.log("Contrib created:", map);
-            //     loadPoints();
-            //     loadContributions();
-            //   },
-            //   error: function (xhr, status, error) {
-            //     console.error("Error:", error);
-            //   }
-            // });
-          
-  //       },
-  //       error: function (xhr, status, error) {
-  //         console.error("Error:", error);
-  //       }
-  //     });
-  //   }     
-  // }
-  // (function($) {
-    function createContribPoint(map_id) {
-      const promises = [];
-    
-      for (const point of contribPointsData) {
-        let description = point.description;
-        let latitude = point.latitude;
-        let longitude = point.longitude;
-        let imageUrl = point.imageUrl;
-    
-        // Promise to add contribution points to the points table
-        const addContribPointPromise = new Promise((resolve, reject) => {
-          $.ajax({
-            url: "/maps/points/add",
-            type: "POST",
-            contentType: "application/json",
-            data: JSON.stringify({ description, imageUrl, latitude, longitude, map_id }),
-            success: function (point) {
-              resolve(point);
-            },
-            error: function (xhr, status, error) {
-              reject(error);
-            }
-          });
+  /**
+   * Action item: Contribute - Add point to existing map
+   * POST /maps/:username/:user_id/add-contribution
+   */
+  function createContribPoint(map_id) {
+    const promises = [];
+  
+    for (const point of contribPointsData) {
+      let description = point.description;
+      let latitude = point.latitude;
+      let longitude = point.longitude;
+      let imageUrl = point.imageUrl;
+  
+      // Promise to add contribution points to the points table
+      const addContribPointPromise = new Promise((resolve, reject) => {
+        $.ajax({
+          url: "/maps/points/add",
+          type: "POST",
+          contentType: "application/json",
+          data: JSON.stringify({ description, imageUrl, latitude, longitude, map_id }),
+          success: function (point) {
+            resolve(point);
+          },
+          error: function (xhr, status, error) {
+            reject(error);
+          }
         });
-    
-        promises.push(addContribPointPromise);
-      }
+      });
+  
+      promises.push(addContribPointPromise);
+    }
     
       return Promise.all(promises);
     }
-  // $.createContribPoint = createContribPoint;
-  // })(jQuery);
 
     // POST /maps/:username/:user_id/add-contribution
     $("#view-tab").on("click", "#save-contribution", function(e) {
