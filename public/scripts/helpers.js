@@ -533,6 +533,7 @@ export function createMap() {
   });
 }
 export function addPointsToMap(map_id){
+  results.clearLayers();
   $.ajax({
     url: `/maps/:user_id/${map_id}/points`,
     type: "GET",
