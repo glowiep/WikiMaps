@@ -2,7 +2,8 @@
 import { 
   updateContribMarkerList,
   addContribMarker,
-  addMarker
+  addMarker,
+  checkFormInputs
 } from "/scripts/helpers.js";
 
 $(() => {
@@ -13,6 +14,10 @@ $(() => {
     updateContribMarkerList();
   };
 
+  $("#save-button").prop("disabled", true);
+  $("form :input").on("keyup change", function () {
+    checkFormInputs();
+  });
   // Map Creation - Show add point dialog
   $("#point-button").click(function (e) {
     e.preventDefault();

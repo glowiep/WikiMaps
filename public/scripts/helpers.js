@@ -56,7 +56,9 @@ searchControl.on("results", function (data) {
   console.log(data.results);
 });
 
-
+$("#new-map-button").click(function (e) {
+  results.clearLayers();
+});
 export function updateMarkerList() {
   var $list = $("#marker-list ul").first();
   $list.empty();
@@ -535,6 +537,21 @@ export function addPointsToMap(map_id){
     url: `/maps/:user_id/${map_id}/points`,
     type: "GET",
     success: function (points) {
+      console.log("checking the point event>>>>", points);
+      $.each(points, function (indexInArray, point) { 
+      let description = point.description;
+      let imageUrl = point["image_url"];
+      let marker = L.marker([point.latitude,point.longitude]).addTo(results);
+      marker
+      .bindPopup(
+        "<b>Description:</b> " +
+          description +
+          '<br><img src="' +
+          imageUrl +
+          '" alt="imagen" style="width:100%;">'
+      )
+      .openPopup()
+      });
     },
     error: function (xhr, status, error) {
       console.error("Error:", error);

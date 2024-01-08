@@ -66,7 +66,7 @@ $(() => {
     const map_id = $(this).closest('.card').attr('id');
     loadMapInfo(map_id);
     loadPoints(map_id);
-
+    addPointsToMap(map_id);
     // Clear contribution points layer if exists
     setTimeout(() => {
       if ($("#contrib-marker-list").length === 0 || $("#contrib-marker-list").is(':empty')) {
@@ -88,7 +88,6 @@ $(() => {
       }
     }, 150);
 
-    addPointsToMap(map_id);
   });
 
   $("#map-list").on("click", ".card", function(e) {
