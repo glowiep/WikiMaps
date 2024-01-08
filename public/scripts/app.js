@@ -16,4 +16,8 @@ $(() => {
     var contribMarkerModal = $("#contrib-markerModal");
     contribMarkerModal.hide();
   }
+
+  // $("#addContribPointBt").on("click", function() {
+  //   addContribMarker();
+  // })
 });

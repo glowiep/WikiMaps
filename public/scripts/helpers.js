@@ -2,6 +2,7 @@
 
 const map = L.map("map").setView([43.644218, -79.402229], 13);
 let pointsData = [];
+let contribPointsData = [];
 let tempLatLng;
 
 // Add OpenStreetMap tileLayer
@@ -129,13 +130,48 @@ export function createPoint (map_id) {
       // Append point list items based on API response
       $.each(maps, function (index, map) {
         $mapInfo.append(`
-          <h6 id=${map.id}>MAP TITLE</h6>
+          <h6 id=${map.id} class="map-title-info">MAP TITLE</h6>
           <div id="map-title">${map.title}</div>
           <br>
           <h6>MAP DESCRIPTION</h6>
           <div id="map-description">${map.description}</div>
           <br>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="private"/>
+            <label class="form-check-label" for="private"> Private </label>
+          </div>
+          <button type="submit" class="btn btn-success" disabled>Save</button>
         `)
+      });
+    },
+    error: function (xhr, status, error) {
+      console.error("Error:", error);
+    }
+  });
+}
+
+export function loadDiscoverMapInfo(map_id) {
+  $.ajax({
+    url: `/maps/:user_id/${map_id}/map-info`,
+    type: "GET",
+    success: function (maps) {
+      const $defaultText = $('#view-tab-default');
+      const $mapInfo = $('#map-info-div');
+      // Hide default view tab text
+      $defaultText.hide();
+      // Clear map info
+      $mapInfo.empty();
+
+      // Append point list items based on API response
+      $.each(maps, function (index, map) {
+        $mapInfo.append(`
+        <h6 id=${map.id} class="map-title-info">MAP TITLE</h6>
+        <div id="map-title">${map.title}</div>
+        <br>
+        <h6>MAP DESCRIPTION</h6>
+        <div id="map-description">${map.description}</div>
+        <br>
+      `)
       });
     },
     error: function (xhr, status, error) {
@@ -145,10 +181,10 @@ export function createPoint (map_id) {
 }
 
 /**
-   * Function to load points based on the map_id, to display on the view tab
+   * Function to load points based on the map_id, to display on the view tab via DISCOVER
    * GET /maps/:user_id/points
    */
-export function loadPoints(map_id) {
+export function loadDiscoverPoints(map_id) {
   $.ajax({
     url: `/maps/:user_id/${map_id}/points`,
     type: "GET",
@@ -158,18 +194,67 @@ export function loadPoints(map_id) {
       // Clear existing list items
       $pointList.empty();
 
+      $pointList.append(`
+          <div class="point-actions">
+            <button id="contribute-button" class="btn btn-success" type="submit">Contribute</button>
+            <button id="save-contribution" class="btn btn-warning" type="submit">Save</button>
+          </div>
+          <div id="contrib-marker-list"></div>
+        `)
+
+        // Append point list items based on API response
+        $.each(points, function (index, point) {
+          $pointList.append(`
+            <div class="point-item" id=${point.id}>
+              <div>📍 ${point.description} </div>
+              <div class="point-actions">
+                <button class="icon-button view-point-button" type="submit">
+                  <span><i class="fa-solid fa-eye action-item"></i></span>
+                </button>
+              </div>
+            </div>
+          `)
+        });
+        hideContributionSave();
+
+        if ($("#contrib-marker-list").is(':empty')) {
+          clearContribLayer();
+        }
+      },
+      error: function (xhr, status, error) {
+        console.error("Error:", error);
+      }
+    });
+}
+
+/**
+   * Function to load points based on the map_id, to display on the view tab - via user profile
+   * GET /maps/:user_id/points
+   */
+export function loadPoints(map_id) {
+  $.ajax({
+    url: `/maps/:user_id/${map_id}/points`,
+    type: "GET",
+    success: function (points) {
+      const $defaultText = $('#view-tab-default');
+      const $pointList = $('#point-list');
+      // Hide default view tab text
+      $defaultText.hide();
+      // Clear existing list items
+      $pointList.empty();
+
       // Append point list items based on API response
       $.each(points, function (index, point) {
         $pointList.append(`
           <div class="point-item" id=${point.id}>
             <div>📍 ${point.description} </div>
             <div class="point-actions">
-            <button class="icon-button edit-point-button" type="submit">
-              <span><i class="fa-solid fa-pen-to-square action-item"></i></span>
-            </button>
-            <button class="icon-button delete-point-button" type="submit">
-              <span><i class="fa-solid fa-trash action-item"></i></span>
-            </button>
+              <button class="icon-button edit-point-button" type="submit">
+                <span><i class="fa-solid fa-pen-to-square action-item"></i></span>
+              </button>
+              <button class="icon-button delete-point-button" type="submit">
+                <span><i class="fa-solid fa-trash action-item"></i></span>
+              </button>
             </div>
           </div>
         `)
@@ -180,6 +265,10 @@ export function loadPoints(map_id) {
     },
   });
 }
+
+function hideContributionSave () {
+  $("#save-contribution").hide();
+};
 
  // This loads the list of public maps in the Discover tab (for guest)
  export function fetchMapList() {
@@ -235,9 +324,6 @@ export function loadFavorites() {
           <button class="icon-button unfav-button" type="submit">
             <span><i class="fa-solid fa-heart-crack action-item"></i></span>
           </button>
-          <button class="icon-button edit-button" type="submit">
-            <span><i class="fa-solid fa-pen-to-square action-item"></i></span>
-          </button>
           </div>
           </div>
         `)
@@ -274,9 +360,6 @@ export function loadContributions() {
             </button>
             <button class="icon-button view-button" type="submit">
               <span><i class="fa-solid fa-eye action-item"></i></span>
-            </button>
-            <button class="icon-button edit-button" type="submit">
-              <span><i class="fa-solid fa-pen-to-square action-item"></i></span>
             </button>
           </div>
         </div>
@@ -315,9 +398,6 @@ export function loadContributions() {
               </button>
               <button class="icon-button view-button" type="submit">
                 <span><i class="fa-solid fa-eye action-item"></i></span>
-              </button>
-              <button class="icon-button edit-button" type="submit">
-                <span><i class="fa-solid fa-pen-to-square action-item"></i></span>
               </button>
               <button class="icon-button delete-button" type="submit" id = ${map.id}>
                 <span><i class="fa-solid fa-trash action-item"></i></span>
@@ -434,7 +514,8 @@ export function createMap() {
     data: JSON.stringify({ title, description, isPrivate }),
     success: function (map) {
       console.log("Map created:", map);
-        createPoint(map.id)
+      createPoint(map.id);
+      
       setTimeout(() => {
         loadMapInfo(map.id)
         loadPoints(map.id)
@@ -505,8 +586,139 @@ export function addMarker () {
   $("#image").val("");
 };
 
+export function addContribMarker () {
+  let description = $("#contrib-description").val(); // Using jQuery for value retrieval
+  let imageUrl = $("#contrib-image").val(); // Using jQuery for value retrieval
+  let marker = L.marker(map.getCenter(), { draggable: true }).addTo(results);
+
+  
+  marker.on('dragend', function (event) {
+    let latitude = event.target.getLatLng().lat;
+    let longitude = event.target.getLatLng().lng;
+    contribPointsData.push({ marker: marker, description: description,latitude: latitude, longitude: longitude, imageUrl: imageUrl})
+    console.log(">>>>> contrib array", contribPointsData);
+    updateContribMarkerList();
+    marker.dragging.disable();
+  })
+  
+  if (description === '') {
+    return alert('Please add a location description!');
+  }
+  if (imageUrl === '' && description !== '') {
+    marker
+    .bindPopup(
+      "<b>Description:</b> " +
+        description
+    )
+    .openPopup();
+  } else {
+    marker
+      .bindPopup(
+        "<b>Description:</b> " +
+          description +
+          '<br><img src="' +
+          imageUrl +
+          '" alt="imagen" style="width:100%;">'
+      )
+      .openPopup();
+  }
+  // Using jQuery to hide the modal and reset form values
+  
+  console.log("array points>>>>",contribPointsData);
+  $("#contrib-markerModal").hide();
+  $("#contrib-description").val("");
+  $("#contrib-image").val("");
+};
+
 export function removeMarker (index) {
   map.removeLayer(pointsData[index].marker);
   pointsData.splice(index, 1);
   updateMarkerList();
 };
+
+export function removeContribMarker (index) {
+  map.removeLayer(contribPointsData[index].marker);
+  contribPointsData.splice(index, 1);
+  updateContribMarkerList();
+};
+
+export function clearContribLayer () {
+  for (let i = 0; i < contribPointsData.length; i++ ) {
+    map.removeLayer(contribPointsData[i].marker);
+  }
+  map.removeLayer(contribPointsData);
+  contribPointsData.length = 0;
+}
+
+// Update Contrib Marker List
+export function updateContribMarkerList() {
+  let $contribList = $("#contrib-marker-list");
+  // let $listAction = $("#contrib-marker-list").on("click", ".fa-trash", function() {
+  //   removeMarker(index);
+  // })
+  $contribList.empty();
+
+  contribPointsData.forEach(function (markerObj, index) {
+    $contribList.append(`
+      <div class="point-item">
+        <div>🟡 ${markerObj.description} </div>
+        <div class="point-actions">
+          <button class="icon-button delete-point-button" type="submit">
+            <span><i class="fa-solid fa-trash contrib-marker-delete action-item"></i></span>
+          </button>
+        </div>
+      </div>
+      `)
+      .click(function () {
+        map.setView(markerObj.marker.getLatLng(), 13); // Center the map on the marker
+        markerObj.marker.openPopup(); // Open the marker's popup
+      });
+      
+      $("#view-tab").on("click", ".contrib-marker-delete", function() {
+        removeContribMarker(index);
+      });
+  });
+  
+
+  if ($contribList.is(':not(:empty)')) {
+    $("#save-contribution").show();
+  } else {
+    contribPointsData.length = 0;
+    $("#save-contribution").hide();
+  };
+}
+
+/**
+   * Action item: Contribute - Add point to existing map
+   * POST /maps/:username/:user_id/add-contribution
+   */
+export function createContribPoint(map_id) {
+  const promises = [];
+
+  for (const point of contribPointsData) {
+    let description = point.description;
+    let latitude = point.latitude;
+    let longitude = point.longitude;
+    let imageUrl = point.imageUrl;
+
+    // Promise to add contribution points to the points table
+    const addContribPointPromise = new Promise((resolve, reject) => {
+      $.ajax({
+        url: "/maps/points/add",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({ description, imageUrl, latitude, longitude, map_id }),
+        success: function (point) {
+          resolve(point);
+        },
+        error: function (xhr, status, error) {
+          reject(error);
+        }
+      });
+    });
+
+    promises.push(addContribPointPromise);
+  }
+  
+    return Promise.all(promises);
+}

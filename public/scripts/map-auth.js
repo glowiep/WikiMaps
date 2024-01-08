@@ -1,5 +1,11 @@
 /* Leaflet related scripts here */
+import { 
+  updateContribMarkerList,
+  addContribMarker,
+  addMarker
+} from "/scripts/helpers.js";
 
+$(() => {
   // Contributions - Remove a single contribution marker
   window.removeContribMarker = function (index) {
     map.removeLayer(contribPointsData[index].marker);
@@ -24,4 +30,10 @@
     e.preventDefault();
     addMarker();
   });
+
+  $('#addContribPointBt').click(function (e) { 
+    e.preventDefault();
+    addContribMarker();
+  });
+
 });
