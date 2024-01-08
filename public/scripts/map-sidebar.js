@@ -1,5 +1,5 @@
 /* Sidebar AJAX requests here */
-import { createPoint,createMap,loadFavorites,loadContributions,loadMapInfo,loadMyMaps,addPointsToMap,fetchMapList,loadPoints,clearContribLayer } from "/scripts/helpers.js";
+import { createPoint,createMap,loadFavorites,loadContributions,loadMapInfo,loadMyMaps,addPointsToMap,fetchMapList,loadPoints,clearContribLayer,updateContribMarkerList } from "/scripts/helpers.js";
 $(() => {
   // POST /maps/:username/:user_id/add
   $("#mapForm").submit(function (event) {

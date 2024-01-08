@@ -512,10 +512,60 @@ export function addMarker () {
   $("#image").val("");
 };
 
+export function addContribMarker () {
+  let description = $("#contrib-description").val(); // Using jQuery for value retrieval
+  let imageUrl = $("#contrib-image").val(); // Using jQuery for value retrieval
+  let marker = L.marker(map.getCenter(), { draggable: true }).addTo(results);
+
+  
+  marker.on('dragend', function (event) {
+    let latitude = event.target.getLatLng().lat;
+    let longitude = event.target.getLatLng().lng;
+    contribPointsData.push({ marker: marker, description: description,latitude: latitude, longitude: longitude, imageUrl: imageUrl})
+    console.log(">>>>> contrib array", contribPointsData);
+    updateContribMarkerList();
+    marker.dragging.disable();
+  })
+  
+  if (description === '') {
+    return alert('Please add a location description!');
+  }
+  if (imageUrl === '' && description !== '') {
+    marker
+    .bindPopup(
+      "<b>Description:</b> " +
+        description
+    )
+    .openPopup();
+  } else {
+    marker
+      .bindPopup(
+        "<b>Description:</b> " +
+          description +
+          '<br><img src="' +
+          imageUrl +
+          '" alt="imagen" style="width:100%;">'
+      )
+      .openPopup();
+  }
+  // Using jQuery to hide the modal and reset form values
+  
+  console.log("array points>>>>",contribPointsData);
+  $("#contrib-markerModal").hide();
+  $("#contrib-description").val("");
+  $("#contrib-image").val("");
+};
+
 export function removeMarker (index) {
   map.removeLayer(pointsData[index].marker);
   pointsData.splice(index, 1);
   updateMarkerList();
+};
+
+export function removeContribMarker (index) {
+  map.removeLayer(contribPointsData[index].marker);
+  contribPointsData.splice(index, 1);
+  updateContribMarkerList();
 };
 
 export function clearContribLayer () {
@@ -524,4 +574,42 @@ export function clearContribLayer () {
   }
   map.removeLayer(contribPointsData);
   contribPointsData.length = 0;
+}
+
+// Update Contrib Marker List
+export function updateContribMarkerList() {
+  let $contribList = $("#contrib-marker-list");
+  // let $listAction = $("#contrib-marker-list").on("click", ".fa-trash", function() {
+  //   removeMarker(index);
+  // })
+  $contribList.empty();
+
+  contribPointsData.forEach(function (markerObj, index) {
+    $contribList.append(`
+      <div class="point-item">
+        <div>🟡 ${markerObj.description} </div>
+        <div class="point-actions">
+          <button class="icon-button delete-point-button" type="submit">
+            <span><i class="fa-solid fa-trash contrib-marker-delete action-item"></i></span>
+          </button>
+        </div>
+      </div>
+      `)
+      .click(function () {
+        map.setView(markerObj.marker.getLatLng(), 13); // Center the map on the marker
+        markerObj.marker.openPopup(); // Open the marker's popup
+      });
+      
+      $("#view-tab").on("click", ".contrib-marker-delete", function() {
+        removeContribMarker(index);
+      });
+  });
+  
+
+  if ($contribList.is(':not(:empty)')) {
+    $("#save-contribution").show();
+  } else {
+    contribPointsData.length = 0;
+    $("#save-contribution").hide();
+  };
 }
