@@ -7,8 +7,16 @@ $(() => {
     createMap();
     this.reset();
   });
-
   
+    $("#view-tab").on("click", "#save-contribution", function(e) {
+    e.preventDefault();
+    const map_id = $("#view-tab").find(".map-title-info").attr('id');
+    setTimeout(() => {
+      loadPoints(map_id);
+      loadContributions();
+    }, 230);
+  });
+
   /**
    * Action item: View Map button - display points list
    * GET /maps/:user_id/:map_id/points
@@ -18,6 +26,15 @@ $(() => {
     const map_id = $(this).closest('.card').attr('id');
     loadMapInfo(map_id);
     loadPoints(map_id);
+
+    // Clear contribution points layer if exists
+    setTimeout(() => {
+      if ($("#contrib-marker-list").length === 0 || $("#contrib-marker-list").is(':empty')) {
+        $.getScript("./map-auth.js", function () {
+          $.clearContribLayer();
+        });
+      }
+    }, 150);
   });
 
   $("#fav-tab").on("click", ".view-button", function(e) {
@@ -25,6 +42,16 @@ $(() => {
     const map_id = $(this).closest('.card').find('.map-list-item').attr('id');
     loadMapInfo(map_id);
     loadPoints(map_id);
+
+    // Clear contribution points layer if exists
+    setTimeout(() => {
+      if ($("#contrib-marker-list").length > 0 && $("#contrib-marker-list").is(':empty')) {
+        $.getScript("./map-auth.js", function () {
+          $.clearContribLayer();
+        });
+      }
+    }, 150);
+
     addPointsToMap(map_id);
   });
 
@@ -87,20 +114,11 @@ $(() => {
     });
   });
 
-  
 
-
-
- 
-
-
- 
   loadMyMaps();
-
   
   loadContributions();
 
-  
   loadFavorites();
   
 

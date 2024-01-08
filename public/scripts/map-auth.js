@@ -1,22 +1,24 @@
 /* Leaflet related scripts here */
-import { updateMarkerList, checkFormInputs,addMarker} from "/scripts/helpers.js";
 
-$(document).ready(function () {
-  
+  // Contributions - Remove a single contribution marker
+  window.removeContribMarker = function (index) {
+    map.removeLayer(contribPointsData[index].marker);
+    contribPointsData.splice(index, 1);
+    updateContribMarkerList();
+  };
 
-  $("#save-button").prop("disabled", true);
-
-  // checkFormInputs();
-
-  // Attach an event listener to input fields
-  $("form :input").on("keyup change", function () {
-    checkFormInputs();
-  });
-  
-
+  // Map Creation - Show add point dialog
   $("#point-button").click(function (e) {
-    document.getElementById("markerModal").style.display = "block";
+    e.preventDefault();
+    $("#markerModal").css("display", "block");
   });
+
+  // Contributions - Contribute button
+  $("#view-tab").on("click", "#contribute-button", function(e) {
+    e.preventDefault();
+    $("#contrib-markerModal").css("display", "block");
+  });
+
 
   $('#addPointBt').click(function (e) { 
     e.preventDefault();

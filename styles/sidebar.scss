@@ -142,9 +142,6 @@ button:hover {
       font-size: 1.2em;
     }
   }
-  button:focus {
-    outline: none;
-  }
 }
 
 .icon-button:hover {
@@ -170,9 +167,6 @@ button:hover {
 
 .discover {
   cursor: pointer;
-  button:focus {
-    outline: none;
-  }
 }
 
 // view-map tab
@@ -210,6 +204,10 @@ button:hover {
 
 #map-description {
   font-size: 1.1em;
+}
+
+#contribute-button {
+  max-width: fit-content;
 }
 
 // Guest page styles

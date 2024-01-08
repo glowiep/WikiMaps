@@ -16,6 +16,21 @@ const createMap = (title, description, isPrivate, creatorId) => {
     });
 };
 
+// Add contribution
+const addContribution = (user_id, map_id, point_id) => {
+  return db
+    .query(
+      `INSERT INTO contributions (user_id, map_id, point_id) VALUES ($1, $2, $3) RETURNING *`,
+      [user_id, map_id, point_id]
+    )
+    .then((data) => {
+      return data.rows;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
 // Get the list of public maps to display on Discover page
 const getPublicMaps = () => {
   return db
@@ -112,12 +127,25 @@ const deleteFavorite = (user_id, map_id) => {
       console.log(err.message);
     });
 };
+
 // Delete maps
 const deleteMaps = ( map_id) => {
   return db
     .query(
       "DELETE FROM maps WHERE id = $1;",
       [ map_id]
+    )
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
+// Delete points
+const deletePoint = (point_id) => {
+  return db
+    .query(
+      "DELETE FROM points WHERE id = $1;",
+      [point_id]
     )
     .catch((err) => {
       console.log(err.message);
@@ -170,8 +198,10 @@ module.exports = {
   getUserFavorites,
   createMap,
   createPoints,
+  addContribution,
   getUserContributions,
   addFavorite,
   deleteFavorite,
-  deleteMaps
+  deleteMaps,
+  deletePoint
 };

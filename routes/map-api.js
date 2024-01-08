@@ -73,6 +73,24 @@ router.post('/points/add', (req, res) => {
       });
 });
 
+// POST /maps/:username/:user_id/add-contribution
+router.post('/:username/:user_id/add-contribution', (req, res) => {
+  const { map_id, point_id } = req.body;
+  const user_id = req.session["user_id"];
+  console.log(req.session);
+
+  // Insert the point into the database
+  mapQueries.addContribution(user_id, map_id, point_id)
+      .then(result => {
+        console.log(">>>>>>>contribution Points", result);
+          res.json(result.rows);
+      })
+      .catch(err => {
+          console.error(err);
+          res.status(500).json({ error: err.message });
+      });
+});
+
 // POST /maps/favorites/add
 router.post('/favorites/add', (req, res) => {
   const { map_id } = req.body;
@@ -125,19 +143,23 @@ router.post('/:mapi_id/delete', (req, res) => {
       });
 });
 
-// GET maps/:username/:user_id/profile/my-maps
-// router.get("/:username/:user_id/profile/my-maps", (req, res) => {
-//   const user_id = req.session["user_id"];
-//   mapQueries
-//     .getUserMaps(user_id)
-//     .then((maps) => {
-//       console.log(">>>>>>>", maps);
-//       res.json({ maps });
-//     })
-//     .catch((err) => {
-//       res.status(500).json({ err: err.message });
-//     });
-// });
+
+// POST /maps/:point_id/delete
+router.post('/:point_id/delete', (req, res) => {
+  const { point_id } = req.body;
+  const user_id = req.session["user_id"];
+  console.log("map id>>>>>>>>", map_id)
+  // Delete the favorite from the database
+  mapQueries.deletePoint(point_id)
+      .then(result => {
+        console.log(">>>>>>>", result);
+          res.json(result.rows);
+      })
+      .catch(err => {
+          console.error(err);
+          res.status(500).json({ error: err.message });
+      });
+});
 
 // GET /maps/:user_id - Display my maps list
 router.get("/:user_id/my-maps", (req, res) => {
