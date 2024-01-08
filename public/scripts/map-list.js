@@ -17,5 +17,5 @@ $(() => {
   //   }, 230);
   // });
 
-  fetchMapList();
+  // fetchMapList();
 });
