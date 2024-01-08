@@ -5,7 +5,7 @@ $(() => {
   //   e.preventDefault();
   //   const map_id = $(this).attr('id');
   //   loadMapInfo(map_id);
-  //   loadPointsDiscover(map_id);
+  //   loadDiscoverPoints(map_id);
   // });
   
   // Refresh view-tab point list when contributions are saved

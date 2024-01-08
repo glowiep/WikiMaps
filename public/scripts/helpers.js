@@ -2,6 +2,7 @@
 
 const map = L.map("map").setView([43.644218, -79.402229], 13);
 let pointsData = [];
+let contribPointsData = [];
 let tempLatLng;
 
 // Add OpenStreetMap tileLayer
@@ -183,7 +184,7 @@ export function loadDiscoverMapInfo(map_id) {
    * Function to load points based on the map_id, to display on the view tab via DISCOVER
    * GET /maps/:user_id/points
    */
-export function loadPointsDiscover(map_id) {
+export function loadDiscoverPoints(map_id) {
   $.ajax({
     url: `/maps/:user_id/${map_id}/points`,
     type: "GET",
@@ -515,7 +516,8 @@ export function createMap() {
     data: JSON.stringify({ title, description, isPrivate }),
     success: function (map) {
       console.log("Map created:", map);
-        createPoint(map.id)
+      createPoint(map.id);
+      
       setTimeout(() => {
         loadMapInfo(map.id)
         loadPoints(map.id)

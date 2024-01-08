@@ -1,19 +1,18 @@
 /* Sidebar AJAX requests here */
-import { 
-  createPoint,
+import {
   createMap,
   loadFavorites,
   loadContributions,
   loadMapInfo,
+  loadDiscoverMapInfo,
   loadMyMaps,
   addPointsToMap,
   fetchMapList,
   loadPoints,
+  loadDiscoverPoints,
   clearContribLayer,
-  updateContribMarkerList,
-  createContribPoint,
-  loadPointsDiscover,
-  loadDiscoverMapInfo } from "/scripts/helpers.js";
+  createContribPoint } from "/scripts/helpers.js";
+
 $(() => {
   // POST /maps/:username/:user_id/add
   $("#mapForm").submit(function (event) {
@@ -22,7 +21,6 @@ $(() => {
     this.reset();
   });
   
-  // POST /maps/:username/:user_id/add-contribution
   // POST /maps/:username/:user_id/add-contribution
   $("#view-tab").on("click", "#save-contribution", function(e) {
     e.preventDefault();
@@ -51,7 +49,7 @@ $(() => {
     })
     .then(() => {
       console.log("All contributions processed successfully.");
-      loadPoints(map_id);
+      loadDiscoverPoints(map_id);
       loadContributions();
     })
     .catch((error) => {
@@ -80,8 +78,8 @@ $(() => {
   $("#fav-tab").on("click", ".view-button", function(e) {
     e.preventDefault();
     const map_id = $(this).closest('.card').find('.map-list-item').attr('id');
-    loadMapInfo(map_id);
-    loadPointsDiscover(map_id);
+    loadDiscoverMapInfo(map_id);
+    loadDiscoverPoints(map_id);
 
     // Clear contribution points layer if exists
     setTimeout(() => {
@@ -97,7 +95,7 @@ $(() => {
     e.preventDefault();
     const map_id = $(this).attr('id');
     loadDiscoverMapInfo(map_id);
-    loadPointsDiscover(map_id);
+    loadDiscoverPoints(map_id);
   });
 
   
