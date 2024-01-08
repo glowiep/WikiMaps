@@ -218,9 +218,7 @@ export function loadDiscoverPoints(map_id) {
         hideContributionSave();
 
         if ($("#contrib-marker-list").is(':empty')) {
-          $.getScript("./map-auth.js", function () {
-            $.clearContribLayer()
-          });
+          clearContribLayer();
         }
       },
       error: function (xhr, status, error) {
@@ -723,4 +721,4 @@ export function createContribPoint(map_id) {
   }
   
     return Promise.all(promises);
-  }
+}
