@@ -5,12 +5,12 @@ $font-family_1: "Lato-Regular", Helvetica;
 $background-color_1: rgb(36, 164, 196);
 $background: linear-gradient(
   227deg,
-  rgba(2, 71, 151, 1) 0%,
+  rgb(1, 48, 101) 0%,
   rgba(79, 111, 216, 1) 25%,
   rgba(98, 116, 197, 1) 34%,
   rgba(163, 202, 219, 1) 59%,
-  rgba(123, 147, 227, 1) 74%,
-  rgba(2, 71, 151, 1) 100%
+  rgb(80, 104, 185) 74%,
+  rgb(1, 39, 82) 100%
 );
 $border-color_1: #ffffff;
 
@@ -36,7 +36,8 @@ header {
 }
 
 .nav-logo {
-  font-family: $font-family_1;
+  font-family: 'Bowlby One SC', sans-serif;
+  font-size: 1.6em;
   color: $color_1;
 }
 .nav-logo:hover {
