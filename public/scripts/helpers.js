@@ -540,8 +540,9 @@ export function addPointsToMap(map_id){
     success: function (points) {
       console.log("checking the point event>>>>", points);
       $.each(points, function (indexInArray, point) { 
+        console.log("checking the point img>>>>", point.image_url);
       let description = point.description;
-      let imageUrl = point["image_url"];
+      let imageUrl = point.image_url;
       let marker = L.marker([point.latitude,point.longitude]).addTo(results);
       marker
       .bindPopup(
