@@ -100,7 +100,8 @@
 <% if (username) { %>
   <script type="module" defer src="/scripts/map-auth.js"></script>
   <script type="module" defer src="/scripts/map-sidebar.js"></script>
-<% } %>
+<% } else { %>
 <script type="module" defer src="/scripts/map-guest.js"></script>
 <script type="module" defer src="/scripts/map-list.js"></script>
+<% } %>
 <script type="module" defer src="/scripts/sidebar.js"></script>
