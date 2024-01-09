@@ -100,7 +100,7 @@ router.post('/favorites/add', (req, res) => {
   mapQueries.addFavorite(user_id, map_id)
       .then(result => {
         console.log(">>>>>>>", result);
-          res.json(result.rows);
+          res.json(result);
       })
       .catch(err => {
           console.error(err);

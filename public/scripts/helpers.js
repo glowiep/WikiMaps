@@ -198,6 +198,9 @@ export function loadDiscoverPoints(map_id) {
 
       $pointList.append(`
           <div class="point-actions">
+          <button id="discover-fav-button" class="btn btn-light" type="submit">
+            <span><i class="fa-regular fa-heart action-item"></i></span>
+            </button>
             <button id="contribute-button" class="btn btn-success" type="submit">Contribute</button>
             <button id="save-contribution" class="btn btn-warning" type="submit">Save</button>
           </div>

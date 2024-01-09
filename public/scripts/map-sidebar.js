@@ -131,6 +131,30 @@ $(() => {
     });
   });
 
+   /**
+   * Action item: Discover page Favorite button
+   * POST /maps/favorites/add
+   */
+    $("#view-tab").on("click", "#discover-fav-button", function (e) {
+      e.preventDefault();
+      const map_id = $("#view-tab").find(".map-title-info").attr("id");
+      console.log(JSON.stringify({ map_id }));
+  
+      $.ajax({
+        url: "/maps/favorites/add",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({ map_id }),
+        success: function (fav) {
+          loadFavorites();
+          console.log("favorite added from discover", fav);
+        },
+        error: function (xhr, status, error) {
+          console.error("Error:", error);
+        },
+      });
+    });
+
     /**
    * Action item: Delete contribution circle-minus button
    * POST /maps/contribution/delete
