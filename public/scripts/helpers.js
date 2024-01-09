@@ -1,5 +1,3 @@
-
-
 const map = L.map("map").setView([43.644218, -79.402229], 13);
 let pointsData = [];
 let contribPointsData = [];
@@ -59,6 +57,8 @@ searchControl.on("results", function (data) {
 $("#new-map-button").click(function (e) {
   results.clearLayers();
 });
+
+
 export function updateMarkerList() {
   var $list = $("#marker-list ul").first();
   $list.empty();
@@ -66,13 +66,15 @@ export function updateMarkerList() {
   pointsData.forEach(function (markerObj, index) {
     var $listItem = $("<li>");
 
-    var $button = $('<button>Delete</button>')
-      .click(function() {
+    var $button =
+      $(`<button class="icon-button view-point-button" type="submit">
+    <span><i class="fa-solid fa-trash action-item"></i></span>
+  </button>`).click(function () {
         removeMarker(index);
       });
 
     $listItem
-      .html(markerObj.description + ' ')
+      .html(markerObj.description + " ")
       .append($button)
       .click(function () {
         map.setView(markerObj.marker.getLatLng(), 13); // Center the map on the marker
@@ -83,21 +85,26 @@ export function updateMarkerList() {
   });
 }
 
+$("#profile").on("click", ".fa-trash", function (e) {
+  pointsData = [];
+  results.clearLayers();
+  updateMarkerList()
+});
 // Function to check the form inputs
 export function checkFormInputs() {
   var allFilled = true;
 
-  $('#mapForm :input').each(function() {
-      if ($(this).val() === '' && pointsData.length <= 0) {
-          allFilled = false;
-          return false; // break the loop
-      }
+  $("#mapForm :input").each(function () {
+    if ($(this).val() === "" && pointsData.length <= 0) {
+      allFilled = false;
+      return false; // break the loop
+    }
   });
 
-  $('#save-button').prop('disabled', !allFilled);
+  $("#save-button").prop("disabled", !allFilled);
 }
 
-export function createPoint (map_id) {
+export function createPoint(map_id) {
   for (const point of pointsData) {
     let description = point.description;
     let latitude = point.latitude;
@@ -107,23 +114,28 @@ export function createPoint (map_id) {
       url: "/maps/points/add",
       type: "POST",
       contentType: "application/json",
-      data: JSON.stringify({ description, imageUrl, latitude, longitude, map_id })
+      data: JSON.stringify({
+        description,
+        imageUrl,
+        latitude,
+        longitude,
+        map_id,
+      }),
     });
   }
-
 }
 
- /**
-   * Function to load points based on the map_id, to display on the view tab
-   * GET /maps/:user_id/points
-   */
- export function loadMapInfo(map_id) {
+/**
+ * Function to load points based on the map_id, to display on the view tab
+ * GET /maps/:user_id/points
+ */
+export function loadMapInfo(map_id) {
   $.ajax({
     url: `/maps/:user_id/${map_id}/map-info`,
     type: "GET",
     success: function (maps) {
-      const $defaultText = $('#view-tab-default');
-      const $mapInfo = $('#map-info-div');
+      const $defaultText = $("#view-tab-default");
+      const $mapInfo = $("#map-info-div");
       // Hide default view tab text
       $defaultText.hide();
       // Clear map info
@@ -143,12 +155,12 @@ export function createPoint (map_id) {
             <label class="form-check-label" for="private"> Private </label>
           </div>
           <button type="submit" class="btn btn-success" disabled>Save</button>
-        `)
+        `);
       });
     },
     error: function (xhr, status, error) {
       console.error("Error:", error);
-    }
+    },
   });
 }
 
@@ -157,8 +169,8 @@ export function loadDiscoverMapInfo(map_id) {
     url: `/maps/:user_id/${map_id}/map-info`,
     type: "GET",
     success: function (maps) {
-      const $defaultText = $('#view-tab-default');
-      const $mapInfo = $('#map-info-div');
+      const $defaultText = $("#view-tab-default");
+      const $mapInfo = $("#map-info-div");
       // Hide default view tab text
       $defaultText.hide();
       // Clear map info
@@ -173,7 +185,7 @@ export function loadDiscoverMapInfo(map_id) {
         <h6>MAP DESCRIPTION</h6>
         <div id="map-description">${map.description}</div>
         <br>
-      `)
+      `);
       });
     },
     error: function (xhr, status, error) {
@@ -183,16 +195,16 @@ export function loadDiscoverMapInfo(map_id) {
 }
 
 /**
-   * Function to load points based on the map_id, to display on the view tab via DISCOVER
-   * GET /maps/:user_id/points
-   */
+ * Function to load points based on the map_id, to display on the view tab via DISCOVER
+ * GET /maps/:user_id/points
+ */
 export function loadDiscoverPoints(map_id) {
   $.ajax({
     url: `/maps/:user_id/${map_id}/points`,
     type: "GET",
     success: function (points) {
       console.log(points);
-      const $pointList = $('#point-list')
+      const $pointList = $("#point-list");
       // Clear existing list items
       $pointList.empty();
 
@@ -202,11 +214,11 @@ export function loadDiscoverPoints(map_id) {
             <button id="save-contribution" class="btn btn-warning" type="submit">Save</button>
           </div>
           <div id="contrib-marker-list"></div>
-        `)
+        `);
 
-        // Append point list items based on API response
-        $.each(points, function (index, point) {
-          $pointList.append(`
+      // Append point list items based on API response
+      $.each(points, function (index, point) {
+        $pointList.append(`
             <div class="point-item" id=${point.id}>
               <div>📍 ${point.description} </div>
               <div class="point-actions">
@@ -215,32 +227,32 @@ export function loadDiscoverPoints(map_id) {
                 </button>
               </div>
             </div>
-          `)
-        });
-        hideContributionSave();
+          `);
+      });
+      hideContributionSave();
 
-        if ($("#contrib-marker-list").is(':empty')) {
-          clearContribLayer();
-        }
-      },
-      error: function (xhr, status, error) {
-        alert("error")
-        console.error("Error:", error);
+      if ($("#contrib-marker-list").is(":empty")) {
+        clearContribLayer();
       }
-    });
+    },
+    error: function (xhr, status, error) {
+      alert("error");
+      console.error("Error:", error);
+    },
+  });
 }
 
 /**
-   * Function to load points based on the map_id, to display on the view tab - via user profile
-   * GET /maps/:user_id/points
-   */
+ * Function to load points based on the map_id, to display on the view tab - via user profile
+ * GET /maps/:user_id/points
+ */
 export function loadPoints(map_id) {
   $.ajax({
     url: `/maps/:user_id/${map_id}/points`,
     type: "GET",
     success: function (points) {
-      const $defaultText = $('#view-tab-default');
-      const $pointList = $('#point-list');
+      const $defaultText = $("#view-tab-default");
+      const $pointList = $("#point-list");
       // Hide default view tab text
       $defaultText.hide();
       // Clear existing list items
@@ -260,7 +272,7 @@ export function loadPoints(map_id) {
               </button>
             </div>
           </div>
-        `)
+        `);
       });
     },
     error: function (xhr, status, error) {
@@ -270,22 +282,22 @@ export function loadPoints(map_id) {
 }
 
 /**
-   * For GUEST - Function to load points based on the map_id, to display on the view tab via DISCOVER
-   * GET /maps/:user_id/points
-   */
+ * For GUEST - Function to load points based on the map_id, to display on the view tab via DISCOVER
+ * GET /maps/:user_id/points
+ */
 export function loadGuestPoints(map_id) {
   $.ajax({
     url: `/maps/:user_id/${map_id}/points`,
     type: "GET",
     success: function (points) {
       console.log(points);
-      const $pointList = $('#point-list')
+      const $pointList = $("#point-list");
       // Clear existing list items
       $pointList.empty();
 
-        // Append point list items based on API response
-        $.each(points, function (index, point) {
-          $pointList.append(`
+      // Append point list items based on API response
+      $.each(points, function (index, point) {
+        $pointList.append(`
             <div class="point-item" id=${point.id}>
               <div>📍 ${point.description} </div>
               <div class="point-actions">
@@ -294,38 +306,38 @@ export function loadGuestPoints(map_id) {
                 </button>
               </div>
             </div>
-          `)
-        });
-        hideContributionSave();
+          `);
+      });
+      hideContributionSave();
 
-        if ($("#contrib-marker-list").is(':empty')) {
-          clearContribLayer();
-        }
-      },
-      error: function (xhr, status, error) {
-        console.error("Error:", error);
+      if ($("#contrib-marker-list").is(":empty")) {
+        clearContribLayer();
       }
-    });
+    },
+    error: function (xhr, status, error) {
+      console.error("Error:", error);
+    },
+  });
 }
 
-function hideContributionSave () {
+function hideContributionSave() {
   $("#save-contribution").hide();
-};
+}
 
- // This loads the list of public maps in the Discover tab (for guest)
- export function fetchMapList() {
+// This loads the list of public maps in the Discover tab (for guest)
+export function fetchMapList() {
   $.ajax({
-    url: 'api/maps/list',
-    type: 'GET',
-    dataType: 'json'
-  })
-  .done((response) => {
-    const $mapList = $('#map-list');
+    url: "api/maps/list",
+    type: "GET",
+    dataType: "json",
+  }).done((response) => {
+    const $mapList = $("#map-list");
     // Clear existing list items
     $mapList.empty();
 
     // Append new list items based on API response
-    for (const map of response.maps) {  // eventually link to http://localhost:8080/api/maps/<map_id>
+    for (const map of response.maps) {
+      // eventually link to http://localhost:8080/api/maps/<map_id>
       $mapList.append(`
       <div class="card discover" id=${map.id}>
         <button class="icon-button view-button" type="submit">
@@ -334,26 +346,26 @@ function hideContributionSave () {
         <div class="map-card"><b> ${map.title} </b></div>
         <div class="map-card"> ${map.description} </div>
       </div>
-      `)
+      `);
     }
-  })
-};
+  });
+}
 
 // This loads the list of maps in the favorites tab (for logged in user)
 export function loadFavorites() {
   $.ajax({
     url: `/maps/:user_id/favorites`,
-    type: "GET"
+    type: "GET",
   })
-  .done((response) => {
-    const $myFavList = $('#my-fav-list')
+    .done((response) => {
+      const $myFavList = $("#my-fav-list");
 
-    // Clear existing list items
-    $myFavList.empty();
+      // Clear existing list items
+      $myFavList.empty();
 
-    // Append new list items based on API response
-    for (const map of response["data"]) {
-      $myFavList.append(`
+      // Append new list items based on API response
+      for (const map of response["data"]) {
+        $myFavList.append(`
         <div class="card">
           <a class="map-list-item" id=${map.id}>
             <div class="map-card"><b> ${map.title}  </b></div>
@@ -368,29 +380,29 @@ export function loadFavorites() {
           </button>
           </div>
           </div>
-        `)
+        `);
       }
     })
     .fail((xhr, status, error) => {
       console.error("Error:", error);
     });
-};
+}
 
 // This loads the list of maps in the contributions tab (for logged in user)
 export function loadContributions() {
   $.ajax({
     url: `/maps/:user_id/contributions`,
-    type: "GET"
+    type: "GET",
   })
-  .done((response) => {
-    const $myContribList = $('#my-contrib-list')
+    .done((response) => {
+      const $myContribList = $("#my-contrib-list");
 
-    // Clear existing list items
-    $myContribList.empty();
+      // Clear existing list items
+      $myContribList.empty();
 
-    // Append new list items based on API response
-    for (const map of response["data"]) {
-      $myContribList.append(`
+      // Append new list items based on API response
+      for (const map of response["data"]) {
+        $myContribList.append(`
         <div class="card" id=${map.id}>
           <a class="map-list-item">
             <div class="map-card"><b> ${map.title}  </b></div>
@@ -405,29 +417,30 @@ export function loadContributions() {
             </button>
           </div>
         </div>
-        `)
+        `);
       }
     })
     .fail((xhr, status, error) => {
       console.error("Error:", error);
     });
-};
+}
 
- /**
-   * Function to load maps for the user, displayed on the profile tab - My Maps
-   * GET /maps/:user_id/my-maps
-   */
- export function loadMyMaps() {
+/**
+ * Function to load maps for the user, displayed on the profile tab - My Maps
+ * GET /maps/:user_id/my-maps
+ */
+export function loadMyMaps() {
   $.ajax({
     url: `/maps/:user_id/my-maps`,
     type: "GET",
     success: function (maps) {
-      const $myMapsList = $('#my-maps-list')
+      const $myMapsList = $("#my-maps-list");
       // Clear existing list items
       $myMapsList.empty();
 
       // Append new list items based on API response
-      $.each(maps, function (index, map) { // eventually link to http://localhost:8080/api/maps/<map_id>
+      $.each(maps, function (index, map) {
+        // eventually link to http://localhost:8080/api/maps/<map_id>
         $myMapsList.append(`
           <div class="card" id=${map.id}>
             <a class="map-list-item">
@@ -446,7 +459,7 @@ export function loadContributions() {
               </button>
             </div>
           </div>
-        `)
+        `);
       });
     },
     error: function (xhr, status, error) {
@@ -505,9 +518,9 @@ export function loadContributions() {
 //   });
 // }
 /**
-   * Function to load points based on the map_id, to display on the view tab
-   * GET /maps/:user_id/points
-   */
+ * Function to load points based on the map_id, to display on the view tab
+ * GET /maps/:user_id/points
+ */
 // export function loadMapInfo(map_id) {
 //   $.ajax({
 //     url: `/maps/:user_id/${map_id}/map-info`,
@@ -545,7 +558,6 @@ export function loadContributions() {
 // }
 
 export function createMap() {
-
   const title = $("#title").val();
   const description = $("#map-description").val();
   const isPrivate = $("#private").is(":checked");
@@ -559,8 +571,8 @@ export function createMap() {
       createPoint(map.id);
 
       setTimeout(() => {
-        loadMapInfo(map.id)
-        loadPoints(map.id)
+        loadMapInfo(map.id);
+        loadPoints(map.id);
       }, 150);
 
       loadMyMaps();
@@ -572,8 +584,8 @@ export function createMap() {
     },
   });
 }
-export function addPointsToMap(map_id){
-  let bounds = []
+export function addPointsToMap(map_id) {
+  let bounds = [];
   results.clearLayers();
   $.ajax({
     url: `/maps/:user_id/${map_id}/points`,
@@ -582,20 +594,20 @@ export function addPointsToMap(map_id){
       console.log("checking the point event>>>>", points);
       $.each(points, function (indexInArray, point) {
         console.log("checking the point img>>>>", point.image_url);
-        bounds.push([point.latitude,point.longitude]);
-      let description = point.description;
-      let imageUrl = point.image_url;
-      let marker = L.marker([point.latitude,point.longitude]).addTo(results);
-      map.fitBounds(bounds);
-      marker
-      .bindPopup(
-        "<b>Description:</b> " +
-          description +
-          '<br><img src="' +
-          imageUrl +
-          '" alt="imagen" style="width:100%;">'
-      )
-      .openPopup()
+        bounds.push([point.latitude, point.longitude]);
+        let description = point.description;
+        let imageUrl = point.image_url;
+        let marker = L.marker([point.latitude, point.longitude]).addTo(results);
+        map.fitBounds(bounds);
+        marker
+          .bindPopup(
+            "<b>Description:</b> " +
+              description +
+              '<br><img src="' +
+              imageUrl +
+              '" alt="imagen" style="width:100%;">'
+          )
+          .openPopup();
       });
     },
     error: function (xhr, status, error) {
@@ -604,10 +616,10 @@ export function addPointsToMap(map_id){
   });
 }
 
-export function addMarker () {
+export function addMarker() {
   let description = $("#description").val(); // Using jQuery for value retrieval
   let imageUrl = $("#image").val(); // Using jQuery for value retrieval
-  let marker = L.marker(map.getCenter(), { draggable: true }).addTo(map);
+  let marker = L.marker(map.getCenter(), { draggable: true }).addTo(results);
 
   marker.on("dragend", function (event) {
     let latitude = event.target.getLatLng().lat;
@@ -646,33 +658,33 @@ export function addMarker () {
   $("#markerModal").hide();
   $("#description").val("");
   $("#image").val("");
-};
+}
 
-export function addContribMarker () {
+export function addContribMarker() {
   let description = $("#contrib-description").val(); // Using jQuery for value retrieval
   let imageUrl = $("#contrib-image").val(); // Using jQuery for value retrieval
   let marker = L.marker(map.getCenter(), { draggable: true }).addTo(results);
 
-
-  marker.on('dragend', function (event) {
+  marker.on("dragend", function (event) {
     let latitude = event.target.getLatLng().lat;
     let longitude = event.target.getLatLng().lng;
-    contribPointsData.push({ marker: marker, description: description,latitude: latitude, longitude: longitude, imageUrl: imageUrl})
+    contribPointsData.push({
+      marker: marker,
+      description: description,
+      latitude: latitude,
+      longitude: longitude,
+      imageUrl: imageUrl,
+    });
     console.log(">>>>> contrib array", contribPointsData);
     updateContribMarkerList();
     marker.dragging.disable();
-  })
+  });
 
-  if (description === '') {
-    return alert('Please add a location description!');
+  if (description === "") {
+    return alert("Please add a location description!");
   }
-  if (imageUrl === '' && description !== '') {
-    marker
-    .bindPopup(
-      "<b>Description:</b> " +
-        description
-    )
-    .openPopup();
+  if (imageUrl === "" && description !== "") {
+    marker.bindPopup("<b>Description:</b> " + description).openPopup();
   } else {
     marker
       .bindPopup(
@@ -686,26 +698,26 @@ export function addContribMarker () {
   }
   // Using jQuery to hide the modal and reset form values
 
-  console.log("array points>>>>",contribPointsData);
+  console.log("array points>>>>", contribPointsData);
   $("#contrib-markerModal").hide();
   $("#contrib-description").val("");
   $("#contrib-image").val("");
-};
+}
 
-export function removeMarker (index) {
+export function removeMarker(index) {
   map.removeLayer(pointsData[index].marker);
   pointsData.splice(index, 1);
   updateMarkerList();
-};
+}
 // Contributions - Remove a single contribution marker
-export function removeContribMarker (index) {
+export function removeContribMarker(index) {
   map.removeLayer(contribPointsData[index].marker);
   contribPointsData.splice(index, 1);
   updateContribMarkerList();
-};
+}
 
-export function clearContribLayer () {
-  for (let i = 0; i < contribPointsData.length; i++ ) {
+export function clearContribLayer() {
+  for (let i = 0; i < contribPointsData.length; i++) {
     map.removeLayer(contribPointsData[i].marker);
   }
   map.removeLayer(contribPointsData);
@@ -721,7 +733,9 @@ export function updateContribMarkerList() {
   $contribList.empty();
 
   contribPointsData.forEach(function (markerObj, index) {
-    $contribList.append(`
+    $contribList
+      .append(
+        `
       <div class="point-item">
         <div>🟡 ${markerObj.description} </div>
         <div class="point-actions">
@@ -730,30 +744,30 @@ export function updateContribMarkerList() {
           </button>
         </div>
       </div>
-      `)
+      `
+      )
       .click(function () {
         map.setView(markerObj.marker.getLatLng(), 13); // Center the map on the marker
         markerObj.marker.openPopup(); // Open the marker's popup
       });
 
-      $("#view-tab").on("click", ".contrib-marker-delete", function() {
-        removeContribMarker(index);
-      });
+    $("#view-tab").on("click", ".contrib-marker-delete", function () {
+      removeContribMarker(index);
+    });
   });
 
-
-  if ($contribList.is(':not(:empty)')) {
+  if ($contribList.is(":not(:empty)")) {
     $("#save-contribution").show();
   } else {
     contribPointsData.length = 0;
     $("#save-contribution").hide();
-  };
+  }
 }
 
 /**
-   * Action item: Contribute - Add point to existing map
-   * POST /maps/:username/:user_id/add-contribution
-   */
+ * Action item: Contribute - Add point to existing map
+ * POST /maps/:username/:user_id/add-contribution
+ */
 export function createContribPoint(map_id) {
   const promises = [];
 
@@ -769,18 +783,24 @@ export function createContribPoint(map_id) {
         url: "/maps/points/add",
         type: "POST",
         contentType: "application/json",
-        data: JSON.stringify({ description, imageUrl, latitude, longitude, map_id }),
+        data: JSON.stringify({
+          description,
+          imageUrl,
+          latitude,
+          longitude,
+          map_id,
+        }),
         success: function (point) {
           resolve(point);
         },
         error: function (xhr, status, error) {
           reject(error);
-        }
+        },
       });
     });
 
     promises.push(addContribPointPromise);
   }
 
-    return Promise.all(promises);
+  return Promise.all(promises);
 }
