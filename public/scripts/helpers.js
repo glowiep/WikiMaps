@@ -771,10 +771,11 @@ export function createContribPoint(map_id) {
         contentType: "application/json",
         data: JSON.stringify({ description, imageUrl, latitude, longitude, map_id }),
         success: function (point) {
+          console.log("SUCCESS creating contribution point!!!")
           resolve(point);
         },
         error: function (xhr, status, error) {
-          reject(error);
+          reject(console.log("Error with addContribPointPromise (#1)", error));
         }
       });
     });

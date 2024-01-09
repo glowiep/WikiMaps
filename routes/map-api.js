@@ -64,8 +64,8 @@ router.post('/points/add', (req, res) => {
   // Insert the point into the database
   mapQueries.createPoints(description,imageUrl, latitude, longitude, map_id)
       .then(result => {
-        console.log(">>>>>>>points", result);
-          res.json(result.rows);
+        console.log(">>>>>>>points result", result);
+        res.json(result[0]);
       })
       .catch(err => {
           console.error(err);
@@ -77,13 +77,13 @@ router.post('/points/add', (req, res) => {
 router.post('/:username/:user_id/add-contribution', (req, res) => {
   const { map_id, point_id } = req.body;
   const user_id = req.session["user_id"];
-  console.log(req.session);
+  console.log("POST /:username/:user_id/add-contribution", req.session);
 
   // Insert the point into the database
   mapQueries.addContribution(user_id, map_id, point_id)
       .then(result => {
         console.log(">>>>>>>contribution Points", result);
-          res.json(result.rows);
+          res.json(result[0]);
       })
       .catch(err => {
           console.error(err);
