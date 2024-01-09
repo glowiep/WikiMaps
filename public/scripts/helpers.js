@@ -60,13 +60,13 @@ $("#new-map-button").click(function (e) {
   results.clearLayers();
 });
 export function updateMarkerList() {
-  var $list = $("#marker-list ul").first();
+  let $list = $("#marker-list ul").first();
   $list.empty();
 
   pointsData.forEach(function (markerObj, index) {
-    var $listItem = $("<li>");
+    let $listItem = $("<li>");
 
-    var $button = $('<button>Delete</button>')
+    let $button = $('<button>Delete</button>')
       .click(function() {
         removeMarker(index);
       });
@@ -198,6 +198,9 @@ export function loadDiscoverPoints(map_id) {
 
       $pointList.append(`
           <div class="point-actions">
+          <button id="discover-fav-button" class="btn btn-light" type="submit">
+            <span><i class="fa-regular fa-heart action-item"></i></span>
+            </button>
             <button id="contribute-button" class="btn btn-success" type="submit">Contribute</button>
             <button id="save-contribution" class="btn btn-warning" type="submit">Save</button>
           </div>
@@ -402,6 +405,9 @@ export function loadContributions() {
             </button>
             <button class="icon-button view-button" type="submit">
               <span><i class="fa-solid fa-eye action-item"></i></span>
+            </button>
+            <button class="icon-button delete-button" type="submit" id = ${map.id}>
+              <span><i class="fa-solid fa-circle-minus action-item"></i></span>
             </button>
           </div>
         </div>
@@ -721,24 +727,30 @@ export function updateContribMarkerList() {
   $contribList.empty();
 
   contribPointsData.forEach(function (markerObj, index) {
-    $contribList.append(`
-      <div class="point-item">
-        <div>🟡 ${markerObj.description} </div>
-        <div class="point-actions">
+    let $list = $("#contrib-marker-list")
+    let $listItem = $(`<div class="point-item"></div>`);
+
+    let $button = $(
+      `
+      <div class="point-actions">
           <button class="icon-button delete-point-button" type="submit">
             <span><i class="fa-solid fa-trash contrib-marker-delete action-item"></i></span>
           </button>
         </div>
-      </div>
-      `)
+      `
+    ) .click(function() {
+        removeContribMarker(index);
+      });
+
+    $listItem
+      .append(`<div>🟡 ${markerObj.description} </div>`)
+      .append($button)
       .click(function () {
         map.setView(markerObj.marker.getLatLng(), 13); // Center the map on the marker
         markerObj.marker.openPopup(); // Open the marker's popup
       });
 
-      $("#view-tab").on("click", ".contrib-marker-delete", function() {
-        removeContribMarker(index);
-      });
+    $list.append($listItem);
   });
 
 
@@ -771,10 +783,11 @@ export function createContribPoint(map_id) {
         contentType: "application/json",
         data: JSON.stringify({ description, imageUrl, latitude, longitude, map_id }),
         success: function (point) {
+          console.log("SUCCESS creating contribution point!!!")
           resolve(point);
         },
         error: function (xhr, status, error) {
-          reject(error);
+          reject(console.log("Error with addContribPointPromise (#1)", error));
         }
       });
     });

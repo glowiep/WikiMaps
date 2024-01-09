@@ -74,6 +74,22 @@ const getMapPoints = (map_id) => {
     });
 };
 
+// Get contribution point associated with a given map ID
+const getContributionPoint = (map_id, user_id) => {
+  return db
+    .query(`
+    SELECT * FROM contributions 
+    WHERE map_id = $1
+    AND user_id = $2;
+    `, [map_id, user_id])
+    .then((data) => {
+      return data.rows;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
 // Get points associated with a given map ID
 const getMapInfo = (map_id) => {
   return db
@@ -128,6 +144,21 @@ const deleteFavorite = (user_id, map_id) => {
     });
 };
 
+// Delete contribution
+const deleteContribution = (map_id, user_id) => {
+  return db
+    .query(`
+      DELETE FROM contributions 
+      WHERE map_id = $1
+      AND user_id = $2;
+      `,
+      [map_id, user_id]
+    )
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
 // Delete maps
 const deleteMaps = ( map_id) => {
   return db
@@ -156,7 +187,7 @@ const deletePoint = (point_id) => {
 // Get maps user contributed to, to be displayed on Profile tab
 const getUserContributions = (user_id) => {
   return db.query(`
-    SELECT maps.id, maps.title, maps.description, maps.creator_id, users.username as creator_username 
+    SELECT DISTINCT maps.id, maps.title, maps.description, maps.creator_id, users.username as creator_username 
     FROM contributions 
     JOIN maps ON contributions.map_id = maps.id
     JOIN users ON maps.creator_id = users.id
@@ -196,6 +227,7 @@ module.exports = {
   getMapPoints,
   getMapInfo,
   getUserFavorites,
+  getContributionPoint,
   createMap,
   createPoints,
   addContribution,
@@ -203,5 +235,6 @@ module.exports = {
   addFavorite,
   deleteFavorite,
   deleteMaps,
-  deletePoint
+  deletePoint,
+  deleteContribution
 };

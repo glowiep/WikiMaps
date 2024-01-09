@@ -37,11 +37,12 @@ $(() => {
 
         // Create an array of promises for the second AJAX requests - to add to contributions table
         const secondAjaxPromises = point_ids.map((point_id) => {
+          console.log(point_id)
           return $.ajax({
             url: "/maps/:username/:user_id/add-contribution",
             type: "POST",
             contentType: "application/json",
-            data: JSON.stringify({ map_id, point_id }),
+            data: JSON.stringify({ map_id, point_id })
           });
         });
 
@@ -54,7 +55,7 @@ $(() => {
         loadContributions();
       })
       .catch((error) => {
-        console.error("Error adding contributions:", error);
+        console.error("Error adding contributions in 2nd promise:", error);
       });
   });
 
@@ -130,6 +131,54 @@ $(() => {
     });
   });
 
+   /**
+   * Action item: Discover page Favorite button
+   * POST /maps/favorites/add
+   */
+    $("#view-tab").on("click", "#discover-fav-button", function (e) {
+      e.preventDefault();
+      const map_id = $("#view-tab").find(".map-title-info").attr("id");
+      console.log(JSON.stringify({ map_id }));
+  
+      $.ajax({
+        url: "/maps/favorites/add",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({ map_id }),
+        success: function (fav) {
+          loadFavorites();
+          console.log("favorite added from discover", fav);
+        },
+        error: function (xhr, status, error) {
+          console.error("Error:", error);
+        },
+      });
+    });
+
+    /**
+   * Action item: Delete contribution circle-minus button
+   * POST /maps/contribution/delete
+   */
+    $("#profile").on("click", ".fa-circle-minus", function (e) {
+      e.preventDefault();
+      const map_id = $(this).closest(".card").attr("id");
+      console.log(JSON.stringify({ map_id }));
+  
+      $.ajax({
+        url: "/maps/contribution/delete",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({ map_id }),
+        success: function (contrib) {
+          loadContributions();
+          console.log("Contribution deleted", contrib);
+        },
+        error: function (xhr, status, error) {
+          console.error("Error:", error);
+        },
+      });
+    });
+
   /**
    * Action item: Remove Favorite button
    * POST /maps/favorites/delete
@@ -183,32 +232,7 @@ $(() => {
     });
   });
 
-  // /maps/:username/:user_id/api/maps/list - loads Discover tab public maps list (for logged in user)
-  // const fetchMapList = function() {
-  //   $.ajax({
-  //     url: 'api/maps/list',
-  //     type: 'GET',
-  //     dataType: 'json'
-  //   })
-  //   .done((response) => {
-  //     const $mapList = $('#map-list');
-  //     // Clear existing list items
-  //     $mapList.empty();
 
-  //     // Append new list items based on API response
-  //     for (const map of response.maps) {  // eventually link to http://localhost:8080/api/maps/<map_id>
-  //       $mapList.append(`
-  //       <div class="card" id=${map.id}>
-  //         <button class="icon-button view-button" type="submit">
-  //           <span><i class="fa-solid fa-magnifying-glass action-item"></i></span>
-  //         </button>
-  //         <div class="map-card discover"><b> ${map.title} </b></div>
-  //         <div class="map-card"> ${map.description} </div>
-  //       </div>
-  //     `)
-  //     }
-  //   })
-  // };
   $("#map-list").on("click", ".discover", function(e) {
     e.preventDefault();
     const map_id = $(this).attr('id');
