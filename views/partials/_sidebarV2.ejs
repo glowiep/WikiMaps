@@ -84,11 +84,12 @@
     <% if (username) { %> 
       <%- include('_sidebar-fav-tab') %>
       <%- include('_sidebar-map-tab') %>
-    <% } %> 
-
+      <%- include('_sidebar-view-tab') %>
+      <%- include('_sidebar-discover-tab') %>
+    <% } else { %> 
     <%- include('_sidebar-view-tab') %>
-      
-    <%- include('_sidebar-discover-tab') %>
+    <%- include('_sidebar-guest-discover-tab') %>
+    <% } %>
 
     <div class="sidebar-pane" id="settings">
       <h1 class="sidebar-header"

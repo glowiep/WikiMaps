@@ -224,6 +224,7 @@ export function loadDiscoverPoints(map_id) {
         }
       },
       error: function (xhr, status, error) {
+        alert("error")
         console.error("Error:", error);
       }
     });

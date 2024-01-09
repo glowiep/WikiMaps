@@ -1,11 +1,11 @@
-// For guest sidebar
+// For GUEST sidebar
 import { loadDiscoverMapInfo, 
   loadGuestPoints, 
   fetchMapList
 } from "/scripts/helpers.js";
 
 $(() => {
-  $("#map-list").on("click", ".card", function(e) {
+  $("#map-list").on("click", ".discover", function(e) {
     e.preventDefault();
     const map_id = $(this).attr('id');
     loadDiscoverMapInfo(map_id);
