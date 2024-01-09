@@ -403,6 +403,9 @@ export function loadContributions() {
             <button class="icon-button view-button" type="submit">
               <span><i class="fa-solid fa-eye action-item"></i></span>
             </button>
+            <button class="icon-button delete-button" type="submit" id = ${map.id}>
+              <span><i class="fa-solid fa-circle-minus action-item"></i></span>
+            </button>
           </div>
         </div>
         `)

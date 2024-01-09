@@ -131,6 +131,30 @@ $(() => {
     });
   });
 
+    /**
+   * Action item: Delete contribution circle-minus button
+   * POST /maps/contribution/delete
+   */
+    $("#profile").on("click", ".fa-circle-minus", function (e) {
+      e.preventDefault();
+      const map_id = $(this).closest(".card").attr("id");
+      console.log(JSON.stringify({ map_id }));
+  
+      $.ajax({
+        url: "/maps/contribution/delete",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({ map_id }),
+        success: function (contrib) {
+          loadContributions();
+          console.log("Contribution deleted", contrib);
+        },
+        error: function (xhr, status, error) {
+          console.error("Error:", error);
+        },
+      });
+    });
+
   /**
    * Action item: Remove Favorite button
    * POST /maps/favorites/delete
@@ -184,7 +208,7 @@ $(() => {
     });
   });
 
-  
+
   $("#map-list").on("click", ".discover", function(e) {
     e.preventDefault();
     const map_id = $(this).attr('id');
