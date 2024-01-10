@@ -151,7 +151,10 @@ export function createPoint (map_id) {
     }
   });
 }
-
+/**
+ * Function to load map info based on the map_id, to display on the view tab via DISCOVER
+ * GET /maps/:user_id/points
+ */
 export function loadDiscoverMapInfo(map_id) {
   $.ajax({
     url: `/maps/:user_id/${map_id}/map-info`,
@@ -182,7 +185,7 @@ export function loadDiscoverMapInfo(map_id) {
   });
 }
 
-/**
+  /**
    * Function to load points based on the map_id, to display on the view tab via DISCOVER
    * GET /maps/:user_id/points
    */
@@ -199,7 +202,7 @@ export function loadDiscoverPoints(map_id) {
       $pointList.append(`
           <div class="point-actions">
           <button id="discover-fav-button" class="btn btn-light" type="submit">
-            <span><i class="fa-regular fa-heart action-item"></i></span>
+            <span data-toggle="tooltip" title="Add to Favorites"><i class="fa-regular fa-heart action-item"></i></span>
             </button>
             <button id="contribute-button" class="btn btn-success" type="submit">Contribute</button>
             <button id="save-contribution" class="btn btn-warning" type="submit">Save</button>
@@ -214,7 +217,7 @@ export function loadDiscoverPoints(map_id) {
               <div>📍 ${point.description} </div>
               <div class="point-actions">
                 <button class="icon-button view-point-button" type="submit">
-                  <span><i class="fa-solid fa-eye action-item"></i></span>
+                  <span data-toggle="tooltip" title="View Point"><i class="fa-solid fa-eye action-item"></i></span>
                 </button>
               </div>
             </div>
@@ -256,10 +259,10 @@ export function loadPoints(map_id) {
             <div>📍 ${point.description} </div>
             <div class="point-actions">
               <button class="icon-button edit-point-button" type="submit">
-                <span><i class="fa-solid fa-solid fa-eye action-item action-item"></i></span>
+                <span data-toggle="tooltip" title="View Location"><i class="fa-solid fa-solid fa-eye action-item action-item"></i></span>
               </button>
               <button class="icon-button delete-point-button" type="submit">
-                <span><i class="fa-solid fa-trash action-item"></i></span>
+                <span data-toggle="tooltip" title="Delete Location"><i class="fa-solid fa-trash action-item"></i></span>
               </button>
             </div>
           </div>
@@ -293,7 +296,7 @@ export function loadGuestPoints(map_id) {
               <div>📍 ${point.description} </div>
               <div class="point-actions">
                 <button class="icon-button view-point-button" type="submit">
-                  <span><i class="fa-solid fa-eye action-item"></i></span>
+                  <span data-toggle="tooltip" title="View Location"><i class="fa-solid fa-eye action-item"></i></span>
                 </button>
               </div>
             </div>
@@ -332,7 +335,7 @@ function hideContributionSave () {
       $mapList.append(`
       <div class="card discover" id=${map.id}>
         <button class="icon-button view-button" type="submit">
-          <span><i class="fa-solid fa-magnifying-glass action-item"></i></span>
+          <span data-toggle="tooltip" title="View Map"><i class="fa-solid fa-magnifying-glass action-item"></i></span>
         </button>
         <div class="map-card"><b> ${map.title} </b></div>
         <div class="map-card"> ${map.description} </div>
@@ -364,10 +367,10 @@ export function loadFavorites() {
           </a>
           <div class="item-bar">
           <button class="icon-button view-button" type="submit">
-            <span><i class="fa-solid fa-eye action-item"></i></span>
+            <span data-toggle="tooltip" title="View Map"><i class="fa-solid fa-eye action-item"></i></span>
           </button>
           <button class="icon-button unfav-button" type="submit">
-            <span><i class="fa-solid fa-heart-crack action-item"></i></span>
+            <span data-toggle="tooltip" title="Remove from Favorites"><i class="fa-solid fa-heart-crack action-item"></i></span>
           </button>
           </div>
           </div>
@@ -401,13 +404,13 @@ export function loadContributions() {
           </a>
           <div class="item-bar">
             <button class="icon-button fav-button" type="submit">
-              <span><i class="fa-regular fa-heart action-item"></i></span>
+              <span data-toggle="tooltip" title="Add to Favorites"><i class="fa-regular fa-heart action-item"></i></span>
             </button>
             <button class="icon-button view-button" type="submit">
-              <span><i class="fa-solid fa-eye action-item"></i></span>
+              <span data-toggle="tooltip" title="View Map"><i class="fa-solid fa-eye action-item"></i></span>
             </button>
             <button class="icon-button delete-button" type="submit" id = ${map.id}>
-              <span><i class="fa-solid fa-circle-minus action-item"></i></span>
+              <span data-toggle="tooltip" title="Delete Contribution - This action is irreversible!"><i class="fa-solid fa-circle-minus action-item"></i></span>
             </button>
           </div>
         </div>
@@ -442,13 +445,13 @@ export function loadContributions() {
             </a>
             <div class="item-bar">
               <button class="icon-button fav-button" type="submit">
-                <span><i class="fa-regular fa-heart action-item"></i></span>
+                <span data-toggle="tooltip" title="Add to Favorites"><i class="fa-regular fa-heart action-item"></i></span>
               </button>
               <button class="icon-button view-button" type="submit">
-                <span><i class="fa-solid fa-eye action-item"></i></span>
+                <span data-toggle="tooltip" title="View Map"><i class="fa-solid fa-eye action-item"></i></span>
               </button>
               <button class="icon-button delete-button" type="submit" id = ${map.id}>
-                <span><i class="fa-solid fa-trash action-item"></i></span>
+                <span data-toggle="tooltip" title="Delete Map - This action is irreversible!"><i class="fa-solid fa-trash action-item"></i></span>
               </button>
             </div>
           </div>
@@ -461,97 +464,11 @@ export function loadContributions() {
   });
 }
 
-//  /**
-//    * Function to load points based on the map_id, to display on the view tab
-//    * GET /maps/:user_id/points
-//    */
-// export function loadPoints(map_id) {
-//   $.ajax({
-//     url: `/maps/:user_id/${map_id}/points`,
-//     type: "GET",
-//     success: function (points) {
-//     console.log("testing what is returning here>>>>",points);
-
-//       const $defaultText = $('#view-tab-default');
-//       const $pointList = $('#point-list');
-//       // Hide default view tab text
-//       $defaultText.hide();
-//       // Clear existing list items
-//       $pointList.empty();
-
-//       // Append point list items based on API response
-//       $.each(points, function (index, point) {
-//         let description = point.description;
-//         let imageUrl = point["image_url"];
-//         let marker = L.marker([point.latitude,point.longitude]).addTo(results);
-//         marker.bindPopup("<b>Description:</b> " +
-//         description +
-//         '<br><img src="' +
-//         imageUrl +
-//         '" alt="imagen" style="width:100%;">').openPopup();
-
-//         $pointList.append(`
-//           <div class="point-item" id=${point.id}>
-//             <div>📍 ${point.description} </div>
-//             <div class="point-actions">
-//               <button class="icon-button edit-point-button" type="submit">
-//                 <span><i class="fa-solid fa-pen-to-square action-item"></i></span>
-//               </button>
-//               <button class="icon-button delete-point-button" type="submit">
-//                 <span><i class="fa-solid fa-trash action-item"></i></span>
-//               </button>
-//             </div>
-//           </div>
-//         `)
-//       });
-//     },
-//     error: function (xhr, status, error) {
-//       console.error("Error:", error);
-//     },
-//   });
-// }
 /**
-   * Function to load points based on the map_id, to display on the view tab
-   * GET /maps/:user_id/points
-   */
-// export function loadMapInfo(map_id) {
-//   $.ajax({
-//     url: `/maps/:user_id/${map_id}/map-info`,
-//     type: "GET",
-//     success: function (maps) {
-//       const $defaultText = $('#view-tab-default');
-//       const $mapInfo = $('#map-info-div');
-//       // Hide default view tab text
-//       $defaultText.hide();
-//       // Clear map info
-//       $mapInfo.empty();
-
-//       // Append point list items based on API response
-//       $.each(maps, function (index, map) {
-//         console.log("information about the map>>>>", map);
-//         $mapInfo.append(`
-//           <h6 id=${map.id}>MAP TITLE</h6>
-//           <div id="map-title">${map.title}</div>
-//           <br>
-//           <h6>MAP DESCRIPTION</h6>
-//           <div id="map-description">${map.description}</div>
-//           <br>
-//           <div class="form-check">
-//             <input class="form-check-input" type="checkbox" value="" id="private"/>
-//             <label class="form-check-label" for="private"> Private </label>
-//           </div>
-//           <button type="submit" class="btn btn-success" disabled>Save</button>
-//         `)
-//       });
-//     },
-//     error: function (xhr, status, error) {
-//       console.error("Error:", error);
-//     },
-//   });
-// }
-
+ * Create Map
+ * POST /maps/:username/:user_id/add
+ */
 export function createMap() {
-
   const title = $("#title").val();
   const description = $("#map-description").val();
   const isPrivate = $("#private").is(":checked");
@@ -734,7 +651,7 @@ export function updateContribMarkerList() {
       `
       <div class="point-actions">
           <button class="icon-button delete-point-button" type="submit">
-            <span><i class="fa-solid fa-trash contrib-marker-delete action-item"></i></span>
+            <span data-toggle="tooltip" title="Delete Marker"><i class="fa-solid fa-trash contrib-marker-delete action-item"></i></span>
           </button>
         </div>
       `
