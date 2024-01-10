@@ -440,7 +440,9 @@ export function loadContributions() {
         $myMapsList.append(`
           <div class="card" id=${map.id}>
             <a class="map-list-item">
-              <div class="map-card"><b> ${map.title}  </b></div>
+              <div class="map-card"><b> ${map.title}  
+                <span class=private-identifier data-toggle="tooltip" title="Private Map"></span></b>
+              </div>
               <div class="map-card"> ${map.description} </div>
             </a>
             <div class="item-bar">
@@ -456,6 +458,13 @@ export function loadContributions() {
             </div>
           </div>
         `)
+
+        if (map.private) {
+          $myMapsList
+            .find(`#${map.id}`)
+            .find(".private-identifier")
+            .append(`<i class="fa-solid fa-lock"></i>`);
+        } 
       });
     },
     error: function (xhr, status, error) {

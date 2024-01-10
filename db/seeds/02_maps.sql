@@ -50,7 +50,7 @@ VALUES
     'Sydney Secrets',
     'Explore the beauty of Sydney',
     TRUE,
-    5
+    4
   );
 
 INSERT INTO
