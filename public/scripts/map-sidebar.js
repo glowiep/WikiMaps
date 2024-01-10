@@ -139,7 +139,7 @@ $(() => {
       },
       error: function (xhr, status, error) {
         loadFavorites();
-        console.error("Error:", error);
+        console.error("(Not able to insert into favorites database) Error:", error);
       },
     });
   }
