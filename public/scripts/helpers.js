@@ -378,7 +378,7 @@ export function loadFavorites() {
       console.error("Error:", error);
     });
 };
-
+  
 // This loads the list of maps in the contributions tab (for logged in user)
 export function loadContributions() {
   $.ajax({
@@ -424,11 +424,11 @@ export function loadContributions() {
    * GET /maps/:user_id/my-maps
    */
  export function loadMyMaps() {
-  $.ajax({
-    url: `/maps/:user_id/my-maps`,
-    type: "GET",
-    success: function (maps) {
-      const $myMapsList = $('#my-maps-list')
+   $.ajax({
+     url: `/maps/:user_id/my-maps`,
+     type: "GET",
+     success: function (maps) {
+      const $myMapsList = $('#my-maps-list');
       // Clear existing list items
       $myMapsList.empty();
 
