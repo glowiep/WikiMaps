@@ -185,10 +185,10 @@ export function loadDiscoverMapInfo(map_id) {
   });
 }
 
-  /**
-   * Function to load points based on the map_id, to display on the view tab via DISCOVER
-   * GET /maps/:user_id/points
-   */
+/**
+ * Function to load points based on the map_id, to display on the view tab via DISCOVER
+ * GET /maps/:user_id/points
+ */
 export function loadDiscoverPoints(map_id) {
   $.ajax({
     url: `/maps/:user_id/${map_id}/points`,
@@ -504,6 +504,11 @@ export function createMap() {
     },
   });
 }
+
+/**
+ * Insert marker information from the map into the points database
+ * @param {integer} map_id 
+ */
 export function addPointsToMap(map_id){
   let bounds = []
   results.clearLayers();
@@ -580,6 +585,9 @@ export function addMarker () {
   $("#image").val("");
 };
 
+/**
+ * Add contribution marker to the map
+ */
 export function addContribMarker () {
   let description = $("#contrib-description").val(); // Using jQuery for value retrieval
   let imageUrl = $("#contrib-image").val(); // Using jQuery for value retrieval
