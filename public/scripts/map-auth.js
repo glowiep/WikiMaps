@@ -31,6 +31,12 @@ $(() => {
     $("#contrib-markerModal").css("display", "block");
   });
 
+  // View Map (User) - Add Point to my map button
+  $("#view-tab").on("click", "#add-new-point-button", function(e) {
+    e.preventDefault();
+    $("#contrib-markerModal").css("display", "block");
+  });
+
 
   $('#addPointBt').click(function (e) { 
     e.preventDefault();
@@ -41,5 +47,10 @@ $(() => {
     e.preventDefault();
     addContribMarker();
   });
+
+  // $('#addNewPointBt').click(function (e) { 
+  //   e.preventDefault();
+  //   addContribMarker();
+  // });
 
 });

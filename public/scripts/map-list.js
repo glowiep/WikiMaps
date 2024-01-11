@@ -24,5 +24,14 @@ $(() => {
     }, 230);
   });
 
+  // Refresh view-tab point list when contributions are saved
+  $("#view-tab").on("click", ".save-new-point", function (e) {
+    e.preventDefault();
+    const map_id = $("#view-tab").find(".map-title-info").attr("id");
+    setTimeout(() => {
+      loadPoints(map_id);
+    }, 230);
+  });
+
   fetchMapList();
 });

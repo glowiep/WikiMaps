@@ -151,14 +151,12 @@ export function createPoint (map_id) {
           <br>
           <h6>MAP DESCRIPTION</h6>
           <div id="map-description">${map.description}</div>
-          <br>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="private"/>
-            <label class="form-check-label" for="private"> Private </label>
+          <div class="point-actions">
+            <button id="add-new-point-button" class="btn btn-success">Add Point</button>
+            <button id="save-contribution" type="submit" class="btn btn-success save-new-point">Save</button>
           </div>
-          <button type="submit" class="btn btn-success" disabled>Save</button>
         `)
-
+        hideContributionSave()
         if (map.private) {
           $mapInfo
             .find(`#map-title`)
@@ -271,7 +269,11 @@ export function loadPoints(map_id) {
       // Hide default view tab text
       $defaultText.hide();
       // Clear existing list items
-      $pointList.empty();
+      $pointList
+        .empty()
+        .append(`
+            <div id="contrib-marker-list"></div>
+          `);
 
       // Append point list items based on API response
       $.each(points, function (index, point) {
