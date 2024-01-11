@@ -60,19 +60,28 @@ $("#new-map-button").click(function (e) {
   results.clearLayers();
 });
 export function updateMarkerList() {
-  let $list = $("#marker-list ul").first();
+  let $list = $("#create-point-list");
   $list.empty();
 
   pointsData.forEach(function (markerObj, index) {
-    let $listItem = $("<li>");
+    let $listItem = $(`<div class="point-item"></div>`);
 
-    let $button = $('<button>Delete</button>')
+    let $button = $(`
+          <div class="item-bar">
+            <button class="icon-button delete-point-button" type="submit">
+              <span data-toggle="tooltip" title="Delete Location"><i class="fa-solid fa-trash action-item"></i></span>
+            </button>
+          </div>
+        `)
       .click(function() {
         removeMarker(index);
       });
-
     $listItem
-      .html(markerObj.description + ' ')
+      .append(`
+        <div class="point-item">
+          <div>📍 ${markerObj.description} </div>
+        </div>
+      `)
       .append($button)
       .click(function () {
         map.setView(markerObj.marker.getLatLng(), 13); // Center the map on the marker
