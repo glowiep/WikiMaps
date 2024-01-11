@@ -141,8 +141,13 @@ export function createPoint (map_id) {
       // Append point list items based on API response
       $.each(maps, function (index, map) {
         $mapInfo.append(`
-          <h6 id=${map.id} class="map-title-info">MAP TITLE</h6>
-          <div id="map-title">${map.title}</div>
+          <h6 id=${map.id} class="map-title-info">
+            MAP TITLE
+          </h6>
+          <div id="map-title">
+            ${map.title}
+            <span class=private-identifier data-toggle="tooltip" title="Private Map"></span></b>          
+          </div>
           <br>
           <h6>MAP DESCRIPTION</h6>
           <div id="map-description">${map.description}</div>
@@ -153,6 +158,13 @@ export function createPoint (map_id) {
           </div>
           <button type="submit" class="btn btn-success" disabled>Save</button>
         `)
+
+        if (map.private) {
+          $mapInfo
+            .find(`#map-title`)
+            .find(".private-identifier")
+            .append(`<i class="fa-solid fa-lock"></i>`);
+        } 
       });
     },
     error: function (xhr, status, error) {
