@@ -20,4 +20,22 @@ $(() => {
   // $("#addContribPointBt").on("click", function() {
   //   addContribMarker();
   // })
+  
 });
+
+// introJs().setOptions({
+//   steps: [{
+//     intro: "Welcome to wikimaps!"
+//   }, {
+//     element: document.querySelector('#log-in-button'),
+//     intro: "Click here to login!"
+//   },
+//   {
+//     element: document.querySelector('.fa-earth'),
+//     intro: "Click here to discover public maps"
+//   },{
+//     element: document.querySelector('.geocoder-control-input'),
+//     intro: "Click here to search for locations"
+//   }],
+  
+// }).start();
