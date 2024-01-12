@@ -1,4 +1,5 @@
 // For GUEST sidebar
+import { loadMapInfo } from "./helpers";
 import {
   loadDiscoverMapInfo,
   loadGuestPoints,
@@ -22,6 +23,16 @@ $(() => {
     setTimeout(() => {
       loadGuestPoints(map_id);
     }, 230);
+  });
+
+  // Refresh view-tab point list when contributions are saved
+  $("#view-tab").on("click", ".save-new-point", function (e) {
+    e.preventDefault();
+    const map_id = $("#view-tab").find(".map-title-info").attr("id");
+    setTimeout(() => {
+      loadMapInfo(map_id)
+      loadPoints(map_id);
+    }, 250);
   });
 
   fetchMapList();

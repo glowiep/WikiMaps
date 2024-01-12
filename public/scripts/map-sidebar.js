@@ -60,6 +60,24 @@ $(() => {
       });
   });
 
+  // POST /maps/:username/:user_id/add-contribution - User add new point to exisiting map
+  $("#view-tab").on("click", "#save-new-point", function (e) {
+    e.preventDefault();
+    $("#contrib-marker-list").empty();
+    $("#save-new-point").hide();
+
+    const map_id = $("#view-tab").find(".map-title-info").attr("id");
+    console.log(map_id);
+    createContribPoint(map_id)
+      .then(() => {
+        console.log("New point(s) added successfully.");
+        loadPoints(map_id);
+      })
+      .catch((error) => {
+        console.error("Error adding new point(s):", error);
+      });
+  });
+
   /**
    * Action item: View Map button - display points list
    * GET /maps/:user_id/:map_id/points
