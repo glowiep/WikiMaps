@@ -54,6 +54,17 @@ searchControl.on("results", function (data) {
   console.log(data.results);
 });
 
+$("#new-map-button").click(function (e) {
+  let $list = $("#create-point-list");
+  $list.empty();
+  results.clearLayers();
+});
+
+$("#profile").on("click", ".fa-trash", function (e) {
+  let $list = $("#create-point-list");
+  $list.empty();
+  results.clearLayers();
+});
 export function updateMarkerList() {
   let $list = $("#create-point-list");
   $list.empty();
@@ -87,11 +98,7 @@ export function updateMarkerList() {
     $list.append($listItem);
   });
 }
-$("#new-map-button").click(function (e) {
-  results.clearLayers();
-  pointsData = [];
-  updateMarkerList();
-});
+
 // Function to check the form inputs
 export function checkFormInputs() {
   var allFilled = true;
@@ -559,7 +566,7 @@ export function addPointsToMap(map_id) {
 export function addMarker() {
   let description = $("#description").val(); // Using jQuery for value retrieval
   let imageUrl = $("#image").val(); // Using jQuery for value retrieval
-  let marker = L.marker(map.getCenter(), { draggable: true }).addTo(map);
+  let marker = L.marker(map.getCenter(), { draggable: true }).addTo(results);
 
   marker.on("dragend", function (event) {
     let latitude = event.target.getLatLng().lat;
