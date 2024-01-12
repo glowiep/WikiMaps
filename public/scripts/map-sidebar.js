@@ -226,6 +226,7 @@ $(() => {
       success: function (point) {
         loadPoints(map_id);
         addPointsToMap(map_id);
+        $("#save-new-point").hide();
         console.log("Point deleted", point);
       },
       error: function (xhr, status, error) {
