@@ -146,18 +146,29 @@ export function loadMapInfo(map_id) {
       // Append point list items based on API response
       $.each(maps, function (index, map) {
         $mapInfo.append(`
-          <h6 id=${map.id} class="map-title-info">MAP TITLE</h6>
-          <div id="map-title">${map.title}</div>
+          <h6 id=${map.id} class="map-title-info">
+            MAP TITLE
+          </h6>
+          <div id="map-title">
+            ${map.title}
+            <span class=private-identifier data-toggle="tooltip" title="Private Map"></span></b>          
+          </div>
           <br>
           <h6>MAP DESCRIPTION</h6>
           <div id="map-description">${map.description}</div>
-          <br>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="private"/>
-            <label class="form-check-label" for="private"> Private </label>
+          <div class="point-actions">
+            <button id="add-new-point-button" class="btn btn-success">Add Point</button>
+            <button id="save-new-point" type="submit" class="btn btn-warning save-new-point">Save</button>
           </div>
-          <button type="submit" class="btn btn-success" disabled>Save</button>
-        `);
+        `)
+        hideContributionSave()
+        hideAddNewPointSave()
+        if (map.private) {
+          $mapInfo
+            .find(`#map-title`)
+            .find(".private-identifier")
+            .append(`<i class="fa-solid fa-lock"></i>`);
+        } 
       });
     },
     error: function (xhr, status, error) {
@@ -264,7 +275,11 @@ export function loadPoints(map_id) {
       // Hide default view tab text
       $defaultText.hide();
       // Clear existing list items
-      $pointList.empty();
+      $pointList
+        .empty()
+        .append(`
+            <div id="contrib-marker-list"></div>
+          `);
 
       // Append point list items based on API response
       $.each(points, function (index, point) {
@@ -330,6 +345,10 @@ export function loadGuestPoints(map_id) {
 
 function hideContributionSave() {
   $("#save-contribution").hide();
+}
+
+function hideAddNewPointSave() {
+  $("#save-new-point").hide();
 }
 
 // This loads the list of public maps in the Discover tab (for guest)
@@ -539,6 +558,9 @@ export function addPointsToMap(map_id) {
         let imageUrl = point.image_url;
         let marker = L.marker([point.latitude, point.longitude]).addTo(results);
         map.fitBounds(bounds);
+        if (imageUrl === "" && description !== "") {
+          marker.bindPopup("<b>Description:</b> " + description).openPopup();
+        } else {
         marker
           .bindPopup(
             "<b>Description:</b> " +
@@ -548,6 +570,7 @@ export function addPointsToMap(map_id) {
               '" alt="imagen" style="width:100%;">'
           )
           .openPopup();
+          }
       });
     },
     error: function (xhr, status, error) {
@@ -704,9 +727,11 @@ export function updateContribMarkerList() {
 
   if ($contribList.is(":not(:empty)")) {
     $("#save-contribution").show();
+    $("#save-new-point").show();
   } else {
     contribPointsData.length = 0;
     $("#save-contribution").hide();
+    $("#save-new-point").hide();
   }
 }
 
