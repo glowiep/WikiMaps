@@ -99,6 +99,22 @@ export function updateMarkerList() {
   });
 }
 
+// Event listener for the View Location button
+$("#view-tab").on("click", ".view-point-button", function (e) {
+  e.preventDefault();
+  // 'this' refers to the clicked button
+  // .closest('.point-item') goes up the DOM tree to find the nearest .point-item ancestor
+  var $pointItem = $(this).closest(".point-item");
+
+  // Find the <p> elements and get their text
+  var latitude = $pointItem.find("p").first().text();
+  var longitude = $pointItem.find("p").last().text();
+  map.flyTo([latitude, longitude], 18 ,{ animate: true, duration: 1.5});
+  console.log("Latitude:", latitude, "Longitude:", longitude);
+
+  // Additional code to handle the latitude and longitude
+});
+
 // Function to check the form inputs
 export function checkFormInputs() {
   var allFilled = true;
@@ -167,15 +183,15 @@ export function loadMapInfo(map_id) {
             <button id="add-new-point-button" class="btn btn-success">Add Point</button>
             <button id="save-new-point" type="submit" class="btn btn-warning save-new-point">Save</button>
           </div>
-        `)
-        hideContributionSave()
-        hideAddNewPointSave()
+        `);
+        hideContributionSave();
+        hideAddNewPointSave();
         if (map.private) {
           $mapInfo
             .find(`#map-title`)
             .find(".private-identifier")
             .append(`<i class="fa-solid fa-lock"></i>`);
-        } 
+        }
       });
     },
     error: function (xhr, status, error) {
@@ -247,6 +263,8 @@ export function loadDiscoverPoints(map_id) {
         $pointList.append(`
             <div class="point-item" id=${point.id}>
               <div>📍 ${point.description} </div>
+              <p style = "display: none;">${point.latitude}</p>
+              <p style = "display: none;">${point.longitude}</p>
               <div class="point-actions">
                 <button class="icon-button view-point-button" type="submit">
                   <span data-toggle="tooltip" title="View Point"><i class="fa-solid fa-eye action-item"></i></span>
@@ -282,9 +300,7 @@ export function loadPoints(map_id) {
       // Hide default view tab text
       $defaultText.hide();
       // Clear existing list items
-      $pointList
-        .empty()
-        .append(`
+      $pointList.empty().append(`
             <div id="contrib-marker-list"></div>
           `);
 
@@ -293,8 +309,10 @@ export function loadPoints(map_id) {
         $pointList.append(`
           <div class="point-item" id=${point.id}>
             <div>📍 ${point.description} </div>
+            <p style = "display: none;">${point.latitude}</p>
+              <p style = "display: none;">${point.longitude}</p>
             <div class="point-actions">
-              <button class="icon-button edit-point-button" type="submit">
+              <button class="icon-button view-point-button" type = "submit">
                 <span data-toggle="tooltip" title="View Location"><i class="fa-solid fa-solid fa-eye action-item action-item"></i></span>
               </button>
               <button class="icon-button delete-point-button" type="submit">
@@ -333,6 +351,8 @@ export function loadGuestPoints(map_id) {
         $pointList.append(`
             <div class="point-item" id=${point.id}>
               <div>📍 ${point.description} </div>
+              <p style = "display: none;">${point.latitude}</p>
+              <p style = "display: none;">${point.longitude}</p>
               <div class="point-actions">
                 <button class="icon-button view-point-button" type="submit">
                   <span data-toggle="tooltip" title="View Location"><i class="fa-solid fa-eye action-item"></i></span>
@@ -571,16 +591,16 @@ export function addPointsToMap(map_id) {
         if (imageUrl === "" && description !== "") {
           marker.bindPopup("<b>Description:</b> " + description).openPopup();
         } else {
-        marker
-          .bindPopup(
-            "<b>Description:</b> " +
-              description +
-              '<br><img src="' +
-              imageUrl +
-              '" alt="imagen" style="width:100%;">'
-          )
-          .openPopup();
-          }
+          marker
+            .bindPopup(
+              "<b>Description:</b> " +
+                description +
+                '<br><img src="' +
+                imageUrl +
+                '" alt="imagen" style="width:100%;">'
+            )
+            .openPopup();
+        }
       });
     },
     error: function (xhr, status, error) {
