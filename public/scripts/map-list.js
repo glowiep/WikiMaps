@@ -1,4 +1,5 @@
 // For GUEST sidebar
+import { loadMapInfo } from "./helpers";
 import {
   loadDiscoverMapInfo,
   loadGuestPoints,
@@ -29,8 +30,9 @@ $(() => {
     e.preventDefault();
     const map_id = $("#view-tab").find(".map-title-info").attr("id");
     setTimeout(() => {
+      loadMapInfo(map_id)
       loadPoints(map_id);
-    }, 230);
+    }, 250);
   });
 
   fetchMapList();
