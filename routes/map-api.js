@@ -145,14 +145,14 @@ router.post('/contribution/delete', (req, res) => {
 });
 
 // POST /maps/:map_id/delete
-router.post('/:mapi_id/delete', (req, res) => {
+router.post('/:map_id/delete', (req, res) => {
   const { map_id } = req.body;
   const user_id = req.session["user_id"];
   console.log("map id>>>>>>>>", map_id)
   // Delete the favorite from the database
   mapQueries.deleteMaps(map_id)
       .then(result => {
-        console.log(">>>>>>>", result);
+        console.log(">>>>>>>deleting map", result);
           res.json(result.rows);
       })
       .catch(err => {
@@ -163,14 +163,14 @@ router.post('/:mapi_id/delete', (req, res) => {
 
 
 // POST /maps/:point_id/delete
-router.post('/:point_id/delete', (req, res) => {
+router.post('/delete/point', (req, res) => {
   const { point_id } = req.body;
   const user_id = req.session["user_id"];
-  console.log("map id>>>>>>>>", map_id)
-  // Delete the favorite from the database
+  console.log("point_id>>>>>>>>", point_id)
+  // Delete the point from the database
   mapQueries.deletePoint(point_id)
       .then(result => {
-        console.log(">>>>>>>", result);
+        console.log(">>>>>>>deleting point", result);
           res.json(result.rows);
       })
       .catch(err => {

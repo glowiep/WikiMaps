@@ -12,6 +12,7 @@ import {
   loadDiscoverPoints,
   clearContribLayer,
   createContribPoint,
+  
 } from "/scripts/helpers.js";
 
 $(() => {
@@ -37,12 +38,12 @@ $(() => {
 
         // Create an array of promises for the second AJAX requests - to add to contributions table
         const secondAjaxPromises = point_ids.map((point_id) => {
-          console.log(point_id)
+          console.log(point_id);
           return $.ajax({
             url: "/maps/:username/:user_id/add-contribution",
             type: "POST",
             contentType: "application/json",
-            data: JSON.stringify({ map_id, point_id })
+            data: JSON.stringify({ map_id, point_id }),
           });
         });
 
@@ -80,7 +81,6 @@ $(() => {
     }, 150);
   });
 
-
   $("#fav-tab").on("click", ".view-button", function (e) {
     e.preventDefault();
     const map_id = $(this).closest(".card").find(".map-list-item").attr("id");
@@ -116,18 +116,17 @@ $(() => {
     console.log(JSON.stringify({ map_id }));
 
     if ($(this).find(".fa-heart").hasClass("fa-regular")) {
-      $(this).find(".fa-heart").removeClass("fa-regular")
-      $(this).find(".fa-heart").addClass("fa-solid")
-      addFavAjax(map_id)
+      $(this).find(".fa-heart").removeClass("fa-regular");
+      $(this).find(".fa-heart").addClass("fa-solid");
+      addFavAjax(map_id);
     } else {
-      $(this).find(".fa-heart").addClass("fa-regular")
-      $(this).find(".fa-heart").removeClass("fa-solid")
-      removeFavAjax(map_id)
+      $(this).find(".fa-heart").addClass("fa-regular");
+      $(this).find(".fa-heart").removeClass("fa-solid");
+      removeFavAjax(map_id);
     }
-    
   });
 
-  function addFavAjax (map_id) {
+  function addFavAjax(map_id) {
     $.ajax({
       url: "/maps/favorites/add",
       type: "POST",
@@ -139,67 +138,97 @@ $(() => {
       },
       error: function (xhr, status, error) {
         loadFavorites();
-        console.error("(Not able to insert into favorites database) Error:", error);
+        console.error(
+          "(Not able to insert into favorites database) Error:",
+          error
+        );
       },
     });
   }
 
-   /**
+  /**
    * Action item: Discover page Favorite button
    * POST /maps/favorites/add
    */
-    $("#view-tab").on("click", "#discover-fav-button", function (e) {
-      e.preventDefault();
-      const map_id = $("#view-tab").find(".map-title-info").attr("id");
-      console.log(JSON.stringify({ map_id }));
-      if ($("#view-tab").find(".fa-heart").hasClass("fa-regular")) {
-        $("#view-tab").find(".fa-heart").removeClass("fa-regular")
-        $("#view-tab").find(".fa-heart").addClass("fa-solid")
-        addFavAjax(map_id);
-      } else {
-        $("#view-tab").find(".fa-heart").addClass("fa-regular")
-        $("#view-tab").find(".fa-heart").removeClass("fa-solid")
-        removeFavAjax(map_id);
-      }
-    });
+  $("#view-tab").on("click", "#discover-fav-button", function (e) {
+    e.preventDefault();
+    const map_id = $("#view-tab").find(".map-title-info").attr("id");
+    console.log(JSON.stringify({ map_id }));
+    if ($("#view-tab").find(".fa-heart").hasClass("fa-regular")) {
+      $("#view-tab").find(".fa-heart").removeClass("fa-regular");
+      $("#view-tab").find(".fa-heart").addClass("fa-solid");
+      addFavAjax(map_id);
+    } else {
+      $("#view-tab").find(".fa-heart").addClass("fa-regular");
+      $("#view-tab").find(".fa-heart").removeClass("fa-solid");
+      removeFavAjax(map_id);
+    }
+  });
 
-    /**
+  /**
    * Action item: Delete contribution circle-minus button
    * POST /maps/contribution/delete
    */
-    $("#profile").on("click", ".fa-circle-minus", function (e) {
-      e.preventDefault();
-      const map_id = $(this).closest(".card").attr("id");
-      console.log(JSON.stringify({ map_id }));
-  
-      $.ajax({
-        url: "/maps/contribution/delete",
-        type: "POST",
-        contentType: "application/json",
-        data: JSON.stringify({ map_id }),
-        success: function (contrib) {
-          loadContributions();
-          console.log("Contribution deleted", contrib);
-        },
-        error: function (xhr, status, error) {
-          console.error("Error:", error);
-        },
-      });
-    });
+  $("#profile").on("click", ".fa-circle-minus", function (e) {
+    e.preventDefault();
+    const map_id = $(this).closest(".card").attr("id");
+    console.log(JSON.stringify({ map_id }));
 
-    $("#fav-tab").on("click", ".fa-heart-crack", function (e) {
-      e.preventDefault();
-      console.log("Anchor clicked!");
-      const map_id = $(this).closest(".card").find(".map-list-item").attr("id");
-      console.log(JSON.stringify({ map_id }));
-      removeFavAjax(map_id);
+    $.ajax({
+      url: "/maps/contribution/delete",
+      type: "POST",
+      contentType: "application/json",
+      data: JSON.stringify({ map_id }),
+      success: function (contrib) {
+        loadContributions();
+        console.log("Contribution deleted", contrib);
+      },
+      error: function (xhr, status, error) {
+        console.error("Error:", error);
+      },
     });
-    
+  });
+
+  /**
+   * Action item: Delete points
+   * POST /maps/point_id/delete
+   */
+  $("#view-tab").on("click", ".delete-point-button", function (e) {
+    e.preventDefault();
+    const point_id = $(this).closest(".point-item").attr("id");
+    const map_id = $("#map-info-div .map-title-info").attr("id");
+    console.log(JSON.stringify({ map_id }));
+    console.log(JSON.stringify({ point_id }));
+
+    $.ajax({
+      url: "/maps/delete/point",
+      type: "POST",
+      contentType: "application/json",
+      data: JSON.stringify({ point_id }),
+      success: function (point) {
+        loadPoints(map_id);
+        addPointsToMap(map_id);
+        console.log("Point deleted", point);
+      },
+      error: function (xhr, status, error) {
+        console.error("Error:", error);
+      },
+    });
+  });
+
+  $("#fav-tab").on("click", ".fa-heart-crack", function (e) {
+    e.preventDefault();
+    console.log("Anchor clicked!");
+    const map_id = $(this).closest(".card").find(".map-list-item").attr("id");
+    console.log(JSON.stringify({ map_id }));
+    removeFavAjax(map_id);
+  });
+
   /**
    * Action item: Remove Favorite button
    * POST /maps/favorites/delete
-   */  
-  function removeFavAjax (map_id) {
+   */
+  function removeFavAjax(map_id) {
     $.ajax({
       url: "/maps/favorites/delete",
       type: "POST",
@@ -243,10 +272,9 @@ $(() => {
     });
   });
 
-
-  $("#map-list").on("click", ".discover", function(e) {
+  $("#map-list").on("click", ".discover", function (e) {
     e.preventDefault();
-    const map_id = $(this).attr('id');
+    const map_id = $(this).attr("id");
     loadDiscoverMapInfo(map_id);
     loadDiscoverPoints(map_id);
     addPointsToMap(map_id);
