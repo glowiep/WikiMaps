@@ -309,6 +309,9 @@ export function loadPoints(map_id) {
       console.error("Error:", error);
     },
   });
+  if ($("#contrib-marker-list").is(":empty")) {
+    clearContribLayer();
+  }
 }
 
 /**
