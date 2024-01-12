@@ -1,10 +1,10 @@
 // For GUEST sidebar
-import { loadMapInfo } from "./helpers";
 import {
   loadDiscoverMapInfo,
   loadGuestPoints,
   fetchMapList,
   addPointsToMap,
+  loadMapInfo
 } from "/scripts/helpers.js";
 
 $(() => {
