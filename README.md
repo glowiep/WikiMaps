@@ -15,11 +15,10 @@ Welcome to WikiMaps - A collaborative mapping web app that allow users to create
 ![WikiMaps User View Map](planning/docs/3-User-view-map.png)
 
 4. Users can keep a list of favorites.
-![WikiMaps User View Map](planning/docs/5-User-favorites.png)
+![WikiMaps User Favorites](planning/docs/4-User-favorites.png)
 
 5. Users can contribute to public maps on the Discover page.
-<video src="planning/docs/Contrib-video.mp4" controls="controls" style="max-width: 730px;">
-</video>
+![WikiMaps User Contributions](planning/docs/5-User-contribute.png)
 
 
 ## 💬 Contributors
