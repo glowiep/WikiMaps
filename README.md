@@ -6,13 +6,21 @@ Welcome to WikiMaps - A collaborative mapping web app that allow users to create
 ## ⭐ Features
 
 1. Guests can explore a collection of public maps on the Discover tab.
-2. Users can create new maps set as either Public or Private.
-3. Users can plot points of interest on the map, including a point description and image URL.
-4. Users can contribute to public maps on the Discover page.
-5. Users can keep a list of favorites.
+![WikiMaps Guest View](planning/docs/1-guest-discover.png)
 
- <!-- <video loop src="planning/docs/Contrib-video.mp4">  Contributions Demo </video>  -->
- <!-- ![Contributions demo video](planning/docs/Contrib-video.mp4) -->
+2. Users can create new maps set as either Public or Private.
+![WikiMaps User Create Map](planning/docs/2-User-create-map.png)
+
+3. Users can plot points of interest on the map, including a point description and image URL.
+![WikiMaps User View Map](planning/docs/3-User-view-map.png)
+
+4. Users can keep a list of favorites.
+![WikiMaps User View Map](planning/docs/5-User-favorites.png)
+
+5. Users can contribute to public maps on the Discover page.
+<video src="planning/docs/Contrib-video.mp4" controls="controls" style="max-width: 730px;">
+</video>
+
 
 ## 💬 Contributors
 This was a Lighthouse Labs collaborative midterm project by:
