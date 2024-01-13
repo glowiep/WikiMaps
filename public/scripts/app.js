@@ -17,9 +17,9 @@ $(() => {
     contribMarkerModal.hide();
   }
 
-  // $("#addContribPointBt").on("click", function() {
-  //   addContribMarker();
-  // })
+  $("#signup-button").on("click", function() {
+    alert("This is our midterm project. Not accepting new users at this time 🤗");
+  })
   
 });
 

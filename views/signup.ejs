@@ -10,7 +10,7 @@
   <body>
     <%- include('partials/_header') %>
     <div class="signup-container">
-      <form class="signup-form" method="post" action="/signup">
+      <form class="signup-form" method="GET" action="/">
         <h2>Sign Up</h2>
         <div class="form-group">
           <label for="fullname">Full Name:</label>
@@ -36,7 +36,7 @@
             name="confirm-password"
           />
         </div>
-        <button type="submit">Signup</button>
+        <button id="signup-button" type="submit">Signup</button>
       </form>
     </div>
   </body>
