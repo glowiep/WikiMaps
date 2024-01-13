@@ -148,16 +148,18 @@ const deleteFavorite = (user_id, map_id) => {
 const deleteContribution = (map_id, user_id) => {
   return db
     .query(`
-      DELETE FROM contributions 
-      WHERE map_id = $1
-      AND user_id = $2;
+      DELETE FROM points 
+      USING contributions 
+      WHERE points.id = contributions.point_id
+      AND contributions.map_id = $1
+      AND contributions.user_id = $2;
       `,
       [map_id, user_id]
     )
     .catch((err) => {
       console.log(err.message);
     });
-};
+};// 8, 4
 
 // Delete maps
 const deleteMaps = ( map_id) => {
