@@ -54,6 +54,7 @@ $(() => {
         console.log("All contributions processed successfully.");
         loadDiscoverPoints(map_id);
         loadContributions();
+        addPointsToMap(map_id);
       })
       .catch((error) => {
         console.error("Error adding contributions in 2nd promise:", error);
@@ -71,6 +72,7 @@ $(() => {
     createContribPoint(map_id)
       .then(() => {
         console.log("New point(s) added successfully.");
+        addPointsToMap(map_id);
         loadPoints(map_id);
       })
       .catch((error) => {
