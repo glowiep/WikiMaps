@@ -587,7 +587,7 @@ export function addPointsToMap(map_id) {
         let description = point.description;
         let imageUrl = point.image_url;
         let marker = L.marker([point.latitude, point.longitude]).addTo(results);
-        map.fitBounds(bounds);
+        map.flyToBounds(bounds);
         if (imageUrl === "" && description !== "") {
           marker.bindPopup("<b>Description:</b> " + description).openPopup();
         } else {
