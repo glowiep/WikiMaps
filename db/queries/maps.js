@@ -159,7 +159,7 @@ const deleteContribution = (map_id, user_id) => {
     .catch((err) => {
       console.log(err.message);
     });
-};// 8, 4
+};
 
 // Delete maps
 const deleteMaps = ( map_id) => {
