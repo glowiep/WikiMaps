@@ -3,10 +3,6 @@
 
 Welcome to WikiMaps - A collaborative mapping web app that allow users to create maps with various points of interest, keep a list of favorites and contribute to maps on the Discover page.
 
-View WikiMaps app on your browser via one of these links:
-- <a href="https://wikimaps-production.up.railway.app/">Wikimaps</a> - Hosted on Railway by <a href="https://github.com/svaronc">Sebastian Varon</a>
-- <a href="https://wikimaps.up.railway.app/">Wikimaps</a> - Hosted on Railway by <a href="https://github.com/glowiep">Gloria Lim</a>
-
 ## ⭐ Features
 
 1. Guests can explore a collection of public maps on the Discover tab.
